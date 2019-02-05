@@ -13,7 +13,7 @@ When you first clone the repo you'll want to run `npm i` to install dependencies
 
 Both of these files live in the root. 
 
-`firebase.json` can be downloaded from the firebase dashboard but you will need project access. Alternatively ask Calvin for a copy. 
+`firebase.json` can be downloaded from the firebase dashboard. To set up a project, follow the guide [here](https://github.com/ans-group/basebot-server/tree/master/documents/firebase-registration)
 
 `.env` is a standard file that contains local env vars. It should have the following vars at a minimum:
 
