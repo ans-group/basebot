@@ -61,9 +61,6 @@ All [Botkit middleware](https://botkit.ai/docs/middleware.html) goes here. Files
 ### Services
 An "everything else" folder for specialised classes and functions. These can export any format. Examples include, auth and utility functions. 
 
-### Data
-Random JSON-style data for use with skills
-
 Libraries Used
 ---
 Check out the documentation on some of the main libraries (roughly in order of their importance):
