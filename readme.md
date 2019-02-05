@@ -69,4 +69,4 @@ Check out the documentation on some of the main libraries (roughly in order of t
 * [Azure bot service & Directline](https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0)
 * [Firebase (Auth, Messaging, Firestore)](https://firebase.google.com/docs)
 * [LUIS](https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/what-is-luis)
-* [QNA Maker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/) - whilst we have an integration, this isn't actually used currently
+* [QNA Maker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/)
