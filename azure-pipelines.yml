@@ -1,0 +1,59 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- master
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '8.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+
+- script: |
+    cd $(Build.StagingDirectory)
+    git clone https://devops:$(github-output-repo-access-token)@github.com/$(github-output-repo-user)/$(github-output-repo-name).git
+  displayName: 'Git clone output repo locally' 
+
+- script: |
+    cp -r $(System.DefaultWorkingDirectory)/build/.  $(Build.StagingDirectory)/$(github-output-repo-name)
+  displayName: 'Copy build to local output repo' 
+
+- script: |
+    sed -i 's+"start": "node build/bot.js",+"start": "node bot.js"+g' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
+  displayName: 'Update start: in  package.json' 
+
+- script: |
+    sed -i '/"build":/d' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
+  displayName: 'Remove build from  package.json' 
+
+- script: |
+    sed -i '/"heroku-prebuild":/d' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
+  displayName: 'Remove heroku from  package.json' 
+
+- script: |
+    sed -i '/"dev":/d' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
+  displayName: 'Remove dev from  package.json' 
+
+- script: |
+    sed -i '/"babel-node":/d' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
+  displayName: 'Remove babel from  package.json' 
+
+- script: |
+    cd $(Build.StagingDirectory)/$(github-output-repo-name)
+    git config user.name $(github-output-username)
+    git config user.email $(github-output-email)
+    git add .
+    git commit -a -m $(Build.BuildNumber)
+    git push
+  displayName: 'Git commit and push latest build'
