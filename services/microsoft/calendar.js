@@ -30,8 +30,8 @@ const getEvents = async({ token }, query = {}) => {
             }
         })
 
-        // Set start of the calendar view to today at midnight
-        const start = new Date(new Date().setHours(0, 0, 0))
+        // Set start of the calendar view to today, right now
+        const start = new Date()
         // Set end of the calendar view to x days from start
         const end = new Date(new Date(start).setDate(start.getDate() + query.daysAhead))
 
@@ -42,9 +42,10 @@ const getEvents = async({ token }, query = {}) => {
                 .api(`/me/calendarView?startDateTime=${start.toISOString()}&endDateTime=${end.toISOString()}`)
                 .top(query.top)
                 .select('subject,start,end,attendees,body,isCancelled,onlineMeetingUrl,location,organizer,responseStatus,webLink')
-                .orderby('start/dateTime DESC')
+                .orderby('start/dateTime')
                 .get()
-            const attachments = result.value.filter(({ isCancelled }) => !isCancelled).map(event => {
+            const attachments = result.value.map(event => {
+                console.log(event)
                 const attachment = {
                     title: event.subject,
                     thumb: `https://dummyimage.com/75x75/0074c6/ffffff.png&text=${moment(event.start).format('MMM Do')}`,
@@ -57,11 +58,11 @@ const getEvents = async({ token }, query = {}) => {
                     values: [
                         {
                             key: 'Starts',
-                            value: moment(event.start).format('hh:mm, DD/MM/YY')
+                            value: moment(event.start.dateTime).format('HH:mm, DD/MM/YY')
                         },
                         {
                             key: 'Ends',
-                            value: moment(event.end).format('hh:mm, DD/MM/YY')
+                            value: moment(event.end.dateTime).format('HH:mm, DD/MM/YY')
                         }
                     ]
                 }
