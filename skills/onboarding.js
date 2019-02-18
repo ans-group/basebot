@@ -1,7 +1,7 @@
 import Debug from 'debug'
-import { auth } from '../services/firebase'
 import _ from 'lodash'
 
+const log = Debug('basebot:skills:onboarding:log')
 const error = Debug('basebot:skills:onboarding:error')
 
 export default [
@@ -9,8 +9,9 @@ export default [
         on: 'conversationUpdate',
         response: async function(bot, message, controller) {
             const user = await controller.storage.users.get(message.user)
+            log(`User = `, user)
             if (user && user.name) {
-                bot.reply(message, { text: `Hey ${user.name} 👋`, typing: false })
+                bot.reply(message, { text: `Hey ${user.name} 👋` })
                 setTimeout(() => controller.trigger('askAboutWeight', [bot, message, controller]), 1000)
             } else {
                 controller.trigger('introduce', [bot, message, controller])
@@ -27,7 +28,7 @@ export default [
                     const name = _.startCase(response.text)
                     convo.setVar('name', name)
                     controller.storage.users.save({ id: message.user, name }).catch(err => error(err))
-                    convo.say({ text: `Nice to meet you {{vars.name}}!`, typing: false })
+                    convo.say({ text: `Nice to meet you {{vars.name}}!` })
                     convo.next()
                 })
                 convo.next()
