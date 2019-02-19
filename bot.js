@@ -55,7 +55,7 @@ Object.values(skills).forEach(definitions => {
 })
 
 // default response
-controller.on('message_received', (bot, message) => {
+controller.hears('.*', 'message_received', (bot, message) => {
     bot.reply(message, `Didn't catch that, sorry`)
 })
 
