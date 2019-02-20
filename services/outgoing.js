@@ -9,7 +9,9 @@ const error = logger('outgoing', 'error')
  * notify
  * @param {Object} OutgoingMessage {uid: String, text: String}
  */
-const notify = async function({ uid, text, trigger }) {
+const notify = async function(params) {
+    debug(`sending notification: ${params}`)
+    const { uid, text, trigger } = params
     const user = await getSingle('users', uid)
     const deviceToken = user.pushToken
     if (!deviceToken) return
