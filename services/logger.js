@@ -36,7 +36,9 @@ export default function(program = '', level = 'info') {
         const logger = new winston.Logger({
             transports })
 
-        return () => Array.prototype.forEach.call(arguments, arg => logger[level](arg))
+        return function() {
+            Array.prototype.forEach.call(arguments, arg => logger[level](arg))
+        }
     } else {
         return new Debug(`basebot:${program}:${level}`)
     }
