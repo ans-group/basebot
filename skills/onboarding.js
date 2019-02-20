@@ -39,8 +39,9 @@ export default [
     {
         hears: ['my name is ([A-Za-z\\s]*)', 'call me ([A-Za-z\\s]*)'],
         bypassLuis: true,
-        response(bot, message) {
+        response(bot, message, controller) {
             const name = _.startCase(message.match[1])
+            log(`User told me their name is ${name}`)
             controller.storage.users.save({ id: message.user, name }).catch(err => error(err))
             if (name) {
                 bot.reply(message, `Great, I'll call you ${name} from now on 😊`)
