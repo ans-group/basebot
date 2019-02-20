@@ -46,7 +46,7 @@ function get(table) {
             await createTableIfNotExists(table)
             const { Data } = await retrieveEntity(table, 'partition', id)
             const data = JSON.parse(Data['_'])
-            debug(`document retrieved: ${data}`)
+            debug(`document retrieved:`, data)
             resolve(data)
         } catch (err) {
             error(err)

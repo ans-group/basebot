@@ -61,3 +61,5 @@ controller.hears('.*', 'message_received', (bot, message) => {
 })
 
 info('bot online')
+
+export default controller

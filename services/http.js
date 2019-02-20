@@ -22,24 +22,21 @@ export default (app, controller) => {
                 const token = await getTokenFromCode(code, res)
                 if (token) {
                     debug(`storing token`)
-                    controller.storage.users.save({ id: state, msToken: cryptr.encrypt(JSON.stringify(token)) })
-                        .then(() => notify({
-                            uid: state,
-                            text: "Great!, you're now logged in 😊",
-                            trigger: 'loginSuccessful'
-                        }))
-                        .catch(() => notify({
-                            uid: state,
-                            text: 'Looks like something went wrong 🙁',
-                            trigger: 'loginUnsuccessful'
-                        }))
+                    await controller.storage.users.save({ id: state, msToken: cryptr.encrypt(JSON.stringify(token)) })
+                    notify({
+                        uid: state,
+                        text: "Great!, you're now logged in 😊",
+                        trigger: 'loginSuccessful',
+                        controller
+                    })
                 }
             } catch (err) {
                 error(err)
                 notify({
                     uid: state,
                     text: 'Looks like something went wrong 🙁',
-                    trigger: 'loginUnsuccessful'
+                    trigger: 'loginUnsuccessful',
+                    controller
                 })
             }
             res.redirect('/login_success.html')

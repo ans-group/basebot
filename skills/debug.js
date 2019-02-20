@@ -56,14 +56,19 @@ export default [
     {
         hears: 'debug:notify',
         bypassLuis: true,
-        response: async function(bot, message) {
+        response: async function(bot, message, controller) {
             bot.startConversation(message, (err, convo) => {
                 if (err) return error(err)
                 convo.say({
                     text: 'Close your app now'
                 })
                 setTimeout(() => {
-                    notify({ uid: message.user, text: "Hey, it's me!", trigger: 'debug:triggerFromNotification' })
+                    notify({
+                        uid: message.user,
+                        text: "Hey, it's me!",
+                        trigger: 'debug:triggerFromNotification',
+                        controller
+                    })
                 }, 5000)
             })
         }
