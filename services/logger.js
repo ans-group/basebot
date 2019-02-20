@@ -4,7 +4,7 @@ require('winston-papertrail').Papertrail
 import winston from 'winston'
 import Debug from 'debug'
 
-export default (program = '', level = 'info') => {
+export default function(program = '', level = 'info') {
     if (process.env.PAPERTRAIL_HOST && process.env.PAPERTRAIL_PORT) {
         const allowedLevels = ['debug', 'info', 'warn', 'error']
         if (!allowedLevels.includes(level)) {

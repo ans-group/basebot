@@ -1,7 +1,7 @@
 import logger from './services/logger'
 import env from 'node-env-file'
-const info = logger('main', 'info')
-const warn = logger('main', 'warn')
+const info = logger('config', 'info')
+const warn = logger('config', 'warn')
 
 try {
     env(`${__dirname}/.env`)
