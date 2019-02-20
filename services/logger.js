@@ -31,7 +31,7 @@ export default (program = '', level = 'info') => {
             transports: [winstonPapertrail, consoleLogger]
         })
 
-        return (msg) => logger[level](msg)
+        return () => Array.prototype.forEach.call(arguments, arg => logger[level](msg))
     } else {
         return new Debug(`basebot:${program}:${level}`)
     }
