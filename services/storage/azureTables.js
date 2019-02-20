@@ -62,10 +62,11 @@ function save(table) {
         try {
             await createTableIfNotExists(table)
             const { Data } = await retrieveEntity(table, 'partition', data.id)
+            const existingData = Data && JSON.parse(Data['_']) ? JSON.parse(Data['_']) : {}
             await insertOrMergeEntity(table, {
                 PartitionKey: entGen.String('partition'),
                 RowKey: entGen.String(data.id),
-                Data: entGen.String(JSON.stringify(Object.assign({}, JSON.parse(Data['_']), data)))
+                Data: entGen.String(JSON.stringify(Object.assign({}, existingData, data)))
             })
             resolve()
         } catch (err) {
