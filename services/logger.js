@@ -27,9 +27,14 @@ export default (program = '', level = 'info') => {
             colorize: true
         })
 
+        const transports = [winstonPapertrail]
+
+        if (process.env.NODE_ENV !== 'production') {
+            transports.push(consoleLogger)
+        }
+
         const logger = new winston.Logger({
-            transports: [winstonPapertrail, consoleLogger]
-        })
+            transports })
 
         return () => Array.prototype.forEach.call(arguments, arg => logger[level](arg))
     } else {
