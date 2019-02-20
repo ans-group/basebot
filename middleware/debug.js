@@ -1,6 +1,6 @@
-import Debug from 'debug'
+import logger from '../services/logger'
 
-const debug = Debug('basebot:debug')
+const debug = logger('messages', 'debug')
 
 export default controller => {
     controller.middleware.receive.use(async function(bot, message, next) {

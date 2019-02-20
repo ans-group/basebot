@@ -1,10 +1,9 @@
 import azure from 'azure-storage'
 import { promisify } from 'util'
-import Debug from 'debug'
+import logger from '../logger'
 
-const log = Debug('basebot:services:storage:azureTables:log')
-const debug = Debug('basebot:services:storage:azureTables:debug')
-const error = Debug('basebot:services:storage:azureTables:error')
+const debug = logger('services:storage:azureTables', 'debug')
+const error = logger('services:storage:azureTables', 'error')
 
 const tablePrefix = (process.env.BOT_NAME || 'basebot').replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
 const teamsRef = `${tablePrefix}Teams`
@@ -42,15 +41,15 @@ const queryEntities = promisify(tableService.queryEntities).bind(tableService)
 
 function get(table) {
     return id => new Promise(async(resolve, reject) => {
-        log(`attempting to fetch document with ID: ${id}`)
+        debug(`attempting to fetch document with ID: ${id}`)
         try {
             await createTableIfNotExists(table)
             const { Data } = await retrieveEntity(table, 'partition', id)
             const data = JSON.parse(Data['_'])
-            log(`document retrieved: ${data}`)
+            debug(`document retrieved: ${data}`)
             resolve(data)
         } catch (err) {
-            debug(err)
+            error(err)
             resolve(null)
         }
     })
@@ -58,7 +57,7 @@ function get(table) {
 
 function save(table) {
     return data => new Promise(async(resolve, reject) => {
-        log('saving: ', data)
+        debug('saving: ', data)
         try {
             await createTableIfNotExists(table)
             let existingData = {}
@@ -83,7 +82,7 @@ function save(table) {
 
 function all(table) {
     return () => new Promise(async(resolve, reject) => {
-        log(`fetching all records in: ${table}`)
+        debug(`fetching all records in: ${table}`)
         try {
             await createTableIfNotExists(table)
             const { entries } = await queryEntities(table, new azure.TableQuery(), null)

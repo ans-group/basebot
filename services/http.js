@@ -1,4 +1,4 @@
-import Debug from 'debug'
+import logger from './logger'
 import Cryptr from 'cryptr'
 import path from 'path'
 import express from 'express'
@@ -6,13 +6,14 @@ import uuid from 'uuid/v1'
 import { notify } from './outgoing'
 import { getTokenFromCode } from './microsoft/auth'
 
-const log = Debug('basebot:services:http:log')
-const error = Debug('basebot:services:http:error')
+const info = logger('services:http', 'info')
+const debug = logger('services:http', 'debug')
+const error = logger('services:http', 'error')
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET || 'unsecure_secret')
 
 export default (app, controller) => {
-    log('serving static assets from /public')
+    info('serving static assets from /public')
     app.use(express.static(path.join(__dirname, '/public')))
     const handlers = {
         auth: async function(req, res) {
@@ -20,7 +21,7 @@ export default (app, controller) => {
             try {
                 const token = await getTokenFromCode(code, res)
                 if (token) {
-                    log(`storing token`)
+                    debug(`storing token`)
                     controller.storage.users.save({ id: state, msToken: cryptr.encrypt(JSON.stringify(token)) })
                         .then(() => notify({
                             uid: state,
@@ -58,9 +59,9 @@ export default (app, controller) => {
         }
     }
 
-    log(`setting up /authorize handler`)
+    info(`setting up /authorize handler`)
     app.get('/authorize', handlers.auth)
 
-    log(`setting up /register handler`)
+    info(`setting up /register handler`)
     app.get('/register', handlers.register)
 }

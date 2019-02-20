@@ -32,7 +32,9 @@
         "request-promise-native": "^1.0.5",
         "simple-oauth2": "^2.2.1",
         "striptags": "^3.1.1",
-        "uuid": "^3.3.2"
+        "uuid": "^3.3.2",
+        "winston": "^2.4.2",
+        "winston-papertrail": "^1.0.5"
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",

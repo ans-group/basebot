@@ -1,11 +1,12 @@
+import logger from './services/logger'
 import env from 'node-env-file'
-import Debug from 'debug'
-const error = Debug('basebot:main:error')
+const info = logger('main', 'info')
+const warn = logger('main', 'warn')
 
 try {
     env(`${__dirname}/.env`)
 } catch (err) {
-    error('no .env file found')
+    info('no .env file found')
 }
 
 const requiredValues = [
@@ -24,5 +25,5 @@ requiredValues.forEach(key => {
 })
 
 if (!process.env.CRYPTR_SECRET) {
-    console.warn('Warning: CRYPTR_SECRET is not set, you should set this to a random string')
+    warn('Warning: CRYPTR_SECRET is not set, you should set this to a random string')
 }

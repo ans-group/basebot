@@ -1,11 +1,11 @@
-import Debug from 'debug'
+import logger from '../logger'
 import Oauth2 from 'simple-oauth2'
 import jwt from 'jsonwebtoken'
 import Cryptr from 'cryptr'
 
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET || 'unsecure_secret')
 
-const log = Debug('basebot:services:auth:log')
+const debug = logger('services:auth', 'debug')
 const credentials = {
     client: {
         id: process.env.MS_APP_ID,
@@ -25,7 +25,7 @@ function getAuthUrl(user) {
         scope: process.env.MS_APP_SCOPES,
         state: user
     })
-    log(`Generated auth url: ${url}`)
+    debug(`Generated auth url: ${url}`)
     return url
 }
 
@@ -37,7 +37,7 @@ async function getTokenFromCode(authCode, res) {
     })
 
     const token = oauth2.accessToken.create(result)
-    log('Token created')
+    debug('Token created')
 
     const user = jwt.decode(token.token.id_token)
 

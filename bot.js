@@ -1,17 +1,18 @@
 import './config'
+import logger from './services/logger'
 import Botkit from 'botkit'
-import Debug from 'debug'
 import luis from 'botkit-middleware-luis'
 import webserver from './services/webserver'
 import http from './services/http'
 import storage from './services/storage/azureTables'
 import * as skills from './skills/*'
 import * as middleware from './middleware/*'
-const log = Debug('basebot:main:log')
-const error = Debug('basebot:main:error')
+
+const info = logger('main', 'info')
+const error = logger('main', 'error')
 
 const botOptions = {
-    debug: !!process.env.DEBUG,
+// debug: !!process.env.DEBUG,
     storage }
 
 const luisOptions = {
@@ -59,4 +60,4 @@ controller.hears('.*', 'message_received', (bot, message) => {
     bot.reply(message, `Didn't catch that, sorry`)
 })
 
-log('bot started')
+info('bot online')

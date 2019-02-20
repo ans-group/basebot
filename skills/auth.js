@@ -1,7 +1,4 @@
 import { getAuthUrl } from '../services/microsoft/auth'
-// import Debug from 'debug'
-
-// const error = Debug('basebot:skills:auth:error')
 
 export default [
     {

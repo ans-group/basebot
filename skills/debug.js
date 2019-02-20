@@ -1,7 +1,7 @@
 import { notify } from '../services/outgoing'
-import Debug from 'debug'
+import logger from '../services/logger'
 
-const error = Debug('basebot:skills:debug:error')
+const error = logger('skills:debug', 'error')
 
 export default [
     {

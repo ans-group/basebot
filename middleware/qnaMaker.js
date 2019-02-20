@@ -1,13 +1,13 @@
 import request from 'request-promise-native'
-import Debug from 'debug'
+import logger from '../services/logger'
 
-const log = Debug('basebot:middleware:qnamaker:log')
-const error = Debug('basebot:middleware:qnamaker:error')
+const info = logger('middleware:qnamaker', 'info')
+const error = logger('middleware:qnamaker', 'error')
 
 export default controller => {
     controller.middleware.receive.use(async function(bot, message, next) {
         if (!process.env.QNA_HOST || !process.env.QNA_KBID || !process.env.QNA_KEY) {
-            log('not using QNA Maker as no key provided')
+            info('not using QNA Maker as no key provided')
             return next()
         }
         const url = `${process.env.QNA_HOST}/knowledgebases/${process.env.QNA_KBID}/generateAnswer`

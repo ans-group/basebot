@@ -1,8 +1,9 @@
 import ns from 'node-schedule'
 import { messaging, getSingle } from './firebase'
-import Debug from 'debug'
+import logger from './logger'
 
-const error = Debug('basebot:outgoing:error')
+const debug = logger('outgoing', 'debug')
+const error = logger('outgoing', 'error')
 
 /**
  * notify
@@ -23,8 +24,12 @@ const notify = async function({ uid, text, trigger }) {
         },
         token: deviceToken
     }
-
-    messaging.send(notification).catch(err => error(err))
+    try {
+        const status = messaging.send(notification)
+        debug(`Notification sent: ${status}`)
+    } catch (err) {
+        error(err)
+    }
 }
 
 const schedule = (at, message) => {

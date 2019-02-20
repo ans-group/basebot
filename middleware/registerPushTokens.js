@@ -1,6 +1,6 @@
-import Debug from 'debug'
+import logger from '../services/logger'
 
-const debug = Debug('basebot:middleware:registerPushTokens:debug')
+const debug = logger('middleware:registerPushTokens', 'debug')
 
 // cache tokens in-mem to save needless duplicate db writes
 const cachedTokens = {}
