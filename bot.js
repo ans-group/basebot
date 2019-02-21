@@ -9,7 +9,7 @@ import * as middleware from './middleware/*'
 const info = logger('main', 'info')
 const error = logger('main', 'error')
 
-export default function (controller, bot) {
+export default function(controller, bot) {
   bot = bot || controller.spawn({
     appId: process.env.MS_APP_ID,
     appPassword: process.env.MS_APP_PASSWORD,
