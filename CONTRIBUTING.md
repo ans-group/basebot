@@ -28,7 +28,7 @@ Always write a clear log message for your commits. One-line messages are fine fo
 
 ## Coding conventions
 
-We utilize the [Standard]() JS style conventions. Some highlights of the style are:
+We utilize the [Standard](https://standardjs.com/) JS style conventions. Some highlights of the style are:
 
 * **2 spaces** – for indentation
 * **Single quotes for strings** – except to avoid escaping
