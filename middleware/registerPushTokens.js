@@ -9,14 +9,14 @@ const cachedTokens = {}
 // depends on the auth middleware being run first - which is purley based on
 // alphabetical loading currently and thus, is quire unintuitive/brittle
 export default controller => {
-    controller.middleware.receive.use(async function(bot, message, next) {
-        if (message.pushToken && message.user && message.pushToken !== cachedTokens[message.user]) {
-            debug('Saving push token for user: ', message.user)
-            const uid = message.user
-            const pushToken = message.pushToken
-            cachedTokens[uid] = pushToken
-            controller.storage.users.save({ id: uid, pushToken })
-        }
-        next()
-    })
+  controller.middleware.receive.use(async function(bot, message, next) {
+    if (message.pushToken && message.user && message.pushToken !== cachedTokens[message.user]) {
+      debug('Saving push token for user: ', message.user)
+      const uid = message.user
+      const pushToken = message.pushToken
+      cachedTokens[uid] = pushToken
+      controller.storage.users.save({ id: uid, pushToken })
+    }
+    next()
+  })
 }

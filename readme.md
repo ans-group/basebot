@@ -61,12 +61,18 @@ All [Botkit middleware](https://botkit.ai/docs/middleware.html) goes here. Files
 ### Services
 An "everything else" folder for specialised classes and functions. These can export any format. Examples include, auth and utility functions. 
 
+Testing
+---
+Tests are written using [Jest](https://jestjs.io/) and stored in the __tests__ directory. To test the entire codebase use `npm test`
+
 Libraries Used
 ---
 Check out the documentation on some of the main libraries (roughly in order of their importance):
 
 * [Botkit](https://botkit.ai/docs)
 * [Azure bot service & Directline](https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0)
-* [Firebase (Auth, Messaging, Firestore)](https://firebase.google.com/docs)
+* [Firebase (Auth, Messaging, Firestore)](https://firebase.google.com/docs) (disabled by default)
+* [Azure Table Storage](https://docs.microsoft.com/en-us/azure/storage/)
 * [LUIS](https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/what-is-luis)
 * [QNA Maker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/)
+* [Jest](https://jestjs.io/)
