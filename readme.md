@@ -63,7 +63,7 @@ An "everything else" folder for specialised classes and functions. These can exp
 
 Testing
 ---
-Tests are written using [Jest](https://jestjs.io/) and stored in the __tests__ directory. To test the entire codebase use `npm test`
+Tests are written using [Jest](https://jestjs.io/) and stored in the \_\_tests\_\_ directory. To test the entire codebase use `npm test`
 
 Libraries Used
 ---

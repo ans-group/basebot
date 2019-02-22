@@ -14,7 +14,9 @@ Here are some other useful links:
 
 ## Testing
 
-We're sorely lacking in any form of automated testing. Implementing unit tests would be a great contribution for someone looking to help.
+Test coverage isn't very good currently. Writing a couple of tests would be a great contribution for someone looking to help.
+
+Tests are stored in the \_\_tests\_\_ directory. Use `npm test` to run tests
 
 ## Submitting changes
 
