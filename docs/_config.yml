@@ -31,7 +31,7 @@ ui:
     header:
         color1: "#52347c"
         color2: "#6e46a0"
-        trianglify: false
+        trianglify: true
 
 social:
     github:
