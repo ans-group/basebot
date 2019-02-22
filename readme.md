@@ -41,6 +41,19 @@ To run in production, build using `npm run build` and then run `npm start`
 
 In order to get the bot service instance you're using to talk to your local bot you'll have to set the `Messaging Endpoint` configuration value under your app settings to the localtunnel URI generated when you start the app in dev mode (using `USE_LT_SUBDOMAIN`)
 
+
+Debugging
+---
+To enable verbose logging you can set the `DEBUG` env var to `basebot*`. Alternatively, if you have a papertrail account you can set `PAPERTRAIL_HOST` and `PAPERTRAIL_PORT` to your Papertrail host/port (more info [here](https://help.papertrailapp.com/)). This is useful if you're not running the server locally and getting at the logs is a bit annoying. 
+
+This project is fully compatible with the VSCode debugger. Just press F5 to launch with the debugger attached. For more info on debugging with VSCode see [here](https://code.visualstudio.com/docs/editor/debugging)
+
+
+Testing
+---
+Tests are written using [Jest](https://jestjs.io/) and stored in the \_\_tests\_\_ directory. To test the entire codebase use `npm test`
+
+
 Project Structure
 ---
 ### Skills
@@ -61,9 +74,6 @@ All [Botkit middleware](https://botkit.ai/docs/middleware.html) goes here. Files
 ### Services
 An "everything else" folder for specialised classes and functions. These can export any format. Examples include, auth and utility functions. 
 
-Testing
----
-Tests are written using [Jest](https://jestjs.io/) and stored in the \_\_tests\_\_ directory. To test the entire codebase use `npm test`
 
 Libraries Used
 ---

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/index.js",
-    "build": "npm install --only=dev && npm test && npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\" --copy-files && npm i --prefix build",
+    "build": "npm install --only=dev && npm test && npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\",\".git\",\".vscode\" --copy-files && npm i --prefix build --source-maps",
     "heroku-prebuild": "npm run build",
     "dev": "nodemon --exec npm run babel-node -- index.js",
     "babel-node": "babel-node --ignore='node_modules'",
