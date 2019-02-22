@@ -33,7 +33,7 @@ You need a Bot Channels Registration to be able to use Bot Service functionality
 
 4. In the Bot Service blade, provide the requested information about your bot as specified in the table below the image.
 
-    <img src="../images/bot-registration01.png" alt="Create Bot" width="400"/>
+    <img src="{{ "/images/bot-registration01.png" | relative_url }}" alt="Create Bot" width="400"/>
 
     **Recommended Settings**
 
@@ -62,13 +62,13 @@ To generate a MicrosoftAppPassword, follow these steps
 
 2. From the Settings blade, click **Manage**. This is the link appearing by the Microsoft App ID. This link will open a window where you can generate a new password. Login using your Azure credentials. *Note: You will need to have been assigned at least, the "Application administrator" role in your Azure AD.*
 
-    <img src="../images/bot-registration02.png" alt="Create Bot" width="400"/>
+    <img src="{{ "/images/bot-registration02.png" | relative_url }}" alt="Create Bot" width="400"/>
 
 3. On the registration page, copy the **Application Id** and save it to a file, this will be the **ms_app_id** and is required during the bot server deployment.
 
 4. Click **Generate New Password**. This will generate a new password for your bot. Copy the password and save it to a file, this will be the **ms_app_password** and is required during the bot server deployment. *Note: This is the only time you will see this password, if you do not save the password you will need to repeat the process.*
 
-    <img src="../images/bot-registration03.png" alt="Create Bot" width="400"/>
+    <img src="{{ "/images/bot-registration03.png" | relative_url }}" alt="Create Bot" width="400"/>
 
 ## Add Direct Line Channel connection
 
@@ -78,11 +78,11 @@ The native mobile application requires a Direct Line channel connection key, to 
 
 2. Click on the Direct Line button, (Globe Icon)
 
-    <img src="../images/bot-registration04.png" alt="Create Bot" width="400"/>
+    <img src="{{ "/images/bot-registration04.png" | relative_url }}" alt="Create Bot" width="400"/>
 
 3. Under **Secret keys** click **Show**, copy the key and save to a file, this will be required later.
 
-    <img src="../images/bot-registration05.png" alt="Create Bot" width="400"/>
+    <img src="{{ "/images/bot-registration05.png" | relative_url }}" alt="Create Bot" width="400"/>
 
 4. Click **Done**
 
@@ -101,7 +101,7 @@ Please follow this guide to register and configure LUIS.AI endpoint.
     3.1. On the Permissions Request page
     * Click **Accept** to continue
 
-        <img src="../images/luis-ai-01.png" alt="Permissions" width="400"/>
+        <img src="{{ "/images/luis-ai-01.png" | relative_url }}" alt="Permissions" width="400"/>
 
     3.2 On the Welcome page
     * Select **United Kingdom** from the dropdown list
@@ -110,46 +110,46 @@ Please follow this guide to register and configure LUIS.AI endpoint.
 
     * Click **Continue**
 
-        <img src="../images/luis-ai-02.png" alt="Welcome" width="400"/>
+        <img src="{{ "/images/luis-ai-02.png" | relative_url }}" alt="Welcome" width="400"/>
 
     3.3 On the next Welcome page
     * Click **Create a LUIS app now** button to continue and you will be directed to the My Apps page.
 
-        <img src="../images/luis-ai-03.png" alt="I Agree" width="400"/>
+        <img src="{{ "/images/luis-ai-03.png" | relative_url }}" alt="I Agree" width="400"/>
 
 4. On the My Apps page
 
     * Click on **Import new app**
 
-        <img src="../images/luis-ai-04.png" alt="Import" width="400"/>
+        <img src="{{ "/images/luis-ai-04.png" | relative_url }}" alt="Import" width="400"/>
     * Click on **Choose app file** and select the **base-bot.json** file you downloaded in step 1
     * Optionally enter a name
     * Click on **Done**
 
-        <img src="../images/luis-ai-05.png" alt="Import" width="400"/>
+        <img src="{{ "/images/luis-ai-05.png" | relative_url }}" alt="Import" width="400"/>
 
 5. Train and Publish the model
 
     * Click on the **Train** button, wait a few seconds for the model to complete training.
 
-        <img src="../images/luis-ai-06.png" alt="Train" width="400"/>
+        <img src="{{ "/images/luis-ai-06.png" | relative_url }}" alt="Train" width="400"/>
     * Click on the **Publish** button
 
-        <img src="../images/luis-ai-07.png" alt="Publish" width="400"/>
+        <img src="{{ "/images/luis-ai-07.png" | relative_url }}" alt="Publish" width="400"/>
 
     * A popup will appear, leave the Environment set to Production and click on the **Publish** button
 
-        <img src="../images/luis-ai-08.png" alt="Publish" width="400"/>
+        <img src="{{ "/images/luis-ai-08.png" | relative_url }}" alt="Publish" width="400"/>
 
 6. Endpoint Url
 
     * From the menu bar click on **MANAGE**
 
-        <img src="../images/luis-ai-09.png" alt="Publish" width="400"/>
+        <img src="{{ "/images/luis-ai-09.png" | relative_url }}" alt="Publish" width="400"/>
     * From the side menu on the left, click on **Keys and Endpoints**
     * Copy the **Endpoint** url, located at the bottom right of the screen, and save the url, it will be required during the bot server deployment.
 
-        <img src="../images/luis-ai-10.png" alt="Publish" width="400"/>
+        <img src="{{ "/images/luis-ai-10.png" | relative_url }}" alt="Publish" width="400"/>
     * The endpoint url will be used to populate the **luis_url** field when deploying the bot server template later.
 
 
@@ -162,7 +162,7 @@ Follow this guide to deploy the Bot Server ARM Template into your Azure subscrip
 
 1. Click on the **Deploy to Azure** button, you will be asked to login, use your Azure credentials.
 
-    [![Deploy to Azure](../images/azure_deploy.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot-server%2Fmaster%2Ftemplate%2Fazuredeploy.json)
+    [![Deploy to Azure]({{ "/images/azure_deploy.png" | relative_url }})](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot-server%2Fmaster%2Ftemplate%2Fazuredeploy.json)
 
 2. On the Custom deployment page, complete the fields using the information you collected during the previous steps.
 
@@ -184,7 +184,7 @@ Follow this guide to deploy the Bot Server ARM Template into your Azure subscrip
 
     * **Luis_uri:** The LUIS.AI endpoint url, that was recorded when registering the LUIS.AI endpoint.
 
-        <img src="../images/template_01.png" alt="Deployment" width="400"/>
+        <img src="{{ "/images/template_01.png" | relative_url }}" alt="Deployment" width="400"/>
 
 3. Check *"I agree to the terms and conditions as stated above"* and click on **Purchase**
 
@@ -193,7 +193,7 @@ Follow this guide to deploy the Bot Server ARM Template into your Azure subscrip
 
     * Click on Deployment in progress... this will open the Deployment screen
 
-        <img src="../images/template_02.png" alt="Deployment" width="400"/>
+        <img src="{{ "/images/template_02.png" | relative_url }}" alt="Deployment" width="400"/>
 
 5. Retrieve Outputs
     * On the deployment screen wait for the deployment to complete, it should take no more than 5 minutes.
@@ -219,7 +219,7 @@ Now the Bot Server has been deployed we need to update the Bot Channels registra
 
     * Locate the Messaging Endpoint field and enter the **MessagingEndpoint** url that we collected at step 5 in the previous section.
 
-        <img src="../images/template_03.png" alt="Messaging Endpoint" width="400"/>
+        <img src="{{ "/images/template_03.png" | relative_url }}" alt="Messaging Endpoint" width="400"/>
     * Click on the **Save** button.
 
 2. Add a Web Platform to the Bot Channels Registration
@@ -228,19 +228,19 @@ Now the Bot Server has been deployed we need to update the Bot Channels registra
 
     * From the Settings blade, click **Manage**. This is the link appearing by the Microsoft App ID. Under the messaging endpoint you configured in the previous step. This link will open a window where you can add a web platform. Login using your Azure credentials. *Note: You will need to have been assigned at least, the "Application administrator" role in your Azure AD.*
 
-        <img src="../images/template_04.png" alt="Manage" width="400"/>
+        <img src="{{ "/images/template_04.png" | relative_url }}" alt="Manage" width="400"/>
 
     * In the new windows scroll down to the Platforms section then click on the **Add Platform** button.
 
-        <img src="../images/template_05.png" alt="Manage" width="400"/>
+        <img src="{{ "/images/template_05.png" | relative_url }}" alt="Manage" width="400"/>
 
     * Click on the Web button
 
-        <img src="../images/template_06.png" alt="Manage" width="400"/>
+        <img src="{{ "/images/template_06.png" | relative_url }}" alt="Manage" width="400"/>
 
     * Check **Allow Implicit Flow** and then populate the Redirect URLs field with the **WebAppRedirectUrl** url value that we collected at step 5 in the previous section.
 
-        <img src="../images/template_07.png" alt="Manage" width="400"/>
+        <img src="{{ "/images/template_07.png" | relative_url }}" alt="Manage" width="400"/>
 
     * Scroll to the bottom of the page and click **Save**.
 
