@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 theme: jekyll-docs-theme
 # name of the software
 name: Basebot Docs
@@ -52,6 +51,3 @@ markdown: kramdown
 exclude:
     - Gemfile
     - Gemfile.lock
-=======
-theme: jekyll-theme-cayman
->>>>>>> ebdf50709117bda28142709332503d67d001a0d2
