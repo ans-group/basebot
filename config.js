@@ -17,7 +17,7 @@ const requiredValues = [
   'LUIS_URI',
   'DB_URL'
 ]
-console.log(process.env.LUIS_URI, process.env.MS_APP_SCOPES)
+
 requiredValues.forEach(key => {
   if (!process.env[key]) {
     throw new Error(`Config Error: ${key} is not set`)
