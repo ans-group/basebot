@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Basebot Docs 0.1.0</title>
+<meta name="description"
+      content="">
+
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="canonical" href="http://localhost:4000/">
+<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+
+<style>
+    #jumbotron-header {
+        background: #52347c;
+        background: linear-gradient(135deg, #52347c, #6e46a0);
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stickyfill/1.1.4/stickyfill.min.js"></script>
+<script src="/assets/js/docs.min.js"></script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-static-top bs-docs-nav" id="top">
+  <div class="container">
+    <div class="navbar-header" role="banner">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/index.html">Basebot Docs</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        
+        
+        
+        <li >
+          <a href="/getting-started.html">Getting Started Guide</a>
+        </li>
+        
+        
+        
+        
+        
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li>
+          <a href="https://github.com/ans-group/basebot">GitHub</a>
+        </li>
+        
+        <li>
+          <a href="https://ans.co.uk">ANS Website</a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+<div class="bs-docs-masthead" id="jumbotron-header">
+  <div class="container">
+    <h1 class="home-title">Basebot</h1>
+    <p class="lead">A virtual assistant framework by ANS</p>
+    <p class="lead">
+      <a href="https://github.com/ans-group/basebot/archive/master.zip" class="btn btn-outline-inverse btn-lg">Download</a>
+    </p>
+    
+    <p class="version">Currently v0.1.0</p>
+    
+  </div>
+</div>
+
+
+
+  <div class="container">
+  <div class="bs-docs-container row">
+    <div class="col-md-12" role="main">
+      <div class="bs-docs-section"><p><a href="https://travis-ci.org/webantic/basebot-server"><img src="https://travis-ci.org/webantic/basebot-server.svg?branch=master" alt="Build Status" /></a></p>
+
+<h1 id="setup">Setup</h1>
+
+<p>For an in-depth guide see our <a href="/basebot/getting-started">Getting Started Guide</a></p>
+
+<p>When you first clone the repo you’ll want to run <code class="highlighter-rouge">npm i</code> to install dependencies. After that, you’ll need two files:</p>
+<ul>
+  <li>firebase.json</li>
+  <li>.env</li>
+</ul>
+
+<p>Both of these files live in the root.</p>
+
+<p><code class="highlighter-rouge">firebase.json</code> can be downloaded from the firebase dashboard. To set up a project, follow the guide <a href="https://github.com/ans-group/basebot-server/tree/master/documents/firebase-registration">here</a>. (Note: for environments where a json file isn’t suitable you can paste the JSON from the file into the FIREBASE env var instead)</p>
+
+<p><code class="highlighter-rouge">.env</code> is a standard file that contains local env vars. It should have the following vars at a minimum:</p>
+
+<ul>
+  <li><strong>BOT_NAME</strong> the user-facing name of your bot (e.g. Basebot, HAL 9000, Johnny 5, KITT)</li>
+  <li><strong>MS_APP_ID</strong> the Bot service app id to use</li>
+  <li><strong>MS_APP_PASSWORD</strong> the corresponding secret to use with the above</li>
+  <li><strong>LUIS_URI</strong> the LUIS instance URI - without this LUIS will not work</li>
+  <li><strong>DB_URL</strong> at the moment this should be an <a href="https://azure.microsoft.com/en-gb/services/storage/tables/">Azure Table Storage</a> connection string</li>
+  <li><strong>USE_LT_SUBDOMAIN</strong> (local dev only) this will enable localtunnel at the subdomain specified</li>
+</ul>
+
+<p>If you want to use QNA Maker you’ll also need the following:</p>
+
+<ul>
+  <li><strong>QNA_HOST</strong> The URL for QNA Maker</li>
+  <li><strong>QNA_KEY</strong> The secret key for QNA Maker</li>
+  <li><strong>QNA_KBID</strong> The Knowledgebase ID you want to use (we only support a single one at the mo)</li>
+  <li><strong>QNA_THRESHOLD</strong> The confidence threshold out of 100 (80 seems to work quite well)</li>
+</ul>
+
+<p>Once you’ve done all that, you can run the project :+1:</p>
+
+<p>To run, simply use: <code class="highlighter-rouge">npm run dev</code></p>
+
+<p>To run in production, build using <code class="highlighter-rouge">npm run build</code> and then run <code class="highlighter-rouge">npm start</code></p>
+
+<p><strong>A note on local development</strong></p>
+
+<p>In order to get the bot service instance you’re using to talk to your local bot you’ll have to set the <code class="highlighter-rouge">Messaging Endpoint</code> configuration value under your app settings to the localtunnel URI generated when you start the app in dev mode (using <code class="highlighter-rouge">USE_LT_SUBDOMAIN</code>)</p>
+
+<h1 id="debugging">Debugging</h1>
+
+<p>To enable verbose logging you can set the <code class="highlighter-rouge">DEBUG</code> env var to <code class="highlighter-rouge">basebot*</code>. Alternatively, if you have a papertrail account you can set <code class="highlighter-rouge">PAPERTRAIL_HOST</code> and <code class="highlighter-rouge">PAPERTRAIL_PORT</code> to your Papertrail host/port (more info <a href="https://help.papertrailapp.com/">here</a>). This is useful if you’re not running the server locally and getting at the logs is a bit annoying.</p>
+
+<p>This project is fully compatible with the VSCode debugger. Just press F5 to launch with the debugger attached. For more info on debugging with VSCode see <a href="https://code.visualstudio.com/docs/editor/debugging">here</a></p>
+
+<h1 id="testing">Testing</h1>
+
+<p>Tests are written using <a href="https://jestjs.io/">Jest</a> and stored in the __tests__ directory. To test the entire codebase use <code class="highlighter-rouge">npm test</code></p>
+
+<h1 id="project-structure">Project Structure</h1>
+
+<h2 id="skills">Skills</h2>
+<p>All of the main conversation logic goes here. Files are automatically imported from the <code class="highlighter-rouge">/skills</code> directory and should export an array of objects with the following schema:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th> </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>hears</strong></td>
+      <td><code class="highlighter-rouge">String</code> or <code class="highlighter-rouge">[String]</code></td>
+      <td><em>(optional)</em>  either a LUIS intent (e.g. <code class="highlighter-rouge">Social.Greeting</code>) <em>or</em> a single/array of strings/regexes (e.g. <code class="highlighter-rouge">['My name is (.*)', 'Call me (.*)']</code></td>
+    </tr>
+    <tr>
+      <td><strong>on</strong></td>
+      <td><code class="highlighter-rouge">String</code></td>
+      <td><em>(optional)</em> similar to hears: the event to trigger the skill on (e.g. <code class="highlighter-rouge">conversationUpdate</code>). This can be any string and can be triggered with <a href="https://botkit.ai/docs/core.html#controllertrigger">controller.trigger</a></td>
+    </tr>
+    <tr>
+      <td><strong>response</strong></td>
+      <td><code class="highlighter-rouge">function(bot, message, controller)</code></td>
+      <td>The callback to invoke. The various botkit instances provided should allow you to do virtually anything you need to conversation-wise. See the <a href="https://botkit.ai/docs">botkit docs</a> for more info</td>
+    </tr>
+    <tr>
+      <td><strong>bypassLuis</strong></td>
+      <td><code class="highlighter-rouge">bool</code></td>
+      <td><em>(optional)</em> boolean that represents whether to bypass LUIS - if this is set to false then hears will expect an intent, if it is true then hears should be a botkit-style regex/string.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>NB</strong> either <code class="highlighter-rouge">hears</code> <em>or</em> <code class="highlighter-rouge">on</code> should be specified.</p>
+
+<h2 id="middleware">Middleware</h2>
+<p>All <a href="https://botkit.ai/docs/middleware.html">Botkit middleware</a> goes here. Files are automatically imported from the <code class="highlighter-rouge">/middleware</code> directory and should export a function that takes a single <code class="highlighter-rouge">controller</code> argument. See <a href="middleware/auth.js">/middleware/auth.js</a> for a succinct example.</p>
+
+<h2 id="services">Services</h2>
+<p>An “everything else” folder for specialised classes and functions. These can export any format. Examples include, auth and utility functions.</p>
+
+<h1 id="libraries-used">Libraries Used</h1>
+
+<p>Check out the documentation on some of the main libraries (roughly in order of their importance):</p>
+
+<ul>
+  <li><a href="https://botkit.ai/docs">Botkit</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0">Azure bot service &amp; Directline</a></li>
+  <li><a href="https://firebase.google.com/docs">Firebase (Auth, Messaging, Firestore)</a> (disabled by default)</li>
+  <li><a href="https://docs.microsoft.com/en-us/azure/storage/">Azure Table Storage</a></li>
+  <li><a href="https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/what-is-luis">LUIS</a></li>
+  <li><a href="https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/">QNA Maker</a></li>
+  <li><a href="https://jestjs.io/">Jest</a></li>
+</ul>
+</div>
+    </div>
+
+    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
+      <ul class="nav bs-docs-sidenav"></ul>
+
+      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
+        Back to top
+      </a>
+    </div>
+  </div>
+
+  
+
+</div>
+
+
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container">
+        <div class="bs-docs-social">
+            <ul class="bs-docs-social-buttons">
+                
+                    <li>
+                        <iframe class="github-btn"
+                                src="https://ghbtns.com/github-btn.html?user=ans-group&amp;repo=basebot&amp;type=watch&amp;count=true"
+                                width="90"
+                                height="20"
+                                title="Star on GitHub"></iframe>
+                    </li>
+                    <li>
+                        <iframe class="github-btn"
+                                src="https://ghbtns.com/github-btn.html?user=ans-group&amp;repo=basebot&amp;type=fork&amp;count=true"
+                                width="90"
+                                height="20"
+                                title="Fork on GitHub"></iframe>
+                    </li>
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <p>
+            Licensed under <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+        </p>
+        <p>
+            Documentation template by <a href="http://getbootstrap.com">Bootstrap team</a>, generated with <a href="https://github.com/allejo/jekyll-docs-theme">Jekyll Docs Theme</a>
+        </p>
+
+        <ul class="bs-docs-footer-links muted">
+            
+                <li>Currently v0.1.0</li>
+            
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://github.com/ans-group/basebot">GitHub</a>
+                </li>
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://github.com/ans-group/basebot/issues?state=open">Issues</a>
+                </li>
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://ans.co.uk">ANS Website</a>
+                </li>
+            
+        </ul>
+    </div>
+</footer>
+
+
+
+
+
+</body>
+
+</html>

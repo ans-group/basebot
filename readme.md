@@ -7,6 +7,9 @@ This repo is the brains of Basebot and contains the central "monolithic" server-
 
 Getting Started
 ---
+
+For an in-depth guide see our [Getting Started Guide](https://ans-group.github.io/basebot/getting-started)
+
 When you first clone the repo you'll want to run `npm i` to install dependencies. After that, you'll need two files:
 * firebase.json
 * .env

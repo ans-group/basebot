@@ -1,0 +1,53 @@
+theme: jekyll-docs-theme
+# name of the software
+name: Basebot Docs
+
+project:
+    version: 0.1.0
+    download_url: https://github.com/ans-group/basebot/archive/master.zip
+
+license:
+    software: MIT License
+    software_url: http://opensource.org/licenses/MIT
+
+    docs: CC BY 3.0
+    docs_url: http://creativecommons.org/licenses/by/3.0/
+
+links:
+    header:
+      - title: GitHub
+        url: https://github.com/ans-group/basebot
+      - title: ANS Website
+        url: https://ans.co.uk
+    footer:
+      - title: GitHub
+        url: https://github.com/ans-group/basebot
+      - title: Issues
+        url: https://github.com/ans-group/basebot/issues?state=open
+      - title: ANS Website
+        url: https://ans.co.uk
+
+ui:
+    header:
+        color1: "#52347c"
+        color2: "#6e46a0"
+        trianglify: false
+
+social:
+    github:
+        user: ans-group
+        repo: basebot
+    twitter:
+        enabled: false
+        via:
+        hash:
+        account: ANSgroup
+    facebook:
+        enabled: false
+        profileUrl:
+
+# Build settings
+markdown: kramdown
+exclude:
+    - Gemfile
+    - Gemfile.lock
