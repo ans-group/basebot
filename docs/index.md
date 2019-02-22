@@ -3,7 +3,7 @@ layout: page
 homepage: true
 ---
 
-[![Build Status](https://travis-ci.org/webantic/basebot-server.svg?branch=master)](https://travis-ci.org/webantic/basebot-server)
+[![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot)
 
 
 # Setup

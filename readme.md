@@ -1,4 +1,4 @@
-# Basebot [![Build Status](https://travis-ci.org/webantic/basebot-server.svg?branch=master)](https://travis-ci.org/webantic/basebot-server)
+# Basebot [![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot)
 
 This repo is the brains of Basebot and contains the central "monolithic" server-side app. 
 
