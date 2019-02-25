@@ -20,7 +20,7 @@ steps:
   displayName: 'npm install'
 
 - script: |
-    npm install --only=dev && npx babel ./ --out-dir build --ignore \"node_modules\",\"build\" --copy-files && npm i --prefix build"
+    npm run build
   displayName: 'npm run build'
 
 - script: |
