@@ -53,6 +53,21 @@ steps:
   displayName: 'Remove babel from  package.json' 
 
 - script: |
+    rm -rf ./docs
+  displayName: 'Remove documentation folder' 
+
+- script: |
+    rm -rf ./node_modules
+  displayName: 'Remove node_modules folder'
+
+- script: |
+    rm ./azure-pipelines.yml
+    rm ./readme.md
+    rm ./CODE_OF_CONDUCT.md
+    rm ./CONTRIBUTING.md
+  displayName: 'Remove files'
+
+- script: |
     cd $(Build.StagingDirectory)/$(github-output-repo-name)
     git config user.name $(github-output-username)
     git config user.email $(github-output-email)
