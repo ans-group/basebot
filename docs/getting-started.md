@@ -92,7 +92,7 @@ The native mobile application requires a Direct Line channel connection key, to 
 
 Please follow this guide to register and configure LUIS.AI endpoint.
 
-1. Download the LUIS configuration file **[here](../../../../raw/master/documents/luis-ai/base-bot.json)**, make sure the saved file's extension is .json not .json.txt
+1. Download the LUIS configuration file **[here](../../../../raw/master/docs/luis-ai/base-bot.json)**, make sure the saved file's extension is .json not .json.txt
 
 2. Open the Microsoft LUIS.AI website https://luis.ai/# and login using your normal Azure credentials.
 
@@ -162,7 +162,7 @@ Follow this guide to deploy the Bot Server ARM Template into your Azure subscrip
 
 1. Click on the **Deploy to Azure** button, you will be asked to login, use your Azure credentials.
 
-    [![Deploy to Azure]({{ "/images/azure_deploy.png" | relative_url }})](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot-server%2Fmaster%2Ftemplate%2Fazuredeploy.json)
+    [![Deploy to Azure]({{ "/images/azure_deploy.png" | relative_url }})](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot%2Fmaster%2Ftemplate%2Fazuredeploy.json)
 
 2. On the Custom deployment page, complete the fields using the information you collected during the previous steps.
 
