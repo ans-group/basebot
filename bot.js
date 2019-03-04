@@ -4,6 +4,7 @@ import Debug from 'debug'
 import luis from 'botkit-middleware-luis'
 import webserver from './services/webserver'
 import http from './services/http'
+import qnaMaker from './services/qnaMaker'
 import storage from './services/storage/azureTables'
 import * as skills from './skills/*'
 import * as middleware from './middleware/*'
@@ -55,8 +56,6 @@ Object.values(skills).forEach(definitions => {
 })
 
 // default response
-controller.hears('.*', 'message_received', (bot, message) => {
-    bot.reply(message, `Didn't catch that, sorry`)
-})
+controller.hears('.*', 'message_received', qnaMaker)
 
 log('bot started')
