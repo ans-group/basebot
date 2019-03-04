@@ -17,8 +17,11 @@ steps:
 
 - script: |
     npm install
+  displayName: 'npm install'
+
+- script: |
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm run build'
 
 - script: |
     cd $(Build.StagingDirectory)
@@ -48,6 +51,21 @@ steps:
 - script: |
     sed -i '/"babel-node":/d' $(Build.StagingDirectory)/$(github-output-repo-name)/package.json
   displayName: 'Remove babel from  package.json' 
+
+- script: |
+    rm -rf $(Build.StagingDirectory)/$(github-output-repo-name)/docs
+  displayName: 'Remove documentation folder' 
+
+- script: |
+    rm -rf $(Build.StagingDirectory)/$(github-output-repo-name)/node_modules
+  displayName: 'Remove node_modules folder'
+
+- script: |
+    rm $(Build.StagingDirectory)/$(github-output-repo-name)/azure-pipelines.yml
+    rm $(Build.StagingDirectory)/$(github-output-repo-name)/readme.md
+    rm $(Build.StagingDirectory)/$(github-output-repo-name)/CODE_OF_CONDUCT.md
+    rm $(Build.StagingDirectory)/$(github-output-repo-name)/CONTRIBUTING.md
+  displayName: 'Remove files'
 
 - script: |
     cd $(Build.StagingDirectory)/$(github-output-repo-name)

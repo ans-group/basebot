@@ -1,15 +1,21 @@
 {
-    "presets": [
-        [
-            "env",
-            {
-                "targets": {
-                    "node": "current"
-                }
-            }
-        ]
-    ],
-    "plugins": [
-        "import-glob"
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "node": "current"
+        },
+        "debug": {
+          "sourceMaps": "inline",
+          "retainLines": true
+        }
+      }
     ]
+  ],
+  "plugins": [
+    "import-glob"
+  ],
+  "sourceMaps": "inline",
+  "retainLines": true
 }

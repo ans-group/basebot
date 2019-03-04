@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Getting Started Guide</title>
+<meta name="description"
+      content="">
+
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/docs.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+
+<link rel="canonical" href="http://localhost:4000/getting-started.html">
+<link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
+
+<style>
+    #jumbotron-header {
+        background: #52347c;
+        background: linear-gradient(135deg, #52347c, #6e46a0);
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stickyfill/1.1.4/stickyfill.min.js"></script>
+<script src="/assets/js/docs.min.js"></script>
+
+</head>
+
+<body>
+  <header class="navbar navbar-static-top bs-docs-nav" id="top">
+  <div class="container">
+    <div class="navbar-header" role="banner">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/index.html">Basebot Docs</a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        
+        
+        
+        <li class="active" >
+          <a href="/getting-started.html">Getting Started Guide</a>
+        </li>
+        
+        
+        
+        
+        
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li>
+          <a href="https://github.com/ans-group/basebot">GitHub</a>
+        </li>
+        
+        <li>
+          <a href="https://ans.co.uk">ANS Website</a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  
+<div class="bs-docs-header" id="jumbotron-header">
+  <div class="container">
+    <h1>Getting Started Guide</h1>
+    <p></p>
+  </div>
+</div>
+
+
+
+  <div class="container">
+  <div class="bs-docs-container row">
+    <div class="col-md-12" role="main">
+      <div class="bs-docs-section"><p>This guide is used to deploy and configure the infrastructure required to run the Base Bot.</p>
+
+<p>The guide may look complicated at times but please stick with it, it’s actually much simpler than it looks, and we expect it to only take around 75 minutes to complete. However if you are an ANS customer and would like help with the deployment, please reach out to your ANS account manager who can arrange for technical assistance.</p>
+
+<h1 id="pre-requisites">Pre-Requisites</h1>
+
+<p>Please ensure you meet the below pre-requisites.</p>
+
+<ul>
+  <li>An active Azure Subscription</li>
+  <li>Admin Permissions to Azure Subscription</li>
+  <li>Admin Permissions to Azure AD to create application registrations</li>
+  <li>Git client installed</li>
+</ul>
+
+<h1 id="bot-channels-registration">Bot Channels Registration</h1>
+
+<p>Please follow this guide to create and register and configure a Bot Channels registration.</p>
+
+<p>You need a Bot Channels Registration to be able to use Bot Service functionality. A bot registration lets you connect your bot to channels.</p>
+
+<h2 id="to-create-a-bot-channels-registration-follow-these-steps">To create a Bot Channels Registration, follow these steps</h2>
+
+<ol>
+  <li>
+    <p>Login to the Azure portal https://portal.azure.com</p>
+  </li>
+  <li>
+    <p>Click the <strong>Create a resource</strong> link found on the upper left-hand corner of the Azure portal, then select AI + Machine Learning &gt; Bot Channels Registration, you may need to click see all.</p>
+  </li>
+  <li>
+    <p>A new blade will open with information about the Bot Channels Registration. Click the Create button to start the creation process.</p>
+  </li>
+  <li>
+    <p>In the Bot Service blade, provide the requested information about your bot as specified in the table below the image.</p>
+
+    <p><img src="/images/bot-registration01.png" alt="Create Bot" width="400" /></p>
+
+    <p><strong>Recommended Settings</strong></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Setting</th>
+          <th>Suggested value</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Bot name:</strong></td>
+          <td>Your bots display name</td>
+          <td><em>The display name for the bot that appears in channels and directories. This should be 6 - 8 characters long. Please make a note of the name as it will be required in later steps</em></td>
+        </tr>
+        <tr>
+          <td><strong>Subscription:</strong></td>
+          <td>Your subscription</td>
+          <td><em>Select the Azure subscription you want to use.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Resource Group</strong></td>
+          <td>myResourceGroup</td>
+          <td><em>You can create a new resource group or choose from an existing one.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Location</strong>:</td>
+          <td>UK West</td>
+          <td><em>Choose a location near where your bot is deployed or near other services your bot will access.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Pricing tier</strong></td>
+          <td>F0</td>
+          <td><em>Select a pricing tier. You may update the pricing tier at any time. For more information, see Bot Service pricing.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Messaging endpoint</strong></td>
+          <td>Leave empty</td>
+          <td><em>This will be the url of Azure Web App that hosts the bot server</em>  + /botframework/receive. <strong>Leave empty for now</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Application Insights</strong></td>
+          <td>Off</td>
+          <td><em>Decide if you want to turn Application Insights On or Off. If you select On, you must also specify a regional location.</em></td>
+        </tr>
+        <tr>
+          <td><strong>Microsoft App ID and password</strong></td>
+          <td>Auto create App ID and password</td>
+          <td><em>Leave this as Auto create, a new Microsoft App ID and password will be created for you in the bot creation process.</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p>Click Create to create the service and register your bots messaging end point.</p>
+  </li>
+  <li>
+    <p>Confirm that the registration has been created by checking the Notifications. The notifications will change from Deployment in progress… to Deployment succeeded. Click Go to resource button to open the bots resources blade.</p>
+  </li>
+</ol>
+
+<h2 id="bot-channels-registration-password">Bot Channels Registration password</h2>
+
+<p>The Bot Channels Registration bot service does not have an app service associated with it. Because of that, this bot service only has a MicrosoftAppID. You need to generate the password manually and save it yourself. You will need this password.</p>
+
+<p>To generate a MicrosoftAppPassword, follow these steps</p>
+
+<ol>
+  <li>
+    <p>On the Bot registration page, click on the <strong>Settings</strong> link</p>
+  </li>
+  <li>
+    <p>From the Settings blade, click <strong>Manage</strong>. This is the link appearing by the Microsoft App ID. This link will open a window where you can generate a new password. Login using your Azure credentials. <em>Note: You will need to have been assigned at least, the “Application administrator” role in your Azure AD.</em></p>
+
+    <p><img src="/images/bot-registration02.png" alt="Create Bot" width="400" /></p>
+  </li>
+  <li>
+    <p>On the registration page, copy the <strong>Application Id</strong> and save it to a file, this will be the <strong>ms_app_id</strong> and is required during the bot server deployment.</p>
+  </li>
+  <li>
+    <p>Click <strong>Generate New Password</strong>. This will generate a new password for your bot. Copy the password and save it to a file, this will be the <strong>ms_app_password</strong> and is required during the bot server deployment. <em>Note: This is the only time you will see this password, if you do not save the password you will need to repeat the process.</em></p>
+
+    <p><img src="/images/bot-registration03.png" alt="Create Bot" width="400" /></p>
+  </li>
+</ol>
+
+<h2 id="add-direct-line-channel-connection">Add Direct Line Channel connection</h2>
+
+<p>The native mobile application requires a Direct Line channel connection key, to create this follow the below steps</p>
+
+<ol>
+  <li>
+    <p>On the Bot registration page, click on the <strong>Channels</strong> link</p>
+  </li>
+  <li>
+    <p>Click on the Direct Line button, (Globe Icon)</p>
+
+    <p><img src="/images/bot-registration04.png" alt="Create Bot" width="400" /></p>
+  </li>
+  <li>
+    <p>Under <strong>Secret keys</strong> click <strong>Show</strong>, copy the key and save to a file, this will be required later.</p>
+
+    <p><img src="/images/bot-registration05.png" alt="Create Bot" width="400" /></p>
+  </li>
+  <li>
+    <p>Click <strong>Done</strong></p>
+  </li>
+</ol>
+
+<h1 id="luisai-configuration">LUIS.AI Configuration</h1>
+
+<p>Please follow this guide to register and configure LUIS.AI endpoint.</p>
+
+<ol>
+  <li>
+    <p>Download the LUIS configuration file <strong><a href="../../../../raw/master/documents/luis-ai/base-bot.json">here</a></strong>, make sure the saved file’s extension is .json not .json.txt</p>
+  </li>
+  <li>
+    <p>Open the Microsoft LUIS.AI website https://luis.ai/# and login using your normal Azure credentials.</p>
+  </li>
+  <li>
+    <p>If this is you first time logging into LUIS.AI you will be presented with the following screens.</p>
+
+    <p>3.1. On the Permissions Request page</p>
+    <ul>
+      <li>
+        <p>Click <strong>Accept</strong> to continue</p>
+
+        <p><img src="/images/luis-ai-01.png" alt="Permissions" width="400" /></p>
+      </li>
+    </ul>
+
+    <p>3.2 On the Welcome page</p>
+    <ul>
+      <li>
+        <p>Select <strong>United Kingdom</strong> from the dropdown list</p>
+      </li>
+      <li>
+        <p>Check “<em>I agree that this service is subject to the same terms under which I subscribe to Cognitive Services through Azure</em>”</p>
+      </li>
+      <li>
+        <p>Click <strong>Continue</strong></p>
+
+        <p><img src="/images/luis-ai-02.png" alt="Welcome" width="400" /></p>
+      </li>
+    </ul>
+
+    <p>3.3 On the next Welcome page</p>
+    <ul>
+      <li>
+        <p>Click <strong>Create a LUIS app now</strong> button to continue and you will be directed to the My Apps page.</p>
+
+        <p><img src="/images/luis-ai-03.png" alt="I Agree" width="400" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>On the My Apps page</p>
+
+    <ul>
+      <li>
+        <p>Click on <strong>Import new app</strong></p>
+
+        <p><img src="/images/luis-ai-04.png" alt="Import" width="400" /></p>
+      </li>
+      <li>Click on <strong>Choose app file</strong> and select the <strong>base-bot.json</strong> file you downloaded in step 1</li>
+      <li>Optionally enter a name</li>
+      <li>
+        <p>Click on <strong>Done</strong></p>
+
+        <p><img src="/images/luis-ai-05.png" alt="Import" width="400" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Train and Publish the model</p>
+
+    <ul>
+      <li>
+        <p>Click on the <strong>Train</strong> button, wait a few seconds for the model to complete training.</p>
+
+        <p><img src="/images/luis-ai-06.png" alt="Train" width="400" /></p>
+      </li>
+      <li>
+        <p>Click on the <strong>Publish</strong> button</p>
+
+        <p><img src="/images/luis-ai-07.png" alt="Publish" width="400" /></p>
+      </li>
+      <li>
+        <p>A popup will appear, leave the Environment set to Production and click on the <strong>Publish</strong> button</p>
+
+        <p><img src="/images/luis-ai-08.png" alt="Publish" width="400" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Endpoint Url</p>
+
+    <ul>
+      <li>
+        <p>From the menu bar click on <strong>MANAGE</strong></p>
+
+        <p><img src="/images/luis-ai-09.png" alt="Publish" width="400" /></p>
+      </li>
+      <li>From the side menu on the left, click on <strong>Keys and Endpoints</strong></li>
+      <li>
+        <p>Copy the <strong>Endpoint</strong> url, located at the bottom right of the screen, and save the url, it will be required during the bot server deployment.</p>
+
+        <p><img src="/images/luis-ai-10.png" alt="Publish" width="400" /></p>
+      </li>
+      <li>The endpoint url will be used to populate the <strong>luis_url</strong> field when deploying the bot server template later.</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="azure-bot-server-deployment">Azure Bot Server Deployment</h1>
+
+<p>Follow this guide to deploy the Bot Server ARM Template into your Azure subscription.</p>
+
+<h2 id="deploy-arm-template">Deploy ARM Template</h2>
+
+<ol>
+  <li>
+    <p>Click on the <strong>Deploy to Azure</strong> button, you will be asked to login, use your Azure credentials.</p>
+
+    <p><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot-server%2Fmaster%2Ftemplate%2Fazuredeploy.json"><img src="/images/azure_deploy.png" alt="Deploy to Azure" /></a></p>
+  </li>
+  <li>
+    <p>On the Custom deployment page, complete the fields using the information you collected during the previous steps.</p>
+
+    <p><strong>BASICS</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>Subscription:</strong> Choose an existing subscription.</p>
+      </li>
+      <li>
+        <p><strong>Resource group:</strong> Choose the resource group you deployed the Bot Registration to earlier.</p>
+      </li>
+      <li>
+        <p><strong>Location:</strong> Leave as default, its inherited from the resource group.</p>
+      </li>
+    </ul>
+
+    <p><strong>SETTINGS</strong></p>
+
+    <ul>
+      <li>
+        <p><strong>Name:</strong> *Enter a shortname for the bot, must be alphanumeric only with no Hyphens or Underscores and a maximum of 6 characters in length.</p>
+      </li>
+      <li>
+        <p><strong>ms_app_id:</strong> The ms_app_id, recorded when creating the bot registration.</p>
+      </li>
+      <li>
+        <p><strong>ms_app_secret:</strong> The ms_app_password, recorded when creating the bot registration.</p>
+      </li>
+      <li>
+        <p><strong>Luis_uri:</strong> The LUIS.AI endpoint url, that was recorded when registering the LUIS.AI endpoint.</p>
+
+        <p><img src="/images/template_01.png" alt="Deployment" width="400" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Check <em>“I agree to the terms and conditions as stated above”</em> and click on <strong>Purchase</strong></p>
+  </li>
+  <li>Open the deployment screen.
+    <ul>
+      <li>
+        <p>Click on the Notifications button at the top of the Azure portal screen (The bell icon).</p>
+      </li>
+      <li>
+        <p>Click on Deployment in progress… this will open the Deployment screen</p>
+
+        <p><img src="/images/template_02.png" alt="Deployment" width="400" /></p>
+      </li>
+    </ul>
+  </li>
+  <li>Retrieve Outputs
+    <ul>
+      <li>
+        <p>On the deployment screen wait for the deployment to complete, it should take no more than 5 minutes.</p>
+      </li>
+      <li>
+        <p>Once complete click on <strong>Outputs</strong></p>
+      </li>
+      <li>
+        <p>Copy the contents of the <strong>MessagingEndpoint</strong> field, we need this information to apply to the Bot Channels Registration we created earlier.</p>
+      </li>
+      <li>
+        <p>Copy the contents of the <strong>WebAppRedirectUrl</strong> field, we need this information to create a Web Platform in the Bot Channels Registration we created earlier.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="update-bot-channels-registration">Update Bot Channels Registration</h2>
+
+<p>Now the Bot Server has been deployed we need to update the Bot Channels registration with the Messaging Endpoint Url and Add a Web Platform.</p>
+
+<ol>
+  <li>Updating the Bot Channels Registration messaging endpoint.
+    <ul>
+      <li>
+        <p>In the Azure portal, Click on Resource Groups from the menu on the left of the Azure portal.</p>
+      </li>
+      <li>
+        <p>Open the resource group you deployed the Bot Channels Registration in.</p>
+      </li>
+      <li>
+        <p>Locate the Bot Channels Registration and click on its name to open it.</p>
+      </li>
+      <li>
+        <p>Click on the <strong>Settings</strong> link.</p>
+      </li>
+      <li>
+        <p>Locate the Messaging Endpoint field and enter the <strong>MessagingEndpoint</strong> url that we collected at step 5 in the previous section.</p>
+
+        <p><img src="/images/template_03.png" alt="Messaging Endpoint" width="400" /></p>
+      </li>
+      <li>
+        <p>Click on the <strong>Save</strong> button.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Add a Web Platform to the Bot Channels Registration</p>
+
+    <ul>
+      <li>
+        <p>On the Bot registration page, click on the <strong>Settings</strong> link.</p>
+      </li>
+      <li>
+        <p>From the Settings blade, click <strong>Manage</strong>. This is the link appearing by the Microsoft App ID. Under the messaging endpoint you configured in the previous step. This link will open a window where you can add a web platform. Login using your Azure credentials. <em>Note: You will need to have been assigned at least, the “Application administrator” role in your Azure AD.</em></p>
+
+        <p><img src="/images/template_04.png" alt="Manage" width="400" /></p>
+      </li>
+      <li>
+        <p>In the new windows scroll down to the Platforms section then click on the <strong>Add Platform</strong> button.</p>
+
+        <p><img src="/images/template_05.png" alt="Manage" width="400" /></p>
+      </li>
+      <li>
+        <p>Click on the Web button</p>
+
+        <p><img src="/images/template_06.png" alt="Manage" width="400" /></p>
+      </li>
+      <li>
+        <p>Check <strong>Allow Implicit Flow</strong> and then populate the Redirect URLs field with the <strong>WebAppRedirectUrl</strong> url value that we collected at step 5 in the previous section.</p>
+
+        <p><img src="/images/template_07.png" alt="Manage" width="400" /></p>
+      </li>
+      <li>
+        <p>Scroll to the bottom of the page and click <strong>Save</strong>.</p>
+      </li>
+    </ul>
+  </li>
+  <li>Your infrastructure is now full configured and ready to connect you bot client to.</li>
+</ol>
+
+<h1 id="qna-maker-configuration">QNA Maker Configuration</h1>
+
+<p>Please follow this guide to configure and register QnA Maker.</p>
+
+<h3 id="configure-qna-maker">Configure QnA Maker</h3>
+
+<ol>
+  <li>
+    <p>Open the Microsoft QNAMAKER.AI website https://www.qnamaker.ai and login using your normal Azure credentials.</p>
+  </li>
+  <li>
+    <p>From the navigation click on <strong>Create a knowledge base</strong></p>
+  </li>
+  <li>
+    <p>On the <strong>Create a knowledge base</strong> page, go straight to STEP 2, and from the dropdowns select.</p>
+
+    <ul>
+      <li>Microsoft Azure Directory ID <em>(Azure Directory where you deployed the server template)</em></li>
+      <li>Azure subscription name <em>(Azure Subscription where you deployed the server template)</em></li>
+      <li>Azure QnA service <em>(The new QnA service that was deployed by the template)</em></li>
+    </ul>
+  </li>
+  <li>
+    <p>At STEP 3, enter a name for you Knowledge Base</p>
+  </li>
+  <li>
+    <p>At STEP 4, scroll down to <strong>Chit-chat</strong> section and select <strong>The Professional</strong>, this will create some sample QnA’s for you to get started with.</p>
+  </li>
+  <li>
+    <p>At STEP 5, click on <strong>Create your KB</strong></p>
+  </li>
+  <li>
+    <p>Once your bot has saved click on <strong>Save and train</strong> in the navigation bar.</p>
+  </li>
+  <li>
+    <p>Now click on the <strong>Publish</strong> tab on the navigation bar, then click the <strong>Publish</strong> button. This will publish the knowledge base to the Azure QnA maker service.</p>
+  </li>
+  <li>
+    <p>Once it has successfully published copy the knowledge base id and authorization key values that are displayed on the screen.</p>
+
+    <ul>
+      <li>
+        <p>Knowledge Base ID, this is found on the first line, copy the GUID. It is represented with x’s in the sample below.</p>
+
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  POST /knowledgebases/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/generateAnswer
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Endpoint Key, this is found on the third line, copy the GUID. It is represented with x’s in the sample below.</p>
+
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Authorization: EndpointKey xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h3 id="configure-bot-server">Configure Bot Server</h3>
+
+<p>Now we have created a QnA Maker knowledge base, we need to configure our Azure App Service hosting the Bot server to use it.</p>
+
+<ol>
+  <li>
+    <p>Login to the Azure portal, https://portal.azure.com</p>
+  </li>
+  <li>
+    <p>In the Azure portal, Click on Resource Groups from the menu on the left of the Azure portal.</p>
+  </li>
+  <li>
+    <p>Open the resource group you deployed the Azure Bot Server template into.</p>
+  </li>
+  <li>
+    <p>Locate the Azure App Service hosting the Bot Server and click on its name to open it.</p>
+  </li>
+  <li>
+    <p>On the menu to the left, find Application Settings and click on it to open.</p>
+  </li>
+  <li>
+    <p>Scroll down to the <strong>Application</strong> Settings section, then find the App Setting named <strong>QNA_KBID</strong>.</p>
+  </li>
+  <li>
+    <p>In the value field paste Knowledge Base ID copied in Step 9 of the previous section.</p>
+  </li>
+  <li>
+    <p>Now find the App Setting named <strong>QNA_KEY</strong>.</p>
+  </li>
+  <li>
+    <p>In the value field paste Endpoint Key copied in Step 9 of the previous section.</p>
+  </li>
+  <li>
+    <p>At the top of the page click on the <strong>Save</strong> button.</p>
+  </li>
+</ol>
+
+<h1 id="build-native-apps-optional">Build Native Apps (optional)</h1>
+
+<p>Please follow this guide to build the native Bot client apps for Apple IOS and Android devices.</p>
+
+<p>We have documented and simplified the build process, however this guide expects you to have an good level of knowledge in the building and deployment of native mobile applications, including the process of code signing and submitting apps to the Apple and Google app stores.</p>
+
+<p>If you are an ANS customer and require assistance please contact your ANS account manager.</p>
+
+<h2 id="pre-requisites-apple-ios">Pre-requisites Apple IOS</h2>
+
+<p>To build the Apple IOS app you must have an <a href="https://developer.apple.com">Apple Developer</a> Account and paid subscription.</p>
+
+<p>In the <a href="https://developer.apple.com">Apple Developer</a> portal you need to have created.</p>
+
+<ul>
+  <li>iOS App Development certificate <em>(Create the certificate <a href="https://developer.apple.com/account/ios/certificate/create">here</a>)</em></li>
+  <li>Apple Push Notifications service (APNs) key <em>(Follow the “Create the authentication key” steps <a href="https://firebase.google.com/docs/cloud-messaging/ios/certs">here</a> and ensure you have the downloaded key available for later.)</em></li>
+</ul>
+
+<p>You will also need with the following software and packages installed.</p>
+
+<ul>
+  <li>X-Code</li>
+  <li>usbmuxd</li>
+  <li>libimobiledevice</li>
+  <li>ideviceinstaller</li>
+  <li>ios-deploy</li>
+  <li>node.js</li>
+  <li>git client</li>
+</ul>
+
+<p>Which can be installed use the brew commands below.</p>
+
+<ul>
+  <li>brew update</li>
+  <li>brew install –HEAD usbmuxd</li>
+  <li>brew link usbmuxd</li>
+  <li>brew install –HEAD libimobiledevice</li>
+  <li>brew install ideviceinstaller</li>
+  <li>brew install ios-deploy</li>
+</ul>
+
+<h2 id="pre-requisites-android">Pre-requisites Android</h2>
+
+<p>To build the Android app you must have a <a href="https://flutter.io/docs/deployment/android#create-a-keystore">Keystore</a> for Code Signing the app along following software and plugins installed.</p>
+
+<ul>
+  <li>Android Studio
+    <ul>
+      <li>Flutter Plugin</li>
+      <li>Dart Plugin</li>
+    </ul>
+  </li>
+  <li>node.js</li>
+  <li>git client</li>
+</ul>
+
+<h2 id="setup">Setup</h2>
+<p>ANS have created a CLI tool, that will help simplify the process, of downloading the source code and creating a project and initial debug build.</p>
+
+<ol>
+  <li>
+    <p>To get started open a command window and enter the below commands.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> sudo npm i -g @webantic/basebot-cli
+ basebot create
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Follow the on screen instructions of the CLI tool answering the questions below.</p>
+  </li>
+</ol>
+
+<ul>
+  <li>
+    <p>What is the name of your app? <em>(Enter the same name as entered during the bot registration)</em></p>
+  </li>
+  <li>
+    <p>What should your app bundle be called? <em>(Hit enter to accept default)</em></p>
+  </li>
+  <li>
+    <p>What is the name of the bot? <em>(Enter the same name as entered during the bot registration)</em></p>
+  </li>
+  <li>
+    <p>Install Flutter? <em>(Yes - Unless you already have Flutter installed)</em></p>
+  </li>
+  <li>
+    <p>Create and link Firebase project? <em>(Yes, you will be asked to sign in with a Google Account - If you select no you will will need to manually create a firebase project with IOS and Android apps, see <a href="./documents/firebase-registration/README.md">Firebase Registration</a>.)</em></p>
+  </li>
+  <li>
+    <p>Paste your Direct Line secret <em>(This was created earlier during the <a href="./documents/bot-registration/README.md">Azure Bot Channels Registration</a> process.)</em></p>
+  </li>
+  <li>
+    <p>Paste your Endpoint Url <em>(This is the Url of the Azure Webapp hosting the Bot server, it can be found in the template.deployment outputs)</em></p>
+  </li>
+  <li>
+    <p>What is the bot handle on Direct Line? (Enter the same name as entered during the bot registration)</p>
+  </li>
+  <li>
+    <p>Where is your keystore located for signing? <em>(This is required for signing Android app and is not required for IOS, see Android pre-requisites section above.)</em></p>
+  </li>
+  <li>
+    <p>What is your key alias? <em>(This is required for signing Android app and is not required for IOS, see Android pre-requisites section above.)</em></p>
+  </li>
+  <li>
+    <p>What is your key password? <em>(This is required for signing Android app and is not required for IOS, see Android pre-requisites section above.)</em></p>
+  </li>
+</ul>
+
+<ol>
+  <li>A new directory containing the Bot app source code will have been created with the same name you entered in Step 1 of the CLI tool, CD into this directory.</li>
+</ol>
+
+<h3 id="update-azure-bot-server-firebase-config">Update Azure Bot Server Firebase config</h3>
+<p>Now the Firebase project has been configured we need to update the Azure App Service, that is hosting the Bot Server’s Firebase environment variable.</p>
+
+<ol>
+  <li>Download the Firebase configuration.</li>
+</ol>
+
+<ul>
+  <li>Open the Firebase website https://console.firebase.google.com/ and login.</li>
+  <li>Click on the Project tile.</li>
+  <li>Now click on the cog icon next to Project Overview on the menu on the left side. Then click on Project Setting.</li>
+  <li>Under the Service accounts tab, scroll down and click on Generate new private key button, then click on the Generate key button, a JSON key file will be downloaded.</li>
+</ul>
+
+<ol>
+  <li>Update the Azure App Service settings</li>
+</ol>
+
+<ul>
+  <li>Login to the Azure portal, https://portal.azure.com</li>
+  <li>In the Azure portal, Click on Resource Groups from the menu on the left of the Azure portal.</li>
+  <li>Open the resource group you deployed the Azure Bot Server template into.</li>
+  <li>Locate the Azure App Service hosting the Bot Server and click on its name to open it.</li>
+  <li>On the menu to the left, find Application Settings and click on it to open.</li>
+  <li>Scroll down to the <strong>Application</strong> Settings section, then find the App Setting named <strong>FIREBASE</strong>.</li>
+  <li>In the value field paste the contents of the JSON file downloaded from the Firebase console in step 1.</li>
+  <li>At the top of the page click on the <strong>Save</strong> button.</li>
+</ul>
+
+<h3 id="apple-ios-build">Apple IOS Build</h3>
+<ol>
+  <li>Login to the <a href="https://console.firebase.google.com/">Firebase</a> console and configure the Apple APN settings on you new IOS App.</li>
+</ol>
+
+<ul>
+  <li>Click on you new Firebase project</li>
+  <li>On the left menu click on the <strong>Cog</strong> symbol next to <strong>Project Overview</strong>.</li>
+  <li>Click on <strong>Project Settings</strong></li>
+  <li>Click on <strong>Cloud Messaging</strong></li>
+  <li>Scroll down to <strong>iOS app configuration</strong></li>
+  <li>Under <strong>APNs Authentication Key</strong> click on <strong>Upload</strong> to upload the APN Key that was downloaded from the Apple Developer portal.</li>
+</ul>
+
+<ol>
+  <li>
+    <p>Connect an iPhone to a USB port and run the following command to build and run app</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/flutter/bin/flutter run
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Alternatively To open the project in X-Code run the following command, then open the X-Code workspace file located  <em>{botname}/ios/Runner.xcworkspace</em></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/flutter/bin/flutter build ios --debug --no-codesign
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h3 id="android-build">Android Build</h3>
+<ol>
+  <li>
+    <p>Connect an Android phone to a USB port and run the following command to build and run app</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/flutter/bin/flutter run
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Alternatively To create a debug build to open in Android Studio run the following command, then open the apk file located  <em>{botname}/build/outputs/apk/debug/app-debug.apk.</em></p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~/flutter/bin/flutter build apk --debug
+</code></pre></div>    </div>
+  </li>
+</ol>
+</div>
+    </div>
+
+    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
+      <ul class="nav bs-docs-sidenav"></ul>
+
+      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
+        Back to top
+      </a>
+    </div>
+  </div>
+
+  
+
+</div>
+
+
+  <footer class="bs-docs-footer" role="contentinfo">
+    <div class="container">
+        <div class="bs-docs-social">
+            <ul class="bs-docs-social-buttons">
+                
+                    <li>
+                        <iframe class="github-btn"
+                                src="https://ghbtns.com/github-btn.html?user=ans-group&amp;repo=basebot&amp;type=watch&amp;count=true"
+                                width="90"
+                                height="20"
+                                title="Star on GitHub"></iframe>
+                    </li>
+                    <li>
+                        <iframe class="github-btn"
+                                src="https://ghbtns.com/github-btn.html?user=ans-group&amp;repo=basebot&amp;type=fork&amp;count=true"
+                                width="90"
+                                height="20"
+                                title="Fork on GitHub"></iframe>
+                    </li>
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <p>
+            Licensed under <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a>, documentation under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
+        </p>
+        <p>
+            Documentation template by <a href="http://getbootstrap.com">Bootstrap team</a>, generated with <a href="https://github.com/allejo/jekyll-docs-theme">Jekyll Docs Theme</a>
+        </p>
+
+        <ul class="bs-docs-footer-links muted">
+            
+                <li>Currently v0.1.0</li>
+            
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://github.com/ans-group/basebot">GitHub</a>
+                </li>
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://github.com/ans-group/basebot/issues?state=open">Issues</a>
+                </li>
+            
+                <li>&middot;</li>
+                <li>
+                    <a href="https://ans.co.uk">ANS Website</a>
+                </li>
+            
+        </ul>
+    </div>
+</footer>
+
+
+
+
+
+</body>
+
+</html>

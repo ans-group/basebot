@@ -1,0 +1,1836 @@
+{
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1",
+  "name": "basebot",
+  "desc": "basebot",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "intents": [
+    {
+      "name": "Calendar.Add",
+      "inherits": {
+        "domain_name": "Calendar",
+        "model_name": "Add"
+      }
+    },
+    {
+      "name": "Calendar.CheckAvailability",
+      "inherits": {
+        "domain_name": "Calendar",
+        "model_name": "CheckAvailability"
+      }
+    },
+    {
+      "name": "Calendar.Delete",
+      "inherits": {
+        "domain_name": "Calendar",
+        "model_name": "Delete"
+      }
+    },
+    {
+      "name": "Calendar.Edit",
+      "inherits": {
+        "domain_name": "Calendar",
+        "model_name": "Edit"
+      }
+    },
+    {
+      "name": "Calendar.Find",
+      "inherits": {
+        "domain_name": "Calendar",
+        "model_name": "Find"
+      }
+    },
+    {
+      "name": "Calendar.Next"
+    },
+    {
+      "name": "Diet.Cancel"
+    },
+    {
+      "name": "Diet.Initiate"
+    },
+    {
+      "name": "Exercise.Start"
+    },
+    {
+      "name": "None"
+    },
+    {
+      "name": "Social.Goodbye"
+    },
+    {
+      "name": "Social.Greeting"
+    },
+    {
+      "name": "Social.Thanks"
+    },
+    {
+      "name": "Utilities.Cancel",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Cancel"
+      }
+    },
+    {
+      "name": "Utilities.Confirm",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Confirm"
+      }
+    },
+    {
+      "name": "Utilities.FinishTask",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "FinishTask"
+      }
+    },
+    {
+      "name": "Utilities.GoBack",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "GoBack"
+      }
+    },
+    {
+      "name": "Utilities.Help",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Help"
+      }
+    },
+    {
+      "name": "Utilities.Repeat",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Repeat"
+      }
+    },
+    {
+      "name": "Utilities.ShowNext",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "ShowNext"
+      }
+    },
+    {
+      "name": "Utilities.ShowPrevious",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "ShowPrevious"
+      }
+    },
+    {
+      "name": "Utilities.StartOver",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "StartOver"
+      }
+    },
+    {
+      "name": "Utilities.Stop",
+      "inherits": {
+        "domain_name": "Utilities",
+        "model_name": "Stop"
+      }
+    },
+    {
+      "name": "Utilities.UpdateItem"
+    },
+    {
+      "name": "Weather.GetCondition",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "GetCondition"
+      }
+    },
+    {
+      "name": "Weather.GetForecast",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "GetForecast"
+      }
+    }
+  ],
+  "entities": [
+    {
+      "name": "Reminder.Text",
+      "inherits": {
+        "domain_name": "Reminder",
+        "model_name": "Text"
+      },
+      "roles": []
+    },
+    {
+      "name": "userPreference",
+      "roles": []
+    },
+    {
+      "name": "Weather.Location",
+      "inherits": {
+        "domain_name": "Weather",
+        "model_name": "Location"
+      },
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "prebuiltEntities": [
+    {
+      "name": "age",
+      "roles": []
+    },
+    {
+      "name": "datetimeV2",
+      "roles": []
+    },
+    {
+      "name": "dimension",
+      "roles": []
+    },
+    {
+      "name": "email",
+      "roles": []
+    },
+    {
+      "name": "geographyV2",
+      "roles": []
+    },
+    {
+      "name": "keyPhrase",
+      "roles": []
+    },
+    {
+      "name": "number",
+      "roles": []
+    },
+    {
+      "name": "ordinal",
+      "roles": []
+    },
+    {
+      "name": "percentage",
+      "roles": []
+    },
+    {
+      "name": "personName",
+      "roles": []
+    },
+    {
+      "name": "temperature",
+      "roles": []
+    },
+    {
+      "name": "url",
+      "roles": []
+    }
+  ],
+  "model_features": [
+    {
+      "name": "Yes",
+      "mode": true,
+      "words": "yes,yeah,yep,okay,affirmative,well , yes,sure,yup,yea,aye,ya,yeap,fine,indeed,okie dokie,yeaaaahh,oki,ok,yas,yus",
+      "activated": true
+    },
+    {
+      "name": "No",
+      "mode": true,
+      "words": "no,nope,helll no,absolutely not,nay,negative,no way",
+      "activated": true
+    },
+    {
+      "name": "Greeting",
+      "mode": true,
+      "words": "hello,hi,hey,greetings,good morning,good day,oh , hello,well ,howdy,what's happening,bonjour,buenos dias, hey,salutation,salute,hail,aloha,hi-ya,how goes it,howdy-do,what's up,wassup,hiya,hia,yo,how's it going,whaddup,waddup,heyo,ahoy,heyyy,hi there,heyyyy,whatup,sup,heey,heyy,hola,heeey,hiiiii,heeeey,hiii,heeeeey,heyyyyy,heya,hellooo,yooo,hiiiiii,hiiii,helloooo,hellooooo,helloo,helllo,hiiiiiii,heyyyyyy,heeyy,heyyyyyyy,helloooooo,haiii,helloooooooo,hiiiiiiii,heloo,hellow,hellloooo,haiiii,helllooo,heeyyy,heylo,haii,hullo,hellooooooo,hellllo,heyya,heyhey,hellooooooooo,heyheyhey,assalamualaikum,hiiiiiiiii,heyyo,heyz,heyys,hellohello,yoz",
+      "activated": true
+    },
+    {
+      "name": "Goodbye",
+      "mode": true,
+      "words": "goodbye,bye,cya,good bye,goodnight,bye bye,c ya,seeya,farewell,byebye,goodbyes,good by,goodby,adieu,good night,laterz,good byes,farewells,goodnights,buh bye,fairwell,goobye,farwell,gdbye,so long,buhbye,byeee,sayonara,gudbye,goodbuy,byeeee,byee,byeeeee,bubye,ciaoz,arrivederci,byeeeeee,bbye,byeeeeeee,toodles,gtg,byez,ciaos,cyas,cyaz,bye.,takecare,kbye,nitez,baibai,in a bit",
+      "activated": true
+    },
+    {
+      "name": "Thanks",
+      "mode": true,
+      "words": "thanks,thank you,cheers,thanx,thankyou,thank,thx,thnx,thnks,tnx,thks,thxs,thankz,thankx,thaks,thnaks,thanxs,tyvm,thankss,thax,thnxs,thansk,thxx,thatnks,thanxx,tahnks,thanksss,thnxx,thnkz,tnks,thanxxx,thannks,thans,thakns,thamks,thanz,thaanks,thankks,thnxxx,thenks,thanxz,thankd,thanls,thkx,thnxz,thaaanks,thanksssss,thankssssss,thaaaanks,tnxs,much obliged,ty,thanks so much,thank you so much,gracias,merci,cheers bud,danke,thanks very much,thank you , man,many thanks,well , thank you very much,- thanks ever so",
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "patterns": [],
+  "utterances": [
+    {
+      "text": "\" go back , swhy are you here ? \"",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "\" i need to know the temperature at bangor , sme \"",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "\" tell me perth weather , sclimate & temperature at australia \"",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 10,
+          "endPos": 14
+        }
+      ]
+    },
+    {
+      "text": "11 : 15 am tomorrow reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "4 : 30 tue doc reminder",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 11,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "a reminder to recall calling carlos",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 14,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "a yes from me",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "add a new event on 27 - apr",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "add a new task finish assignment",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "add an event to visit 209 nashville gym",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "add imax theater to my upcoming events",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "add reminder for marry ' s party friday evening at 8",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "alright i am confirming",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "alter eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "alter my eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "am i free to be with friends saturday ?",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "appointment extension request",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "appointment with johnson needs to be next week",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "begin exercise",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "begin exercising",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "begin workout",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "calendar cancel friday with eddy",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "calendar for november 1948",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "calendar i ' ll be at the garage from 8 till 3 this saturday",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "can just be quiet you ' re giving me a headache",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "can you change my reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you click next",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "can you delete my events this saturday ?",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "can you find the reminder that jack turns twenty",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "can you help me ?",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "can you help me here",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "can you restart for me ?",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "can you show me the previous please ?",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel an event on the calendar",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "cancel appointment",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "cancel brawl",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel expanse",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel it",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel meal reminders",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel meal suggestions",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel navigation",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel recipe suggestions",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel reminder for iced tea",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "cancel silent hours",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel tomorrow ' s appointment",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "change eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "change my eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "change reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change reminder time",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "change today ' s course time to 11 pm",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "check friday at 9 am",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "check if i have time for a meeting tonight",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "check lee ' s calender",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "click on previous for me",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "create reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "current weather ?",
+      "intent": "Weather.GetCondition",
+      "entities": []
+    },
+    {
+      "text": "delete doctor ' s appointment on tuesday",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 7,
+          "endPos": 28
+        }
+      ]
+    },
+    {
+      "text": "delete helen fred ' s birthday",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "delete meeting reminders",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 7,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "delete reminder for class",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "delete reminder twenty eight",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 16,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "delete surprise party reminder",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 7,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "delete that and start again",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "display dog groomer reminder",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 8,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "display the previous for me",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "display weekend plans",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "do fl residents usually need ice scrapers",
+      "intent": "Weather.GetCondition",
+      "entities": []
+    },
+    {
+      "text": "do i have anything on wednesday ?",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "don ' t remind me anymore to give johnny his antibiotic",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 29,
+          "endPos": 54
+        }
+      ]
+    },
+    {
+      "text": "dunmore pa sonic sounds friday morning please",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "edit the meeting to be 7 : 30 not 8 : 30",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "extend lunch meeting 30 minutes extra",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "extend reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "find today ' s reminders",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "finished please",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "forecast in celcius",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "free time this afternoon please",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "get florence temperature in september",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 4,
+          "endPos": 11
+        }
+      ]
+    },
+    {
+      "text": "get for me the weather conditions in sonoma county",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 37,
+          "endPos": 49
+        }
+      ]
+    },
+    {
+      "text": "get the daily temperature greenwood indiana",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 26,
+          "endPos": 42
+        }
+      ]
+    },
+    {
+      "text": "get the forcast for me",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "get the weather at saint george utah",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 19,
+          "endPos": 35
+        }
+      ]
+    },
+    {
+      "text": "get white shirts while in the mall later afternoon",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 0,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "give me eating advice",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "give me eating tips",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "give me food ideas",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "go back",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back .",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back on music player",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to amazon",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to google please",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to my contacts",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go back to the beginning",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "go next",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "good i am confirming",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "goodbye",
+      "intent": "Social.Goodbye",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Social.Greeting",
+      "entities": []
+    },
+    {
+      "text": "help me decide what to cook",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "help me eat healthily",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "help me eat well",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "help me exercise",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "help me in rescheduling my calender",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "help me pick a meal",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "help me please",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "help me to start",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "help me to understand more please",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "help me with my eating",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "help me with this",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "help with my device please",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "how do i erase reminders ?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "how many days are there between march 13th 2015 and today ?",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "how much rain does chambersburg get a year",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 19,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "how soon will jack be free ?",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "i ' m done",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i ' m done with that",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i ' m done y ' all",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i am done .",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i don ' t want that . go back home",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "i need to begin over and restart",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "i need to go back",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "i need your help",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "i think i ' m done",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "i want to cancel",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "i want to display the previous message",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "i want to do restart",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "i want to know the temperature at death valley",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 34,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "i want to reschedule tomorrow ' s meeting",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "if you would please turn to previous",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "is keil available tomorrow ?",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "let ' s restart",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "let it finished please",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "let me check the previous item please",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "let me go next please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "let me start it again from scratch",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "let's exercise",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "let's work out",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "locate meeting with maria this week for me",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "marketing meetings on tuesdays will now be every wednesday please change on my calendar",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "meeting adjustment",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "meeting my manager",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "modify eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "modify my eating goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "modify my reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "never mind go back",
+      "intent": "Utilities.GoBack",
+      "entities": []
+    },
+    {
+      "text": "next calendar event",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "next event on my calendar",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "next please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "no thank you",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "not tomorrow please",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "ohh finished",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "ok thanks",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "okay",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "okay for now",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "open other reminders",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "open work reminder",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 5,
+          "endPos": 8
+        }
+      ]
+    },
+    {
+      "text": "phone be quiet for 5 minutes .",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "please do restarting",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "please go next",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "please help me",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "please help me i want to finish",
+      "intent": "Utilities.Help",
+      "entities": []
+    },
+    {
+      "text": "please just delete my meeting",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "please restart the search",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "please show previous .",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "postpone my eight thirty reminder to nine thirty",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "previous one please",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "provide me by toronto weather please",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 14,
+          "endPos": 20
+        }
+      ]
+    },
+    {
+      "text": "pull up my appointment find out how much time i have before my next appointment",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "put to sleep reminder to cut grass on thursday",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "quit help",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "remember fragrances",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 9,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "remember poltergeist",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 9,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "remember to run errands",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 12,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "remember tomorrow",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "remind me about tuesday ' s bake sale at 9 instead of 11",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "remind me to listen to imagine dragons",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "reminder to call henry",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 12,
+          "endPos": 21
+        }
+      ]
+    },
+    {
+      "text": "remove a calendar entry",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "remove my reminder for the grocery shopping this friday",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "repeat 10 times .",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat again",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat again please",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat it again",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat last question please",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat my name three times",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat selection please",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat start time",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat that last joke",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "repeat that please",
+      "intent": "Utilities.Repeat",
+      "entities": []
+    },
+    {
+      "text": "reschedule the remaing time to self study",
+      "intent": "Calendar.Edit",
+      "entities": []
+    },
+    {
+      "text": "reset reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "restart please",
+      "intent": "Utilities.StartOver",
+      "entities": []
+    },
+    {
+      "text": "save the date may 17 pictures party",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "schedule appointment for tomorrow please",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "search for meetings with chris",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "search for the massage reminder",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "second one please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "send me meal suggestions",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "set a reminder for may twenty fifth",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show average rainfall for boise",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 26,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "show me my next appointment",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "show me my next meeting",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "show me samuel ' s availability for tuesday morning",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "show me the forecast at alabama",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 24,
+          "endPos": 30
+        }
+      ]
+    },
+    {
+      "text": "show me the next",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show me the next please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show me the previous",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "show me the reminders",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "show me tomorrow ' s wedding party time",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "show the next please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "show the previous please",
+      "intent": "Utilities.ShowPrevious",
+      "entities": []
+    },
+    {
+      "text": "shut up",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "shut up .",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "soliciting today ' s weather",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "start exercise",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "start exercising",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "start workout",
+      "intent": "Exercise.Start",
+      "entities": []
+    },
+    {
+      "text": "stop any new appointments",
+      "intent": "Calendar.Delete",
+      "entities": []
+    },
+    {
+      "text": "stop it you are really annoying",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "stop listening",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "stop meal suggestions",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop messaging me about meals",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop please",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "stop saying that please",
+      "intent": "Utilities.Stop",
+      "entities": []
+    },
+    {
+      "text": "stop speaking to me about meals",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop speaking to me about recipies",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop suggesting meals",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop suggesting recipies",
+      "intent": "Diet.Cancel",
+      "entities": []
+    },
+    {
+      "text": "suggest a meal",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "suggest a recipe",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "suggest meals",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "suggest recipies",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "sure i confirm",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "tell me the event details",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "temperature of delhi in celsius please",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 15,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "thanks",
+      "intent": "Social.Thanks",
+      "entities": []
+    },
+    {
+      "text": "the meeting will last for one hour",
+      "intent": "Calendar.Add",
+      "entities": []
+    },
+    {
+      "text": "the next please",
+      "intent": "Utilities.ShowNext",
+      "entities": []
+    },
+    {
+      "text": "undo fold laundry reminder",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 5,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "update my meal goals",
+      "intent": "Utilities.UpdateItem",
+      "entities": []
+    },
+    {
+      "text": "update reminder for courthouse",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Reminder.Text",
+          "startPos": 20,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "view tom chros availability",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "voice activated reading of appointments this week",
+      "intent": "Calendar.Find",
+      "entities": []
+    },
+    {
+      "text": "wait never mind i just told you never mind",
+      "intent": "Utilities.Cancel",
+      "entities": []
+    },
+    {
+      "text": "was last year about this time as wet as it is now in the south ?",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 57,
+          "endPos": 61
+        }
+      ]
+    },
+    {
+      "text": "we finished our last task",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "what ' s the weather going to be like in hawaii ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 41,
+          "endPos": 46
+        }
+      ]
+    },
+    {
+      "text": "what ' s the weather like in minneapolis",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 29,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "what do i have on next?",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "what event is next",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "what is the rain volume in sonoma county ?",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 27,
+          "endPos": 39
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in redmond ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 23,
+          "endPos": 29
+        }
+      ]
+    },
+    {
+      "text": "what is the weather today at 10 day durham ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 36,
+          "endPos": 41
+        }
+      ]
+    },
+    {
+      "text": "what reminders do i have tomorrow ?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "what should i eat",
+      "intent": "Diet.Initiate",
+      "entities": []
+    },
+    {
+      "text": "what to wear in march in california",
+      "intent": "Weather.GetCondition",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 25,
+          "endPos": 34
+        }
+      ]
+    },
+    {
+      "text": "what will the weather be tomorrow in accord new york ?",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 37,
+          "endPos": 51
+        }
+      ]
+    },
+    {
+      "text": "what's coming up on my calendar",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "what's next?",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "when is my next appointment?",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "when is my next meeting?",
+      "intent": "Calendar.Next",
+      "entities": []
+    },
+    {
+      "text": "when is paul available ?",
+      "intent": "Calendar.CheckAvailability",
+      "entities": []
+    },
+    {
+      "text": "will it be raining in ranchi",
+      "intent": "Weather.GetForecast",
+      "entities": [
+        {
+          "entity": "Weather.Location",
+          "startPos": 22,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "will it rain this weekend",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "will it snow today",
+      "intent": "Weather.GetForecast",
+      "entities": []
+    },
+    {
+      "text": "yeah l just finished this one",
+      "intent": "Utilities.FinishTask",
+      "entities": []
+    },
+    {
+      "text": "yeah ohh i confirm",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "yep agreed",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    },
+    {
+      "text": "yes i saw",
+      "intent": "Utilities.Confirm",
+      "entities": []
+    }
+  ],
+  "settings": []
+}
