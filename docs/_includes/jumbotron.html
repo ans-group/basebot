@@ -1,14 +1,19 @@
 {% if page.homepage %}
 <div class="bs-docs-masthead" id="jumbotron-header">
-  <div class="container">
-    <h1 class="home-title">Basebot</h1>
-    <p class="lead">A virtual assistant framework by ANS</p>
-    <p class="lead">
-      <a href="{{ site.project.download_url }}" class="btn btn-outline-inverse btn-lg">Download</a>
-    </p>
-    {% if site.project.version %}
-    <p class="version">Currently v{{ site.project.version }}</p>
-    {% endif %}
+  <div class="container row">
+    <div class="col-sm-3">
+      <img src="{{ "/images/bot_icon.png" | relative_url }}" alt="Bot Icon">
+    </div>
+    <div class="col-sm-9">
+      <h1 class="home-title">BaseBot</h1>
+      <p class="lead">A virtual assistant framework by ANS</p>
+      <p class="lead">
+        <a href="{{ site.project.download_url }}" class="btn btn-outline btn-lg">Download</a>
+      </p>
+      {% if site.project.version %}
+      <p class="version">Currently v{{ site.project.version }}</p>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% else %}

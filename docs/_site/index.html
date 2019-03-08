@@ -14,13 +14,13 @@
 <link rel="stylesheet" href="/assets/css/docs.css">
 <link rel="stylesheet" href="/assets/css/styles.css">
 
-<link rel="canonical" href="http://localhost:4000/">
+<link rel="canonical" href="http://localhost:3000/">
 <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
 
 <style>
     #jumbotron-header {
-        background: #52347c;
-        background: linear-gradient(135deg, #52347c, #6e46a0);
+        background: #ddd;
+        background: linear-gradient(135deg, #ddd, #eee);
     }
 </style>
 
@@ -75,15 +75,20 @@
 
   
 <div class="bs-docs-masthead" id="jumbotron-header">
-  <div class="container">
-    <h1 class="home-title">Basebot</h1>
-    <p class="lead">A virtual assistant framework by ANS</p>
-    <p class="lead">
-      <a href="https://github.com/ans-group/basebot/archive/master.zip" class="btn btn-outline-inverse btn-lg">Download</a>
-    </p>
-    
-    <p class="version">Currently v0.1.0</p>
-    
+  <div class="container row">
+    <div class="col-sm-3">
+      <img src="/images/bot_icon.png" alt="Bot Icon">
+    </div>
+    <div class="col-sm-9">
+      <h1 class="home-title">BaseBot</h1>
+      <p class="lead">A virtual assistant framework by ANS</p>
+      <p class="lead">
+        <a href="https://github.com/ans-group/basebot/archive/master.zip" class="btn btn-outline btn-lg">Download</a>
+      </p>
+      
+      <p class="version">Currently v0.1.0</p>
+      
+    </div>
   </div>
 </div>
 
@@ -91,12 +96,18 @@
 
   <div class="container">
   <div class="bs-docs-container row">
+    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
+      <ul class="nav bs-docs-sidenav"></ul>
+
+      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
+        Back to top
+      </a>
+    </div>
+
     <div class="col-md-12" role="main">
-      <div class="bs-docs-section"><p><a href="https://travis-ci.org/webantic/basebot"><img src="https://travis-ci.org/webantic/basebot.svg?branch=master" alt="Build Status" /></a></p>
+      <div class="bs-docs-section"><h1 id="setup">Setup</h1>
 
-<h1 id="setup">Setup</h1>
-
-<p>For an in-depth guide see our <a href="/basebot/getting-started">Getting Started Guide</a></p>
+<p>For an in-depth guide on setting up the relevant services and deploying see our  <a href="/basebot/deployment">Getting Started Guide</a></p>
 
 <p>When you first clone the repo you’ll want to run <code class="highlighter-rouge">npm i</code> to install dependencies. After that, you’ll need two files:</p>
 <ul>
@@ -209,13 +220,6 @@
 </div>
     </div>
 
-    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
-      <ul class="nav bs-docs-sidenav"></ul>
-
-      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
-        Back to top
-      </a>
-    </div>
   </div>
 
   

@@ -1,6 +1,10 @@
 ---
 ---
 
+body {
+  overflow-x: hidden;
+}
+
 .bs-docs-masthead {
   padding-top: 50px;
   padding-bottom: 40px;
@@ -13,8 +17,6 @@
 
 .bs-docs-sidebar {
     display: none;
-    position: -webkit-sticky;
-    position: sticky;
     top: 20px;
 }
 
@@ -37,13 +39,43 @@
 #jumbotron-header {
     position:relative;
 
+    img {
+      width: 100px;
+    }
+
+    .home-title {
+      font-weight: bold;
+    }
+
+    .home-title,
+    .lead {
+      color: #462c6c;
+    }
+
+    @media (min-width: 768px) {
+      text-align: left !important;
+      img, .lead {
+        width: 100%;
+      }
+    }
+
     &:after {
         content: "";
         position: absolute;
-        bottom: 0;
+        bottom: -1px;
         right: 0;
-        height: 50px;
-        width: 30%;
-        background: linear-gradient(135deg, transparent 50px, white 50px);
+        height: 5.3vw;
+        width: 100%;
+        background: linear-gradient(177deg, transparent 5vw, white 5vw);
     }
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: bold;
+  color: #462c6c;
+}
+
+p {
+  line-height: 2;
+  margin-bottom: 1em;
 }

@@ -3,12 +3,9 @@ layout: page
 homepage: true
 ---
 
-[![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot)
-
-
 # Setup
 
-For an in-depth guide see our [Getting Started Guide](/basebot/getting-started)
+For an in-depth guide on setting up the relevant services and deploying see our  [Getting Started Guide](/basebot/deployment)
 
 When you first clone the repo you'll want to run `npm i` to install dependencies. After that, you'll need two files:
 * firebase.json

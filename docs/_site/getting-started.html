@@ -14,13 +14,13 @@
 <link rel="stylesheet" href="/assets/css/docs.css">
 <link rel="stylesheet" href="/assets/css/styles.css">
 
-<link rel="canonical" href="http://localhost:4000/getting-started.html">
+<link rel="canonical" href="http://localhost:3000/getting-started.html">
 <link rel="alternate" type="application/rss+xml" title="" href="/feed.xml">
 
 <style>
     #jumbotron-header {
-        background: #52347c;
-        background: linear-gradient(135deg, #52347c, #6e46a0);
+        background: #ddd;
+        background: linear-gradient(135deg, #ddd, #eee);
     }
 </style>
 
@@ -85,6 +85,14 @@
 
   <div class="container">
   <div class="bs-docs-container row">
+    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
+      <ul class="nav bs-docs-sidenav"></ul>
+
+      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
+        Back to top
+      </a>
+    </div>
+
     <div class="col-md-12" role="main">
       <div class="bs-docs-section"><p>This guide is used to deploy and configure the infrastructure required to run the Base Bot.</p>
 
@@ -240,7 +248,7 @@
 
 <ol>
   <li>
-    <p>Download the LUIS configuration file <strong><a href="../../../../raw/master/documents/luis-ai/base-bot.json">here</a></strong>, make sure the saved file’s extension is .json not .json.txt</p>
+    <p>Download the LUIS configuration file <strong><a href="../../../../raw/master/docs/luis-ai/base-bot.json">here</a></strong>, make sure the saved file’s extension is .json not .json.txt</p>
   </li>
   <li>
     <p>Open the Microsoft LUIS.AI website https://luis.ai/# and login using your normal Azure credentials.</p>
@@ -350,7 +358,7 @@
   <li>
     <p>Click on the <strong>Deploy to Azure</strong> button, you will be asked to login, use your Azure credentials.</p>
 
-    <p><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot-server%2Fmaster%2Ftemplate%2Fazuredeploy.json"><img src="/images/azure_deploy.png" alt="Deploy to Azure" /></a></p>
+    <p><a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fans-group%2Fbasebot%2Fmaster%2Ftemplate%2Fazuredeploy.json"><img src="/images/azure_deploy.png" alt="Deploy to Azure" /></a></p>
   </li>
   <li>
     <p>On the Custom deployment page, complete the fields using the information you collected during the previous steps.</p>
@@ -768,13 +776,6 @@
 </div>
     </div>
 
-    <div class="col-md-3 bs-docs-sidebar hidden-print" role="complementary">
-      <ul class="nav bs-docs-sidenav"></ul>
-
-      <a class="back-to-top" href="#top"> <i class="glyphicon glyphicon-chevron-up"></i>
-        Back to top
-      </a>
-    </div>
   </div>
 
   
