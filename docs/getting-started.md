@@ -376,9 +376,9 @@ ANS have created a CLI tool, that will help simplify the process, of downloading
 
 - Install Flutter? *(Yes - Unless you already have Flutter installed)*
 
-- Create and link Firebase project? *(Yes, you will be asked to sign in with a Google Account - If you select no you will will need to manually create a firebase project with IOS and Android apps, see [Firebase Registration](./documents/firebase-registration/README.md).)*
+- Create and link Firebase project? *(Yes, you will be asked to sign in with a Google Account - If you select no you will will need to manually create a firebase project with IOS and Android apps.)*
 
-- Paste your Direct Line secret *(This was created earlier during the [Azure Bot Channels Registration](./documents/bot-registration/README.md) process.)*
+- Paste your Direct Line secret *(This was created earlier during the [Azure Bot Channels Registration](#bot-channels-registration) process.)*
 
 - Paste your Endpoint Url *(This is the Url of the Azure Webapp hosting the Bot server, it can be found in the template.deployment outputs)*
 
