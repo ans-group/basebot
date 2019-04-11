@@ -3,9 +3,11 @@ layout: page
 homepage: true
 ---
 
-# Setup
+# Deployment
 
-For an in-depth guide on setting up the relevant services and deploying see our  [Getting Started Guide](/basebot/deployment)
+For an in-depth guide on setting up the relevant services and deploying see our [**Getting Started Guide**](/basebot/getting-started)
+
+# Setup
 
 When you first clone the repo you'll want to run `npm i` to install dependencies. After that, you'll need two files:
 * firebase.json
