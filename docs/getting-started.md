@@ -92,7 +92,7 @@ The native mobile application requires a Direct Line channel connection key, to 
 
 Please follow this guide to register and configure LUIS.AI endpoint.
 
-1. Download the LUIS configuration file **[here](../../../../raw/master/docs/luis-ai/base-bot.json)**, make sure the saved file's extension is .json not .json.txt
+1. Download the LUIS configuration file **[here](../../../../basebot/raw/master/docs/base-bot.json)**, make sure the saved file's extension is .json not .json.txt
 
 2. Open the Microsoft LUIS.AI website https://luis.ai/# and login using your normal Azure credentials.
 
