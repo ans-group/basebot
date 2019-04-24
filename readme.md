@@ -1,4 +1,4 @@
-# Basebot [![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot)
+# Basebot [![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 This repo is the brains of Basebot and contains the central "monolithic" server-side app. 
 
@@ -89,4 +89,3 @@ Check out the documentation on some of the main libraries (roughly in order of t
 * [LUIS](https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/what-is-luis)
 * [QNA Maker](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/)
 * [Jest](https://jestjs.io/)
-

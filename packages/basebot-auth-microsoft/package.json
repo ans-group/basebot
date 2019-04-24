@@ -20,8 +20,5 @@
   "dependencies": {
     "simple-oauth2": "^2.2.1"
   },
-  "devDependencies": {
-    "@babel/cli": "^7.4.3",
-    "@babel/core": "^7.4.3"
-  }
+  "gitHead": "d48ba2796bdec1157d173016e5f315f8a7fe540c"
 }
