@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "import-glob"
+  ],
+  "sourceMaps": "inline",
+  "retainLines": true
+}

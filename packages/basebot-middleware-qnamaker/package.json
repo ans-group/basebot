@@ -2,9 +2,10 @@
   "name": "basebot-middleware-qnamaker",
   "version": "0.1.1",
   "description": "Microsoft QNA Maker integration for Basebot",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
+    "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/ans-group/basebot/issues"
   },
-  "homepage": "https://github.com/ans-group/basebot#readme"
+  "homepage": "https://github.com/ans-group/basebot#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3"
+  }
 }
