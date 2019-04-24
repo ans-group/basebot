@@ -1,6 +1,6 @@
 {
   "name": "basebot-logger-debug",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Default logger for Basebot",
   "main": "dist/main.js",
   "scripts": {
