@@ -1,0 +1,23 @@
+{
+  "name": "basebot-middleware-fcm",
+  "version": "0.1.0",
+  "description": "Firebase Cloud Messaging integration for Basebot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ans-group/basebot.git"
+  },
+  "keywords": [
+    "ANS",
+    "Group"
+  ],
+  "author": "ANS Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ans-group/basebot/issues"
+  },
+  "homepage": "https://github.com/ans-group/basebot#readme"
+}

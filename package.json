@@ -5,15 +5,17 @@
   "main": "build/index.js",
   "license": "MIT",
   "scripts": {
+    "webpack": "webpack",
     "start": "node build/index.js",
     "build": "npm install --only=dev && npm test && npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\",\".git\",\".vscode\" --copy-files && npm i --prefix build --source-maps",
     "heroku-prebuild": "npm run build",
     "dev": "nodemon --exec npm run babel-node -- index.js",
-    "babel-node": "babel-node --ignore='node_modules'",
+    "babel-node": "babel-node",
     "test": "jest --detectOpenHandles --env=node --silent --forceExit"
   },
   "dependencies": {
     "@microsoft/microsoft-graph-client": "^1.4.0",
+    "alexa-botkit": "0.0.3",
     "azure-storage": "^2.10.2",
     "body-parser": "^1.18.3",
     "botkit": "^0.7.0",
@@ -33,9 +35,7 @@
     "request-promise-native": "^1.0.5",
     "simple-oauth2": "^2.2.1",
     "striptags": "^3.1.1",
-    "uuid": "^3.3.2",
-    "winston": "^2.4.2",
-    "winston-papertrail": "^1.0.5"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -55,8 +55,11 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^24.1.0",
+    "lerna": "^3.13.1",
     "localtunnel": "^1.9.1",
-    "nodemon": "^1.18.8"
+    "nodemon": "^1.18.8",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
   },
   "repository": {
     "type": "git",

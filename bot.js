@@ -1,4 +1,4 @@
-import './config'
+import './loadEnv'
 import logger from './services/logger'
 import luis from 'botkit-middleware-luis'
 import webserver from './services/webserver'

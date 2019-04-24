@@ -13,35 +13,42 @@ const error = logger('services:http', 'error')
 const cryptr = new Cryptr(process.env.CRYPTR_SECRET || 'unsecure_secret')
 
 export default (app, controller) => {
-  info('serving static assets from /public')
-  app.use(express.static(path.join(__dirname, '/public')))
-  const handlers = {
-    auth: async function (req, res) {
-      const { code, state } = req.query
-      try {
-        const token = await getTokenFromCode(code, res)
-        if (token) {
-          debug(`storing token`)
-          await controller.storage.users.save({ id: state, msToken: cryptr.encrypt(JSON.stringify(token)) })
-          notify({
-            uid: state,
-            text: "Great!, you're now logged in 😊",
-            trigger: 'loginSuccessful',
-            controller
-          })
-        }
-      } catch (err) {
-        error(err)
+  const serveStatic = () => {
+    info('serving static assets from /public')
+    app.use(express.static(path.join(__dirname, '/public')))
+  }
+
+  const authHandler = async function(req, res) {
+    const { code, state } = req.query
+    try {
+      const token = await getTokenFromCode(code, res)
+      if (token) {
+        debug(`storing token`)
+        await controller.storage.users.save({ id: state, msToken: cryptr.encrypt(JSON.stringify(token)) })
         notify({
           uid: state,
-          text: 'Looks like something went wrong 🙁',
-          trigger: 'loginUnsuccessful',
+          text: "Great!, you're now logged in 😊",
+          trigger: 'loginSuccessful',
           controller
         })
       }
-      res.redirect('/login_success.html')
-    },
-    register (req, res) {
+    } catch (err) {
+      error(err)
+      notify({
+        uid: state,
+        text: 'Looks like something went wrong 🙁',
+        trigger: 'loginUnsuccessful',
+        controller
+      })
+    }
+    res.redirect('/login_success.html')
+  }
+
+  serveStatic(app)
+
+  const handlers = {
+    auth: authHandler,
+    register(req, res) {
       try {
         const id = uuid()
         controller.storage.users.save({ id })

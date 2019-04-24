@@ -1,0 +1,23 @@
+{
+  "name": "basebot-logger-papertrail",
+  "version": "0.1.0",
+  "description": "Papertrail integration for Basebot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ans-group/basebot.git"
+  },
+  "author": "ANS Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ans-group/basebot/issues"
+  },
+  "homepage": "https://github.com/ans-group/basebot#readme",
+  "dependencies": {
+    "winston": "^3.2.1",
+    "winston-papertrail": "^1.0.5"
+  }
+}
