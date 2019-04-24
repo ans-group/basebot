@@ -1,6 +1,6 @@
 {
   "name": "basebot",
-  "version": "0.1.2",
+  "version": "0.0.1",
   "description": "Virtual Assistant Framework by ANS Group",
   "main": "build/server.js",
   "license": "MIT",
