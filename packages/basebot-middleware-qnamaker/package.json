@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-qnamaker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Microsoft QNA Maker integration for Basebot",
   "main": "index.js",
   "scripts": {

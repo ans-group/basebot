@@ -1,6 +1,6 @@
 {
   "name": "basebot-storage-azuretables",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Azure table storage integration for Basebot",
   "main": "index.js",
   "scripts": {

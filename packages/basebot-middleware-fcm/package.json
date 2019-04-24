@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-fcm",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Firebase Cloud Messaging integration for Basebot",
   "main": "index.js",
   "scripts": {
