@@ -1,8 +1,6 @@
 # Basebot [![Build Status](https://travis-ci.org/webantic/basebot.svg?branch=master)](https://travis-ci.org/webantic/basebot) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
-This repo is the brains of Basebot and contains the central "monolithic" server-side app. 
-
-
+## v1.0.0 has been released, please bear with us while we rewrite the documentation
 
 
 Getting Started
