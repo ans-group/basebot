@@ -4,4 +4,4 @@
  * (e.g. basebot-storage-azuretables)
  *******************************************************/
 
-export { default } from 'basebot-storage-firestore'
+export { default } from '../production/storage'

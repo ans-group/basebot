@@ -1,5 +1,5 @@
 import startCase from 'lodash/startCase'
-import logger from '../services'
+import { logger } from '../services'
 
 const debug = logger('skills:onboarding', 'debug')
 const error = logger('skills:onboarding', 'error')

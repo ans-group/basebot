@@ -4,17 +4,20 @@ const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   mode: 'development',
-  entry: {
-    main: ['webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000', './index.js']
-  },
+  // entry: [
+  //   'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
+  //   './index.js'
+  // ],
+  entry: './index.js',
   output: {
     path: path.join(__dirname, 'build'),
-    publicPath: '/',
-    filename: '[name].js'
+    publicPath: '/public',
+    filename: 'main.js'
   },
   devtool: 'source-map',
   devServer: {
-    contentBase: './build'
+    contentBase: './build',
+    stats: 'errors-only'
   },
   target: 'node',
   node: {
@@ -28,7 +31,7 @@ module.exports = {
       {
         enforce: 'pre',
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /..\//],
         loader: 'eslint-loader',
         options: {
           emitWarning: true,
@@ -39,9 +42,13 @@ module.exports = {
       {
         // Transpiles ES6-8 into ES5
         test: /\.js$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /..\//],
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            presents: ['@babel/preset-env'],
+            plugins: ['import-glob']
+          }
         }
       }
     ]

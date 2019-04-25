@@ -1,12 +1,10 @@
 import mapValues from 'lodash/mapValues'
-import { logger } from '../'
+import logger from './logger'
 /*********************************************************
  * Register any basebot compatible auth handlers here.
  * For example, we are using the microsoft auth handler below
  *******************************************************/
 
-import microsoft from 'basebot-auth-microsoft'
-
-const handlers = { microsoft }
+const handlers = { }
 
 export default mapValues(handlers, handler => handler(logger))

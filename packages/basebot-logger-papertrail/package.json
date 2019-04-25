@@ -2,7 +2,7 @@
   "name": "basebot-logger-papertrail",
   "version": "0.5.1",
   "description": "Papertrail integration for Basebot",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
     "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"

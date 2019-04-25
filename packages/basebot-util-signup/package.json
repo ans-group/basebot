@@ -2,7 +2,7 @@
   "name": "basebot-util-signup",
   "version": "0.5.1",
   "description": "Generates a UUID for a user",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
     "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"

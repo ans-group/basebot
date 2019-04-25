@@ -1,26 +1,26 @@
 import Oauth2 from 'simple-oauth2'
 import Cryptr from 'cryptr'
 
-const requiredValues = [
-  'MS_APP_ID',
-  'MS_APP_PASSWORD',
-  'MS_APP_SCOPES',
-  'MS_REDIRECT_URI'
-]
-
-requiredValues.forEach(key => {
-  if (!process.env[key]) {
-    throw new Error(`Config Error: ${key} is required`)
-  }
-})
-
-if (!process.env.CRYPTR_SECRET && process.env.NODE_ENV === 'production') {
-  throw new Error('CRYPTR_SECRET is required in production')
-}
-
 const oauth2 = oAuthInit()
 
 export default (logger) => {
+  const requiredValues = [
+    'MS_APP_ID',
+    'MS_APP_PASSWORD',
+    'MS_APP_SCOPES',
+    'MS_REDIRECT_URI'
+  ]
+
+  requiredValues.forEach(key => {
+    if (!process.env[key]) {
+      throw new Error(`Config Error: ${key} is required`)
+    }
+  })
+
+  if (!process.env.CRYPTR_SECRET && process.env.NODE_ENV === 'production') {
+    throw new Error('CRYPTR_SECRET is required in production')
+  }
+
   const debug = logger('auth', 'debug')
   const info = logger('auth', 'info')
   const error = logger('auth', 'error')

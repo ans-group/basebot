@@ -3,9 +3,13 @@
  * including localtunnel when applicable
  ***************************************/
 import forEach from 'lodash/forEach'
+import path from 'path'
 import express from 'express'
 import register from 'basebot-util-signup'
-import { storage, logger, channels, auth } from '../'
+import storage from './storage'
+import logger from './logger'
+import channels from './channels'
+import auth from './auth'
 
 const error = logger('webserver', 'error')
 const info = logger('webserver', 'info')
@@ -22,9 +26,9 @@ webserver
 webserver.get('/register', register(storage))
 
 /* register controller webhook endpoints */
-forEach(channels, ({ controller, registerEndpoints }) => {
+forEach(channels, ({ controller, listen }) => {
   controller.webserver = webserver
-  controller.listen()
+  listen(controller)
 })
 
 /* register auth endpoints */
@@ -40,7 +44,7 @@ export default webserver
 /**
   * Event listener for HTTP server "error" event.
 */
-function onError (err) {
+function onError(err) {
   if (err.syscall !== 'listen') {
     throw err
   }
@@ -52,23 +56,23 @@ function onError (err) {
 
   // handle specific listen errors with friendly messages
   switch (err.code) {
-    case 'EACCES':
-      error(`${bind} requires elevated privileges`)
-      process.exit(1)
-      break
-    case 'EADDRINUSE':
-      error(`${bind} is already in use`)
-      process.exit(1)
-      break
-    default:
-      throw err
+  case 'EACCES':
+    error(`${bind} requires elevated privileges`)
+    process.exit(1)
+    break
+  case 'EADDRINUSE':
+    error(`${bind} is already in use`)
+    process.exit(1)
+    break
+  default:
+    throw err
   }
 }
 
 /**
  * Event listener for HTTP server "listening" event.
 */
-function onListening () {
+function onListening() {
   const addr = server.address()
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`

@@ -1,6 +1,6 @@
 import db from './firebase'
 
-export default logger => {
+export default (logger = () => console.log) => {
   const debug = logger('services:storage:azureTables', 'debug')
   const error = logger('services:storage:azureTables', 'error')
 

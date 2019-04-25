@@ -1,5 +1,5 @@
 import productionMiddleware from '../production/middleware'
-import { logger } from '../'
+import logger from './logger'
 
 const logMiddleware = logger => async function(bot, message, next) {
   const debug = logger('messages', 'debug')

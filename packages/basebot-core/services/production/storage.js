@@ -5,6 +5,6 @@
  *******************************************************/
 
 import storage from 'basebot-storage-firestore'
-import { logger } from '../'
+import logger from './logger'
 
 export default storage(logger)

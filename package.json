@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "lerna run dev --parallel watch",
     "build": "lerna run build --parallel",
-    "server-only": "cd packages/basebot-server && npm run dev"
+    "server-only": "cd packages/basebot-core && npm run dev"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

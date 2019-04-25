@@ -1,9 +1,7 @@
-import './loadEnv'
-import 'source-map-support/register'
 import forEach from 'lodash/forEach'
 import groupBy from 'lodash/groupBy'
 import { logger, channels, middleware, server } from './services'
-import * as skills from './skills/*'
+import * as skills from './skills/debug'
 
 const info = logger('main', 'info')
 
@@ -20,16 +18,11 @@ info('Setting up skills')
 forEach(skills, definitions => definitions.forEach(applySkill))
 
 // default response
-controller.hears('.*', 'message_received', defaultResponse)
+forEach(channels, ({ controller }) => {
+  controller.hears('.*', 'message_received', defaultResponse)
+})
 
 info('bot online')
-
-/*
-  Webpack hot module reloading
-*/
-if (typeof (module.hot) !== 'undefined') {
-  module.hot.accept() // eslint-disable-line no-undef
-}
 
 function defaultResponse(bot, message) {
   bot.reply(message, "Sorry, didn't catch that")
@@ -38,7 +31,7 @@ function defaultResponse(bot, message) {
 function applySkill(skill) {
   const trigger = skill.intent || skill.event || skill.pattern
   const hearMiddleware = groupedMiddleware.hear || []
-  forEach((channels, channelName), ({ controller }) => {
+  forEach(channels, ({ controller }, channelName) => {
     const filteredHandlers = hearMiddleware.filter(filterHandlers(channelName))
     controller.hears(
       trigger,
@@ -67,4 +60,11 @@ function filterHandlers(channelName) {
     const typeValid = !handler.triggers || handler.channels.includes(channelName)
     return channelValid && typeValid
   }
+}
+
+/*
+  Webpack hot module reloading
+*/
+if (typeof (module.hot) !== 'undefined') {
+  module.hot.accept() // eslint-disable-line no-undef
 }

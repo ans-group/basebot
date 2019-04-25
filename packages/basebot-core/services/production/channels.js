@@ -11,30 +11,33 @@
  *******************************************************/
 import { anywhere } from 'botkit'
 import alexabot from 'alexa-botkit'
-import { storage, logger } from '../'
+import storage from './storage'
+import logger from './logger'
 
 const info = logger('channels', 'info')
 
-const botOptions = { storage}
+const botOptions = { storage }
 
-const web = {
-  controller: anywhere(botOptions),
-  options: {},
-  listen() {
-    this.controller.openSocketServer(this.controller.webserver)
-    this.controller.startTicking()
-    info('Web bot online')
+const channels = {
+  web: {
+    controller: anywhere(botOptions),
+    options: {},
+    listen(controller) {
+      controller.openSocketServer(controller.webserver)
+      controller.startTicking()
+      info('Web bot online')
+    }
+  },
+  alexa: {
+    controller: alexabot(botOptions),
+    options: {},
+    listen(controller) {
+      const bot = controller.spawn({})
+      controller.createWebhookEndpoints(controller.webserver, bot)
+      controller.startTicking()
+      info('Alexa bot online')
+    }
   }
 }
-const alexa = {
-  controller: alexabot(botOptions),
-  options: {},
-  listen() {
-    const bot = this.controller.spawn({})
-    controller.createWebhookEndpoints(this.controller.webserver, bot)
-    this.controller.startTicking()
-    info('Alexa bot online')
-  }
-}
 
-export { web, alexa }
+export default channels

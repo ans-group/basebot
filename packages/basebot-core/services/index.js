@@ -46,6 +46,6 @@ const modules = {
   }
 }
 
-const { auth, logger, storage, channels, server } = modules[process.env.NODE_ENV || 'development']
+const { auth, logger, storage, channels, server, middleware } = modules[process.env.NODE_ENV || 'development']
 
-export { auth, logger, storage, channels, server }
+export { auth, logger, storage, channels, server, middleware }
