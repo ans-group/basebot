@@ -1,5 +1,5 @@
 {
-  "name": "basebot-middleware-qnamaker",
+  "name": "basebot-util-qnamaker",
   "version": "0.5.1",
   "description": "Microsoft QNA Maker integration for Basebot",
   "main": "dist/main.js",
