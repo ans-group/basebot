@@ -1,6 +1,6 @@
 {
   "name": "basebot-controller-alexa",
-  "version": "0.0.1",
+  "version": "0.5.1",
   "description": "Alexa controller for Basebot",
   "main": "dist/index.js",
   "scripts": {

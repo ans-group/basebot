@@ -1,6 +1,6 @@
 {
   "name": "basebot-util-signup",
-  "version": "0.0.1",
+  "version": "0.5.1",
   "description": "Generates a UUID for a user",
   "main": "dist/main.js",
   "scripts": {
