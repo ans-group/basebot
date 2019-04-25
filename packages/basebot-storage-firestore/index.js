@@ -1,44 +1,60 @@
-import { db } from './firebase'
+import db from './firebase'
 
-const teamsRef = db.collection('teams')
-const usersRef = db.collection('users')
-const channelsRef = db.collection('channels')
+export default logger => {
+  const debug = logger('services:storage:azureTables', 'debug')
+  const error = logger('services:storage:azureTables', 'error')
 
-const driver = {
-  teams: {
-    get: get(teamsRef),
-    save: save(teamsRef),
-    all: all(teamsRef)
-  },
-  channels: {
-    get: get(channelsRef),
-    save: save(channelsRef),
-    all: all(channelsRef)
-  },
-  users: {
-    get: get(usersRef),
-    save: save(usersRef),
-    all: all(usersRef)
-  }
-}
-export default driver
+  const teamsRef = db.collection('teams')
+  const usersRef = db.collection('users')
+  const channelsRef = db.collection('channels')
 
-function get (firebaseRef) {
-  return id => new Promise((resolve, reject) => firebaseRef.doc(id).get().then(doc => {
-    if (!doc.exists) {
-      reject(Error('Document not found'))
-    } else {
-      resolve(doc.data())
+  const driver = {
+    teams: {
+      get: get(teamsRef),
+      save: save(teamsRef),
+      all: all(teamsRef)
+    },
+    channels: {
+      get: get(channelsRef),
+      save: save(channelsRef),
+      all: all(channelsRef)
+    },
+    users: {
+      get: get(usersRef),
+      save: save(usersRef),
+      all: all(usersRef)
     }
-  }).catch(reject))
-}
+  }
 
-function save (firebaseRef) {
-  return data => firebaseRef.doc(data.id).set(data, { merge: true })
-}
+  function get(firebaseRef) {
+    return id => new Promise((resolve, reject) => firebaseRef.doc(id).get().then(doc => {
+      debug(`attempting to fetch document with ID: ${id}`)
+      if (!doc.exists) {
+        reject(Error('Document not found'))
+        err('Document not found')
+      } else {
+        debug(`document retrieved:`, doc.data())
+        resolve(doc.data())
+      }
+    }).catch(reject))
+  }
 
-function all (firebaseRef) {
-  return () => new Promise((resolve, reject) => firebaseRef.get().then(snapshot => {
-    resolve(snapshot.toArray().map(doc => doc.data()))
-  }).catch(reject))
+  function save(firebaseRef) {
+    return data => {
+      debug('saving: ', data)
+      return firebaseRef.doc(data.id).set(data, { merge: true })
+    }
+  }
+
+  function all(firebaseRef) {
+    return () => new Promise((resolve, reject) => firebaseRef.get().then(snapshot => {
+      debug(`fetching all ${firebaseRef} records`)
+      resolve(snapshot.toArray().map(doc => doc.data()))
+    }).catch(err => {
+      error(err)
+      reject(err)
+    }))
+  }
+
+  return driver
 }

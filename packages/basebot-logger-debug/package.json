@@ -16,6 +16,11 @@
   "bugs": {
     "url": "https://github.com/ans-group/basebot/issues"
   },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  },
   "homepage": "https://github.com/ans-group/basebot#readme",
-  "gitHead": "d48ba2796bdec1157d173016e5f315f8a7fe540c"
+  "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4"
 }

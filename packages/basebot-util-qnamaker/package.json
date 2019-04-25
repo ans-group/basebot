@@ -1,7 +1,7 @@
 {
-  "name": "basebot-storage-azuretables",
+  "name": "basebot-middleware-qnamaker",
   "version": "0.0.1",
-  "description": "Azure table storage integration for Basebot",
+  "description": "Microsoft QNA Maker integration for Basebot",
   "main": "dist/main.js",
   "scripts": {
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
@@ -19,7 +19,7 @@
   "homepage": "https://github.com/ans-group/basebot#readme",
   "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4",
   "dependencies": {
-    "azure-storage": "^2.10.3"
+    "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",

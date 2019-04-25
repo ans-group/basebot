@@ -1,7 +1,7 @@
 {
-  "name": "basebot-storage-azuretables",
+  "name": "basebot-middleware-registerdevicetoken",
   "version": "0.0.1",
-  "description": "Azure table storage integration for Basebot",
+  "description": "registers a devices push token",
   "main": "dist/main.js",
   "scripts": {
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
@@ -16,14 +16,10 @@
   "bugs": {
     "url": "https://github.com/ans-group/basebot/issues"
   },
-  "homepage": "https://github.com/ans-group/basebot#readme",
-  "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4",
-  "dependencies": {
-    "azure-storage": "^2.10.3"
-  },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3"
-  }
+  },
+  "homepage": "https://github.com/ans-group/basebot#readme"
 }

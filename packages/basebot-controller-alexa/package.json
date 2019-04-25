@@ -1,8 +1,8 @@
 {
   "name": "basebot-controller-alexa",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "Alexa controller for Basebot",
-  "main": "dist/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
     "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"
@@ -17,5 +17,9 @@
     "url": "https://github.com/ans-group/basebot/issues"
   },
   "homepage": "https://github.com/ans-group/basebot#readme",
-  "gitHead": "d48ba2796bdec1157d173016e5f315f8a7fe540c"
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  }
 }
