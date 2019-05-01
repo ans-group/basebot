@@ -118,7 +118,6 @@ module.exports = class extends Generator {
       '__tests__',
       'mocks',
       'public',
-      '.gitignore',
       'Dockerfile',
       '.dockerignore',
       '.babelrc',
@@ -134,6 +133,9 @@ module.exports = class extends Generator {
       'services/logger/index.js',
       'services/logger/development.js',
     ].forEach(quickCopy.bind(this))
+    
+    //create .gitignore 
+    this.fs.copyTpl(this.templatePath('.gi'), this.destinationPath('.gitignore'))
 
     // env vars
     const vars = [
