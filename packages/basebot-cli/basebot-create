@@ -4,10 +4,9 @@ const program = require('commander')
 const chalk = require('chalk')
 const yeoman = require('yeoman-environment')
 const env = yeoman.createEnv()
-env.register(require.resolve('generator-basebot'), 'basebot')
+env.register(require.resolve('generator-basebot'), 'basebot:app')
 
 program.parse(process.argv)
-
 const spinner = new Spinner(chalk.yellow('%s'))
 spinner.setSpinnerString(22)
 
