@@ -1,20 +1,19 @@
 #!/usr/bin/env node
-const Spinner = require('cli-spinner').Spinner
 const program = require('commander')
 const chalk = require('chalk')
 const yeoman = require('yeoman-environment')
-const env = yeoman.createEnv()
-const Generator = require('generator-basebot').app
-env.registerStub(Generator, 'basebot:app')
-
-program.parse(process.argv)
-const spinner = new Spinner(chalk.yellow('%s'))
-spinner.setSpinnerString(22)
-
 const { log, error } = console
+const env = yeoman.createEnv()
+env.register(require.resolve('generator-basebot'))
 
-env.run('basebot:app', () => {
-  log('✔ ' + chalk.green('Project Created'))
-  log('Check your .env file to add any environmental configuration you might need')
-  spinner.stop(true)
+env.lookup(() => {
+  env.run('basebot:app', {}, err => {
+    if (err) {
+      log(chalk.red('Something went wrong:'))
+      error(err)
+      process.exit(1)
+    }
+    log('✔ ' + chalk.green('Project Created'))
+    log('Check your .env file to add any environmental configuration you might need')
+  })
 })
