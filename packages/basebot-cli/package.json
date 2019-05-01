@@ -1,6 +1,6 @@
 {
   "name": "basebot-cli",
-  "version": "2.0.11",
+  "version": "2.0.12",
   "description": "Helps with basebot-related tasks",
   "bin": {
     "basebot": "basebot"
