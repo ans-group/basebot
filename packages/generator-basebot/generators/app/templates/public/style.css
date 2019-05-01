@@ -1,0 +1,15 @@
+.hero {
+    text-align: center;
+    background: #2e104b;
+    color: #fff;
+    height: 100vh;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.hero-image {
+    width: 50px;
+    margin: 0 auto;
+}

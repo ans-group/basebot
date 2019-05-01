@@ -61,6 +61,7 @@
     "webpack-cli": "^3.3.1",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-dev-server": "^3.3.1",
+    "webpack-hot-client": "^4.1.1",
     "webpack-hot-middleware": "^2.24.4",
     "webpack-node-externals": "^1.7.2"
   }

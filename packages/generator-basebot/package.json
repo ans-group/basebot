@@ -1,0 +1,26 @@
+{
+  "name": "generator-basebot",
+  "version": "1.0.0",
+  "description": "Yeoman Generator for Basebot",
+  "main": "index.js",
+  "files": [
+    "generators"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ans-group/basebot.git"
+  },
+  "author": "ANS Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ans-group/basebot/issues"
+  },
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/ans-group/basebot#readme",
+  "dependencies": {
+    "fs-jetpack": "^2.2.2",
+    "yeoman-generator": "^3.2.0"
+  }
+}

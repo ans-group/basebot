@@ -1,0 +1,23 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "standard"
+  ],
+  "rules": {
+    "no-undef": 0,
+    "space-before-function-paren": [
+      "error",
+      "never"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "import/first": 0,
+    "no-extra-semi": "error",
+    "no-debugger": 0,
+    "no-console": 1,
+    "no-unused-vars": 1
+  }
+}
