@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+const Spinner = require('cli-spinner').Spinner
+const chalk = require('chalk')
+const flutter = require('./helpers/flutter')
+const spinner = new Spinner(chalk.yellow('%s'))
+const { log, error } = console
+
+spinner.setSpinnerString(22)
+spinner.setSpinnerTitle('Generating Icons...')
+spinner.start()
+
+flutter.runAsync(['packages', 'get'])
+  .then(() => flutter.runAsync(['packages', 'pub', 'run', 'flutter_launcher_icons:main']))
+  .then(() => {
+    spinner.stop(true)
+    log('✔ ' + chalk.green('Icons Successfully Generated'))
+  })
+  .catch(err => {
+    spinner.stop(true)
+    error(chalk.red(err))
+  })

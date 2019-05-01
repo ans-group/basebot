@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const inquirer = require('inquirer')
+const chalk = require('chalk')
+const flutter = require('./helpers/flutter')
+const Spinner = require('cli-spinner').Spinner
+const spinner = new Spinner(chalk.yellow('%s'))
+
+spinner.setSpinnerString(22)
+
+const { log, error } = console
+
+program.parse(process.argv)
+
+const prompt = inquirer.createPromptModule()
+const questions = [
+  {
+    name: 'platforms',
+	message: 'Which platforms do you want to build for?',
+	type: 'list',
+    choices: ['IOS', 'Android']
+  }
+]
+
+prompt(questions).then(({platforms}) => {
+	if (platforms === 'Android') flutter.run(['build', 'apk'])
+	else if (platforms === 'IOS') flutter.run(['build', 'ios', '--debug', '--no-codesign'])
+})
