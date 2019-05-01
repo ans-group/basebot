@@ -11,6 +11,9 @@
   "bugs": {
     "url": "https://github.com/ans-group/basebot/issues"
   },
+  "scripts": {
+    "postinstall": "npm install -g generator-basebot"
+  },
   "homepage": "https://github.com/ans-group/basebot#readme",
   "dependencies": {
     "add-to-path": "^1.1.2",
