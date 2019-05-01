@@ -1,11 +1,11 @@
 const path = require('path')
 const jetpack = require('fs-jetpack')
 const Generator = require('yeoman-generator')
-const coreDeps = require('../../coredeps')
-const packageNames = require('../../packageNames')
-const defaultVars = require('../../defaultVars')
-const channelImports = require('../../channelImports')
-const authImports = require('../../authImports')
+const coreDeps = require('./coredeps')
+const packageNames = require('./packageNames')
+const defaultVars = require('./defaultVars')
+const channelImports = require('./channelImports')
+const authImports = require('./authImports')
 
 module.exports = class extends Generator {
   async prompting() {
