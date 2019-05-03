@@ -1,12 +1,21 @@
 import { core } from 'botkit'
-import express from 'express'
-import bodyParser from 'body-parser'
+import request from 'request'
 import AlexaResponse from 'alexa-response'
-import AlexaRequest from 'alexa-req'
 
 const AlexaBot = (configuration) => {
   // Create a core botkit bot
   const alexaBot = core(configuration || {})
+
+  alexaBot.on('sessionStart', (bot, message) => {
+    bot.send({
+      text: configuration.welcomeMessage || 'Hi, how can I help?',
+      user: message.user,
+      channel: message.channel,
+      to: message.user,
+      send: message.raw_message.send,
+      question: true
+    })
+  })
 
   // customize the bot definition, which will be used when new connections
   // spawn!
@@ -44,15 +53,45 @@ const AlexaBot = (configuration) => {
     }
 
     bot.send = (message) => {
-      const { resp } = message
-      const isString = typeof resp === 'string'
-      message.src.response.send((isString && AlexaResponse.say(resp) || resp).build())
+      const { text, question, progressive, send, typing } = message
+      if (progressive || typing) {
+        request({
+          method: 'POST',
+          url: `${message.alexa.apiEndpoint}/v1/directives`,
+          auth: {
+            bearer: message.alexa.apiAccessToken
+          },
+          json: true,
+          body: {
+            header: {
+              requestId: message.channel
+            },
+            directive: {
+              type: 'VoicePlayer.Speak',
+              speech: text
+            }
+          }
+        })
+      } else {
+        const reply = question
+          ? AlexaResponse.ask(text)
+          : AlexaResponse.say(text)
+        send(reply.build())
+      }
     }
 
     bot.reply = (src, resp, cb) => {
-      const msg = { src, resp }
+      const message = typeof (resp) == 'string'
+        ? { text: resp }
+        : resp
 
-      bot.say(msg, cb)
+      message.user = src.user
+      message.channel = src.channel
+      message.to = src.user
+      message.send = src.send
+      message.alexa = src.alexa
+
+      bot.send(message, cb)
     }
 
     return bot
@@ -62,40 +101,31 @@ const AlexaBot = (configuration) => {
   alexaBot.createWebhookEndpoints = (webserver, bot) => {
     // notify the user that the webhook is running
     alexaBot.log(`** Serving webhook endpoint for Alexa Platform at: http://${alexaBot.config.hostname}:${alexaBot.config.port}/alexa/receive`)
-    webserver.post('/alexa/receive', (req, res) => {
+    webserver.post('/alexa/receive', ({ body }, res) => {
       alexaBot.debug('GOT A MESSAGE HOOK')
 
+      const normalizeTypes = {
+        LaunchRequest: 'sessionStart',
+        IntentRequest: 'message_received',
+        SessionEndedRequest: 'conversationEnded'
+      }
+
       // parse the request from alexa
-      const alexa = new AlexaRequest(req.body)
-      const message = {
-        text: alexa.getIntentName(),
-        user: alexa.getUserId(),
-        channel: alexa.getUserId(),
-        timestamp: alexa.getTimeStamp(),
-        response: res,
-        alexa }
-
-      // notify botkit we received a message
-      alexaBot.receiveMessage(bot, message)
-    })
-
-    return alexaBot
-  }
-
-  alexaBot.setupWebserver = (port, cb) => {
-    if (!port) {
-      throw new Error('Cannot start webserver without a port')
-    }
-
-    alexaBot.config.port = port
-
-    alexaBot.webserver = express()
-    alexaBot.webserver.use(bodyParser.json())
-    alexaBot.webserver.use(bodyParser.urlencoded({ extended: true }))
-
-    alexaBot.webserver.listen(alexaBot.config.port, alexaBot.config.hostname, () => {
-      alexaBot.log(`** Starting Alexa webserver on port ${alexaBot.config.port}`)
-      if (cb) { cb(null, alexaBot.webserver) }
+      const { session, request, context } = body
+      let payload = {
+        text: request.intent ? request.intent.name : '',
+        type: normalizeTypes[request.type] || request.type,
+        intent: request.intent,
+        slots: request.intent && request.intent.slots,
+        user: session && session.user && session.user.userId,
+        channel: request && request.requestId,
+        timestamp: request.timestamp,
+        platform: 'alexa',
+        alexa: context && context.System,
+        send: (...args) => res.send(...args)
+      }
+      // notify botkit we received an event
+      alexaBot.ingest(bot, payload, res)
     })
 
     return alexaBot
