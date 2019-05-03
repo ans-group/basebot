@@ -119,6 +119,7 @@ module.exports = class extends Generator {
       'mocks',
       'public',
       'Dockerfile',
+      'docker-compose.yml',
       '.dockerignore',
       '.babelrc',
       'Procfile',
