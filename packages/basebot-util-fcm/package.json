@@ -4,6 +4,7 @@
   "description": "Firebase Cloud Messaging integration for Basebot",
   "main": "dist/index.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
     "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"
   },
