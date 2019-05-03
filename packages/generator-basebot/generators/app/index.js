@@ -97,7 +97,7 @@ module.exports = class extends Generator {
       "description": "Virtual Assistant built with Basebot",
       "main": "build/main.js",
       "scripts": {
-        "start": "NODE_ENV=production node build/main.js",
+        "start": "webpack --mode=production && NODE_ENV=production node build/main.js",
         "build": "webpack --mode=production",
         "heroku-prebuild": "npm run build",
         "dev": "npx node-env-run --exec 'webpack' && npx node-env-run build/main.js",
