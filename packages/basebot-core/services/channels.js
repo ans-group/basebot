@@ -12,6 +12,7 @@
 import { anywhere } from 'botkit'
 import storage from './storage'
 import logger from './logger'
+import alexabot from 'basebot-controller-alexa'
 
 const info = logger('channels', 'info')
 
@@ -26,17 +27,17 @@ const channels = {
       controller.startTicking()
       info('Web bot online')
     }
+  },
+  alexa: {
+    controller: alexabot(botOptions),
+    options: {},
+    listen(controller) {
+      const bot = controller.spawn({})
+      controller.createWebhookEndpoints(controller.webserver, bot)
+      controller.startTicking()
+      info('Alexa bot online')
+    }
   }
-// alexa: {
-//   controller: alexabot(botOptions),
-//   options: {},
-//   listen(controller) {
-//     const bot = controller.spawn({})
-//     controller.createWebhookEndpoints(controller.webserver, bot)
-//     controller.startTicking()
-//     info('Alexa bot online')
-//   }
-// }
 }
 
 export default channels

@@ -29,7 +29,7 @@ export default [
   },
   {
     pattern: 'debug:typing',
-    response: async function(bot, message) {
+    handler: async function(bot, message) {
       bot.startConversation(message, (err, convo) => {
         if (err) return error(err)
         convo.say({

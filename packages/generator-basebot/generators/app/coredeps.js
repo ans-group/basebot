@@ -19,12 +19,10 @@ module.exports = {
     'jest': '^24.7.1',
     'localtunnel': '^1.9.1',
     'node-env-run': '^3.0.2',
+    'nodemon': '^1.19.0',
+    'npm-run-all': '^4.1.5',
     'webpack': '^4.30.0',
     'webpack-cli': '^3.3.1',
-    'webpack-dev-middleware': '^3.6.2',
-    'webpack-dev-server': '^3.3.1',
-    'webpack-hot-client': '^4.1.1',
-    'webpack-hot-middleware': '^2.24.4',
     'webpack-node-externals': '^1.7.2'
   }
 }

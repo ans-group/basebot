@@ -4,32 +4,12 @@
  ***************************************/
 
 import localtunnel from 'localtunnel'
-import webpackDevMiddleware from 'webpack-dev-middleware'
-import webpackHotClient from 'webpack-hot-client'
-import webpack from 'webpack'
 import logger from '../logger'
-import config from '../../webpack.config'
 import webserver from './production'
-
-const compiler = webpack(config)
 
 const debug = logger('webserver', 'debug')
 const info = logger('webserver', 'info')
 const error = logger('webserver', 'error')
-
-/* use various webpack middlewares */
-const { server } = webpackHotClient(compiler, {})
-
-server.on('listening', () => {
-  webserver.use(webpackDevMiddleware(compiler, {
-    logger: {info,debug,error},
-    noInfo: true,
-    hot: true,
-    publicPath: config.output.publicPath,
-    stats: 'errors-only',
-    historyApiFallback: true
-  }))
-})
 
 /* start localtunnel */
 startTunnel()

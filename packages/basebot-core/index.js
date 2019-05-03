@@ -4,9 +4,13 @@ import { logger, channels, middleware, server } from './services'
 import * as skills from './skills'
 
 const info = logger('main', 'info')
-
 // start server
 server.listen(process.env.PORT || 3000)
+
+// handle intents
+forEach(channels, ({ controller }) => {
+  controller.middleware.receive.use(handleIntents)
+})
 
 // activate middleware
 const groupedMiddleware = groupBy(middleware, 'type')
@@ -29,9 +33,10 @@ function defaultResponse (bot, message) {
 }
 
 function applySkill (skill) {
-  const trigger = skill.intent || skill.event || skill.pattern
-  const hearMiddleware = groupedMiddleware.hear || []
-  forEach(channels, ({ controller }, channelName) => {
+  forEach(channels, skill.event ? mapEvents : mapHears)
+  function mapHears ({ controller }, channelName) {
+    const trigger = skill.intent || skill.pattern
+    const hearMiddleware = groupedMiddleware.hear || []
     const filteredHandlers = hearMiddleware.filter(filterHandlers(channelName))
     controller.hears(
       trigger,
@@ -39,18 +44,23 @@ function applySkill (skill) {
       ...filteredHandlers,
       (bot, message) => skill.handler(bot, message, controller)
     )
-  })
+  }
+
+  function mapEvents ({ controller }, channelName) {
+    const trigger = skill.event
+    controller.on(trigger, (bot, message) => skill.handler(bot, message, controller))
+  }
 }
 
 function applyMiddleware (type) {
   if (
-    !groupedMiddleware['type'] ||
+    !groupedMiddleware[type] ||
     !['receive', 'send', 'heard', 'capture'].includes(type)
     ) return
-  forEach(channels, (channel, channelName) => {
-    groupedMiddleware['type']
+  forEach(channels, ({ controller }, channelName) => {
+    groupedMiddleware[type]
       .filter(item => !item.channels || item.channels.includes(channelName))
-      .forEach(item => controller.middleware['type'].use(item.handler))
+      .forEach(item => controller.middleware[type].use(item.handler))
   })
 }
 
@@ -62,9 +72,16 @@ function filterHandlers (channelName) {
   }
 }
 
-/*
-  Webpack hot module reloading
-*/
-if (typeof (module.hot) !== 'undefined') {
-  module.hot.accept() // eslint-disable-line no-undef
+function handleIntents (bot, message, next) {
+  if (message.intent) {
+    message.text = typeof message.intent === 'string'
+      ? message.intent
+      : message.intent.name
+  }
+  if (message.entities) {
+    for (var e = 0; e < message.entities.length; e++) {
+      convo.setVar(message.entities[e].name, message.entities[e].value)
+    }
+  }
+  next()
 }

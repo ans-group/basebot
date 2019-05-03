@@ -7,8 +7,13 @@ const error = logger('skills:onboarding', 'error')
 export default [
   {
     event: 'conversationUpdate',
-    response: async function(bot, message, controller) {
-      const user = await controller.storage.users.get(message.user)
+    handler: async function(bot, message, controller) {
+      let user
+      try {
+        user = await controller.storage.users.get(message.user)
+      } catch (err) {
+        debug(err)
+      }
       debug(`User = `, user)
       if (user && user.name) {
         bot.reply(message, { text: `Hey ${user.name} 👋` })
@@ -23,7 +28,7 @@ export default [
       bot.startConversation(message, (err, convo) => {
         if (err) return error(err)
         convo.say({ text: `Hey there! 👋 \n\nI'm ${process.env.BOT_NAME || 'Basebot'}.`, typing: true })
-        convo.ask(`What's your name?'`, (response, convo) => {
+        convo.ask({text: `What's your name?'`, question: true}, (response, convo) => {
           const name = startCase(response.text)
           convo.setVar('name', name)
           controller.storage.users.save({ id: message.user, name }).catch(err => error(err))
