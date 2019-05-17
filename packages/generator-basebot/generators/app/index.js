@@ -100,8 +100,8 @@ module.exports = class extends Generator {
         "start": "node .",
         "build": "rm -rf ./build && npm run build-server && npm run build-docker",
         "build-docker": "cd build && docker build -t basebot-core .",
-        "build-server": "npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\",\".git\",\".vscode\" --copy-files --source-maps && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
-        "dev": "DEBUG=server* nodemon --exec babel-node -- ./index.js"
+        "build-server": "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
+        "dev": "DEBUG=server* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'"
       },
       "keywords": [
         "bots",
