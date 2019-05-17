@@ -10,5 +10,6 @@ module.exports = {
   'MySQL': 'botkit-storage-mysql',
   'Amazon Alexa (voice)': 'basebot-controller-alexa',
   'Microsoft LUIS': 'basebot-middleware-luis',
-  'Amazon LEX': 'basebot-middleware-lex'
+  'Amazon LEX': 'basebot-middleware-lex',
+  'Direct (Web, Apps etc)': 'basebot-controller-web'
 }

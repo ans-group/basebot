@@ -24,7 +24,7 @@ const botOptions = { storage }
 const channels = {
   <% if (channels.includes('Direct (Web, Apps etc)')) { %>
   direct: {
-    controller: botkit.anywhere(botOptions),
+    controller: webBot,
     listen(controller) {
       controller.httpserver = controller.webserver
       controller.webserver.post('/botkit/receive', function (req, res) {

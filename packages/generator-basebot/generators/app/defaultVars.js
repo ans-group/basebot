@@ -61,5 +61,8 @@ module.exports = {
     { key: 'AWS_REGION', initialValue: 'eu-west-2' },
     { key: 'LEX_BOT_NAME' },
     { key: 'LEX_BOT_ALIAS' }
+  ],
+  'Direct (Web, Apps etc)': [
+    {key: 'WS_PORT', initialValue: '3001'}
   ]
 }
