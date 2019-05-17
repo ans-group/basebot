@@ -16,7 +16,7 @@ export default (logger = () => console.log) => {
   const storage = {}
   const keys = ['teams', 'channels', 'users', 'responses']
   keys.forEach(function (type) {
-    storage[type] = getStorage(db, config.dynamoTable, type)
+    storage[type] = getStorage(db, dynamoTable, type)
   })
 
   return storage
