@@ -1,8 +1,8 @@
-var Botkit = require(__dirname + '/CoreBot.js')
-var WebSocket = require('ws')
+import Botkit from 'botkit/lib/CoreBot'
+import WebSocket from 'ws';
 
 function WebBot (configuration) {
-  var controller = Botkit(configuration || {})
+  const controller = Botkit(configuration || {});
   const error = configuration.logger 
     ? configuration.logger.error('controller:web', 'error')
     : console.error
@@ -13,13 +13,13 @@ function WebBot (configuration) {
 
   controller.excludeFromConversations(['hello', 'welcome_back', 'reconnect'])
 
-  controller.openSocketServer = function (server, wsconfig = {port: 3001}) {
+  controller.openSocketServer = (server, wsconfig = {port: 3001}) => {
 
     // create the socket server along side the existing webserver.
-    var wss = new WebSocket.Server({
+    const wss = new WebSocket.Server({
       server,
       ...wsconfig
-    })
+    });
 
     // Expose the web socket server object to the controller so it can be used later.
     controller.wss = wss
@@ -32,7 +32,7 @@ function WebBot (configuration) {
       ws.isAlive = true
       ws.on('pong', heartbeat)
       // search through all the convos, if a bot matches, update its ws
-      var bot = controller.spawn()
+      const bot = controller.spawn();
       bot.ws = ws
       bot.connected = true
 
@@ -41,11 +41,11 @@ function WebBot (configuration) {
           var message = JSON.parse(message)
           controller.ingest(bot, message, ws)
         } catch (e) {
-          var alert = [
+          const alert = [
             `Error parsing incoming message from websocket.`,
             `Message must be JSON, and should be in the format documented here:`,
             `https://botkit.ai/docs/readme-web.html#message-objects`
-          ]
+          ];
           error(alert.join('\n'))
           error(e)
         }
@@ -53,7 +53,7 @@ function WebBot (configuration) {
 
       ws.on('error', (err) => error('Websocket Error: ', err))
 
-      ws.on('close', function () {
+      ws.on('close', () => {
         bot.connected = false
       })
     })
@@ -70,7 +70,7 @@ function WebBot (configuration) {
     }, 30000)
   }
 
-  controller.middleware.ingest.use(function (bot, message, reply_channel, next) {
+  controller.middleware.ingest.use((bot, message, reply_channel, next) => {
 
     /*
      * this could be a message from the WebSocket
@@ -89,7 +89,7 @@ function WebBot (configuration) {
     bot.findConversation({
       user: message.user,
       channel: message.channel
-    }, function (convo) {
+    }, convo => {
       if (convo) {
         if (bot.ws) {
           // replace the websocket connection
@@ -111,7 +111,7 @@ function WebBot (configuration) {
     })
   })
 
-  controller.middleware.categorize.use(function (bot, message, next) {
+  controller.middleware.categorize.use((bot, message, next) => {
     if (message.type == 'message') {
       message.type = 'message_received'
     }
@@ -120,8 +120,8 @@ function WebBot (configuration) {
   })
 
   // simple message clone because its already in the right format!
-  controller.middleware.format.use(function (bot, message, platform_message, next) {
-    for (var key in message) {
+  controller.middleware.format.use((bot, message, platform_message, next) => {
+    for (const key in message) {
       platform_message[key] = message[key]
     }
     if (!platform_message.type) {
@@ -130,13 +130,13 @@ function WebBot (configuration) {
     next()
   })
 
-  controller.defineBot(function (botkit, config) {
-    var bot = {
+  controller.defineBot((botkit, config) => {
+    const bot = {
       type: 'socket',
-      botkit: botkit,
+      botkit,
       config: config || {},
       utterances: botkit.utterances
-    }
+    };
 
     bot.startConversation = function (message, cb) {
       botkit.startConversation(this, message, cb)
@@ -146,12 +146,12 @@ function WebBot (configuration) {
       botkit.createConversation(this, message, cb)
     }
 
-    bot.send = function (message, cb) {
+    bot.send = (message, cb) => {
       if (bot.connected || !bot.ws) {
         if (bot.ws) {
           try {
             if (bot.ws && bot.ws.readyState === WebSocket.OPEN) {
-              bot.ws.send(JSON.stringify(message), function (err) {
+              bot.ws.send(JSON.stringify(message), err => {
                 if (cb) {
                   return cb(err, message)
                 }
@@ -177,21 +177,21 @@ function WebBot (configuration) {
           }
         }
       } else {
-        setTimeout(function () {
+        setTimeout(() => {
           bot.send(message, cb)
         }, 3000)
       }
     }
 
-    bot.startTyping = function () {
+    bot.startTyping = () => {
       if (bot.connected) {
         try {
           if (bot.ws && bot.ws.readyState === WebSocket.OPEN) {
             bot.ws.send(JSON.stringify({
               type: 'typing'
-            }), function (err) {
+            }), err => {
               if (err) {
-                error('startTyping failed: ' + err.message)
+                error(`startTyping failed: ${err.message}`)
               }
             })
           } else {
@@ -203,49 +203,47 @@ function WebBot (configuration) {
       }
     }
 
-    bot.typingDelay = function (message) {
-      return new Promise(function (resolve) {
-        var typingLength = 0
-        if (message.typingDelay) {
-          typingLength = message.typingDelay
+    bot.typingDelay = ({typingDelay, text}) => new Promise(resolve => {
+      let typingLength = 0;
+      if (typingDelay) {
+        typingLength = typingDelay
+      } else {
+        let textLength;
+        if (text) {
+          textLength = text.length
         } else {
-          var textLength
-          if (message.text) {
-            textLength = message.text.length
-          } else {
-            textLength = 80 // default attachment text length
-          }
-
-          var avgWPM = 150
-          var avgCPM = avgWPM * 7
-
-          typingLength = Math.min(Math.floor(textLength / (avgCPM / 60)) * 1000, 2000) * controller.config.typingDelayFactor
+          textLength = 80 // default attachment text length
         }
 
-        setTimeout(function () {
-          resolve()
-        }, typingLength)
-      })
-    }
+        const avgWPM = 150;
+        const avgCPM = avgWPM * 7;
 
-    bot.replyWithTyping = function (src, resp, cb) {
+        typingLength = Math.min(Math.floor(textLength / (avgCPM / 60)) * 1000, 2000) * controller.config.typingDelayFactor
+      }
+
+      setTimeout(() => {
+        resolve()
+      }, typingLength)
+    })
+
+    bot.replyWithTyping = ({user, channel}, resp, cb) => {
       bot.startTyping()
-      bot.typingDelay(resp).then(function () {
+      bot.typingDelay(resp).then(() => {
         if (typeof (resp) == 'string') {
           resp = {
             text: resp
           }
         }
 
-        resp.user = src.user
-        resp.channel = src.channel
-        resp.to = src.user
+        resp.user = user
+        resp.channel = channel
+        resp.to = user
 
         bot.say(resp, cb)
       })
     }
 
-    bot.reply = function (src, resp, cb) {
+    bot.reply = (src, resp, cb) => {
       if (typeof (resp) == 'string') {
         resp = {
           text: resp
@@ -263,14 +261,14 @@ function WebBot (configuration) {
       }
     }
 
-    bot.findConversation = function (message, cb) {
-      botkit.debug('CUSTOM FIND CONVO', message.user, message.channel)
-      for (var t = 0; t < botkit.tasks.length; t++) {
-        for (var c = 0; c < botkit.tasks[t].convos.length; c++) {
+    bot.findConversation = ({user, channel, type}, cb) => {
+      botkit.debug('CUSTOM FIND CONVO', user, channel)
+      for (let t = 0; t < botkit.tasks.length; t++) {
+        for (let c = 0; c < botkit.tasks[t].convos.length; c++) {
           if (
             botkit.tasks[t].convos[c].isActive() &&
-            botkit.tasks[t].convos[c].source_message.user == message.user &&
-            botkit.excludedEvents.indexOf(message.type) == -1 // this type of message should not be included
+            botkit.tasks[t].convos[c].source_message.user == user &&
+            !botkit.excludedEvents.includes(type) // this type of message should not be included
           ) {
             botkit.debug('FOUND EXISTING CONVO!')
             cb(botkit.tasks[t].convos[c])
@@ -286,72 +284,68 @@ function WebBot (configuration) {
      * return info about the specific instance of this bot
      * including identity information, and any other info that is relevant
      */
-    bot.getInstanceInfo = function (cb) {
-      return new Promise(function (resolve) {
-        var instance = {
-          identity: {},
-          team: {}
+    bot.getInstanceInfo = cb => new Promise(resolve => {
+      const instance = {
+        identity: {},
+        team: {}
+      };
+
+      if (bot.identity) {
+        instance.identity.name = bot.identity.name
+        instance.identity.id = bot.identity.id
+
+        instance.team.name = bot.identity.name
+        instance.team.url = bot.identity.root_url
+        instance.team.id = bot.identity.name
+      } else {
+        instance.identity.name = 'Botkit Web'
+        instance.identity.id = 'web'
+      }
+
+      if (cb) cb(null, instance)
+      resolve(instance)
+    })
+
+    bot.getMessageUser = (message, cb) => new Promise(resolve => {
+      // normalize this into what botkit wants to see
+      controller.storage.users.get(message.user, (err, user) => {
+        if (!user) {
+          user = {
+            id: message.user,
+            name: 'Unknown',
+            attributes: {}
+          }
         }
 
-        if (bot.identity) {
-          instance.identity.name = bot.identity.name
-          instance.identity.id = bot.identity.id
+        const profile = {
+          id: user.id,
+          username: user.name,
+          first_name: user.attributes.first_name || '',
+          last_name: user.attributes.last_name || '',
+          full_name: user.attributes.full_name || '',
+          email: user.attributes.email, // may be blank
+          gender: user.attributes.gender, // no source for this info
+          timezone_offset: user.attributes.timezone_offset,
+          timezone: user.attributes.timezone
+        };
 
-          instance.team.name = bot.identity.name
-          instance.team.url = bot.identity.root_url
-          instance.team.id = bot.identity.name
-        } else {
-          instance.identity.name = 'Botkit Web'
-          instance.identity.id = 'web'
+        if (cb) {
+          cb(null, profile)
         }
-
-        if (cb) cb(null, instance)
-        resolve(instance)
+        resolve(profile)
       })
-    }
-
-    bot.getMessageUser = function (message, cb) {
-      return new Promise(function (resolve) {
-        // normalize this into what botkit wants to see
-        controller.storage.users.get(message.user, function (err, user) {
-          if (!user) {
-            user = {
-              id: message.user,
-              name: 'Unknown',
-              attributes: {}
-            }
-          }
-
-          var profile = {
-            id: user.id,
-            username: user.name,
-            first_name: user.attributes.first_name || '',
-            last_name: user.attributes.last_name || '',
-            full_name: user.attributes.full_name || '',
-            email: user.attributes.email, // may be blank
-            gender: user.attributes.gender, // no source for this info
-            timezone_offset: user.attributes.timezone_offset,
-            timezone: user.attributes.timezone
-          }
-
-          if (cb) {
-            cb(null, profile)
-          }
-          resolve(profile)
-        })
-      })
-    }
+    })
 
     return bot
   })
 
-  controller.handleWebhookPayload = function (req, res) {
-    var payload = req.body
+  controller.handleWebhookPayload = ({body}, res) => {
+    const payload = body;
     controller.ingest(controller.spawn({}), payload, res)
   }
 
   // change the speed of typing a reply in a conversation
-  controller.setTypingDelayFactor = function (delayFactor) {
+  controller.setTypingDelayFactor = delayFactor => {
     controller.config.typingDelayFactor = delayFactor
   }
 
@@ -361,4 +355,4 @@ function WebBot (configuration) {
   return controller
 }
 
-module.exports = WebBot
+export default WebBot;
