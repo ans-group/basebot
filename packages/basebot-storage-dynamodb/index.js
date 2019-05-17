@@ -13,7 +13,9 @@ export default (logger = () => console.log) => {
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   dynamoTable})
 
-  var storage = {}['teams', 'channels', 'users', 'responses'].forEach(function (type) {
+  const storage = {}
+  const keys = ['teams', 'channels', 'users', 'responses']
+  keys.forEach(function (type) {
     storage[type] = getStorage(db, config.dynamoTable, type)
   })
 
