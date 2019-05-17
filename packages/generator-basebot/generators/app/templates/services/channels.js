@@ -26,7 +26,15 @@ const channels = {
   direct: {
     controller: botkit.anywhere(botOptions),
     listen(controller) {
-      controller.openSocketServer(controller.webserver)
+      controller.httpserver = controller.webserver
+      controller.webserver.post('/botkit/receive', function (req, res) {
+        res.status(200)
+        controller.handleWebhookPayload(req, res)
+      })
+      controller.openSocketServer(controller.webserver, {
+        clientTracking: true,
+        port: process.env.WS_PORT || 3001
+      })
       controller.startTicking()
       info('Web bot online')
     }

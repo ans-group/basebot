@@ -17,9 +17,9 @@ module.exports = {
     { key: 'FIREBASE', initialValue: '(YOUR FIREBASE SERVICE ACCOUNT JSON)' }
   ],
   'AWS DynamoDB': [
-    { key: 'DYNAMO_REGION', initialValue: 'eu-west-2' },
-    { key: 'DYNAMO_ACCESS_KEY_ID'},
-    { key: 'DYNAMO_ACCESS_KEY'}
+    { key: 'AWS_REGION', initialValue: 'eu-west-2' },
+    { key: 'AWS_ACCESS_KEY_ID'},
+    { key: 'AWS_SECRET_ACCESS_KEY'}
   ],
   'MongoDB': [
     { key: 'DB_URL', initialValue: '(YOUR MONGO URI)' }
@@ -58,7 +58,7 @@ module.exports = {
     { key: 'TWILIO_NUMBER' }
   ],
   'Amazon LEX': [
-    { key: 'LEX_REGION', initialValue: 'eu-west-2' },
+    { key: 'AWS_REGION', initialValue: 'eu-west-2' },
     { key: 'LEX_BOT_NAME' },
     { key: 'LEX_BOT_ALIAS' }
   ]

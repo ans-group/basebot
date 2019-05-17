@@ -3,7 +3,7 @@ import startCase from 'lodash/startCase'
 export default [
   {
     intent: 'Social.Greeting',
-    response: async function(bot, message, controller) {
+    handler: async function(bot, message, controller) {
       controller.trigger('conversationUpdate', [bot, message, controller])
     }
   },
@@ -15,7 +15,7 @@ export default [
   },
   {
     pattern: ['what is my name', 'who am i'],
-    response: async function(bot, message, controller) {
+    handler: async function(bot, message, controller) {
       const user = await controller.storage.users.get(message.user)
       if (user && user.name) {
         bot.reply(message, `You're ${user.name}! I'd never forget you 😁`)

@@ -97,14 +97,11 @@ module.exports = class extends Generator {
       "description": "Virtual Assistant built with Basebot",
       "main": "build/main.js",
       "scripts": {
-        "prepublish": "npm run build",
-        "start": "webpack --mode=production && NODE_ENV=production node build/main.js",
-        "build": "webpack --mode=production",
-        "heroku-prebuild": "npm run build",
-        "watch:build": "node-env-run --exec 'webpack --watch'",
-        "watch:server": "node-env-run --exec 'nodemon \"./build/main.js\" --watch \"./build\"'",
-        "dev": "npx npm-run-all --parallel watch:server watch:build",
-        "test": "jest --detectOpenHandles --env=node --silent --forceExit"
+        "start": "node .",
+        "build": "rm -rf ./build && npm run build-server && npm run build-docker",
+        "build-docker": "cd build && docker build -t basebot-core .",
+        "build-server": "npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\"mocks\",\".git\",\".vscode\" --copy-files --source-maps && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
+        "dev": "DEBUG=server* nodemon --exec babel-node -- ./index.js"
       },
       "keywords": [
         "bots",
@@ -194,7 +191,10 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('./services/middleware/production.js'),
       this.destinationPath('./services/middleware/production.js'),
-      { luis: this.answers.nlpModule === 'Microsoft LUIS' }
+      { 
+        luis: this.answers.nlpModule === 'Microsoft LUIS',
+        lex: this.answers.nlpModule === 'Amazon LEX'
+      }
     )
   }
   

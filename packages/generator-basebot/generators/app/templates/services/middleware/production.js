@@ -5,6 +5,9 @@ import logger from '../logger'
 <% if (luis) { -%>
 import luis from 'basebot-middleware-luis'
 <% }; -%>
+<% if (lex) { -%>
+import lex from 'basebot-middleware-lex'
+<% }; -%>
 
 export default [
   <% if (luis) { %>
@@ -15,6 +18,16 @@ export default [
   {
     type: 'hear',
     handler: luis(logger).hearIntent
+  },
+  <% }; %>
+  <% if (lex) { %>
+  {
+    type: 'receive',
+    handler: lex(logger).receive
+  },
+  {
+    type: 'heard',
+    handler: lex(logger).heard
   },
   <% }; %>
 ]

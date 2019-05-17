@@ -7,7 +7,7 @@ const error = logger('skills:onboarding', 'error')
 export default [
   {
     event: 'conversationUpdate',
-    response: async function(bot, message, controller) {
+    handler: async function(bot, message, controller) {
       const user = await controller.storage.users.get(message.user)
       debug(`User = `, user)
       if (user && user.name) {
