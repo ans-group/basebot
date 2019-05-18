@@ -56,7 +56,7 @@ export default (logger) => {
 
   function heard (bot, message, next) {
     if (message.lex && message.lex.dialogState === 'Fulfilled' && message.lex.intentName !== null) {
-      return bot.reply(message, message.lex.message)
+      return bot.reply(message, message.lex.response)
     }
     next()
   }
