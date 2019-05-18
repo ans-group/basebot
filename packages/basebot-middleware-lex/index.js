@@ -44,7 +44,7 @@ export default (logger) => {
           }
           debug('response received from Lex:', message.lex)
           if (data.intentName) {
-            message.intent === intentName
+            message.intent === data.intentName
           }
           next()
         }
