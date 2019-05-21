@@ -15,6 +15,7 @@
     "test": "jest --detectOpenHandles --env=node --silent --forceExit"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "basebot-auth-microsoft": "^2.1.0",
     "basebot-controller-alexa": "^2.1.9",
     "basebot-controller-web": "^2.1.6",

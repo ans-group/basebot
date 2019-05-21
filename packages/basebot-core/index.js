@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import forEach from 'lodash/forEach'
 import groupBy from 'lodash/groupBy'
 import { logger, channels, middleware, server } from './services'

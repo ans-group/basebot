@@ -2,7 +2,8 @@ module.exports = {
   'dependencies': {
     'botkit': '^0.7.0',
     'dedent': '^0.7.0',
-    'lodash': '^4.17.11'
+    'lodash': '^4.17.11',
+    '@babel/polyfill': '^7.4.4'
   },
   'devDependencies': {
     '@babel/cli': '^7.4.3',
