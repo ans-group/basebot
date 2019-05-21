@@ -4,7 +4,7 @@
  * (e.g. basebot-storage-azuretables)
  *******************************************************/
 
-import storage from 'basebot-storage-firestore'
+import storage from 'basebot-storage-dynamodb'
 import logger from '../logger'
 
 export default storage(logger)

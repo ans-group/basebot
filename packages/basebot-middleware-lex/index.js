@@ -17,15 +17,17 @@ export default (logger) => {
       return
     }
 
-    if (message.is_echo || message.type === 'self_message') {
+    if (message.is_echo || message.type === 'self_message' || message.alexa) {
       next()
       return
     }
+    debug(`userId: ${message.user}`)
     var params = {
       botAlias: process.env.LEX_BOT_ALIAS,
       botName: process.env.LEX_BOT_NAME,
       inputText: message.text,
-      userId: message.user,
+      // FIXME - alexa provides a UID with > 200 characters - this will be massively truncated as a result and could even lead to unintentional session hijacking
+      userId: message.user.substr(0, 100),
       requestAttributes: message.requestAttributes,
       sessionAttributes: message.sessionAttributes
     }
@@ -55,9 +57,13 @@ export default (logger) => {
   }
 
   function heard (bot, message, next) {
+    console.log('----------------------')
+    console.log(bot)
+    console.log('----------------------')
     if (message.lex && message.lex.dialogState === 'Fulfilled' && message.lex.intentName !== null) {
       return bot.reply(message, message.lex.response)
     }
+    console.log('****')
     next()
   }
 }

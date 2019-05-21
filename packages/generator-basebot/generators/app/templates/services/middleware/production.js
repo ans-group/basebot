@@ -8,6 +8,9 @@ import luis from 'basebot-middleware-luis'
 <% if (lex) { -%>
 import lex from 'basebot-middleware-lex'
 <% }; -%>
+<% if (alexa) { -%>
+import { heard as alexaMiddleware } from 'basebot-controller-alexa'
+<% }; -%>
 
 export default [
   <% if (luis) { %>
@@ -29,5 +32,11 @@ export default [
     type: 'heard',
     handler: lex(logger).heard
   },
+  <% }; %>
+  <% if (alexa) { %>
+  {
+    type: 'heard',
+    handler: alexaMiddleware(storage)
+  }
   <% }; %>
 ]

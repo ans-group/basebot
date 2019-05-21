@@ -2,11 +2,27 @@ import { core } from 'botkit'
 import request from 'request'
 import AlexaResponse from 'alexa-response'
 
+export const heard = storage => (bot, message, next) => {
+  if (message.alexa && message.intent && message.intent.name && storage && storage.responses) {
+    console.log(`fetching intent: ${message.intent.name}`)
+    storage.responses.get(message.intent.name)
+      .then(response => {
+        if (response) {
+          return bot.reply(message, response.response)
+        }
+        next()
+      })
+  } else {
+    next()
+  }
+}
+
 const AlexaBot = (configuration) => {
   // Create a core botkit bot
   const alexaBot = core(configuration || {})
 
   alexaBot.on('sessionStart', (bot, message) => {
+    if (!message) return
     bot.send({
       text: configuration.welcomeMessage || 'Hi, how can I help?',
       user: message.user,
@@ -110,14 +126,16 @@ const AlexaBot = (configuration) => {
         SessionEndedRequest: 'conversationEnded'
       }
 
-      // parse the request from alexa
       const { session, request, context } = body
+      const userIdArr = session && session.user && session.user.userId && session.user.userId.split('.')
+      const userId = userIdArr && userIdArr[userIdArr.length - 1]
+      // parse the request from alexa
       let payload = {
         text: request.intent ? request.intent.name : '',
         type: normalizeTypes[request.type] || request.type,
         intent: request.intent,
         slots: request.intent && request.intent.slots,
-        user: session && session.user && session.user.userId,
+        user: userId,
         channel: request && request.requestId,
         timestamp: request.timestamp,
         platform: 'alexa',

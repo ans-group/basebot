@@ -9,7 +9,7 @@
  * * twiliosmsbot - SMS (via Twilio)
  * * anywhere - Web, Apps etc
  *******************************************************/
-import { anywhere } from 'botkit'
+import webBot from 'basebot-controller-web'
 import storage from './storage'
 import logger from './logger'
 import alexabot from 'basebot-controller-alexa'
@@ -20,10 +20,14 @@ const botOptions = { storage}
 
 const channels = {
   web: {
-    controller: anywhere(botOptions),
+    controller: webBot(botOptions),
     options: {},
     listen(controller) {
-      controller.openSocketServer(controller.webserver)
+      controller.webserver.post('/botkit/receive', function (req, res) {
+        res.status(200)
+        controller.handleWebhookPayload(req, res)
+      })
+      controller.openSocketServer(controller.webserver, {port: process.env.WS_PORT || 3001})
       controller.startTicking()
       info('Web bot online')
     }

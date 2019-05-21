@@ -193,7 +193,8 @@ module.exports = class extends Generator {
       this.destinationPath('./services/middleware/production.js'),
       { 
         luis: this.answers.nlpModule === 'Microsoft LUIS',
-        lex: this.answers.nlpModule === 'Amazon LEX'
+        lex: this.answers.nlpModule === 'Amazon LEX',
+        alexa: this.answers.channelModules.includes('Amazon Alexa (voice)')
       }
     )
   }

@@ -20,8 +20,8 @@
   "homepage": "https://github.com/ans-group/basebot#readme",
   "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4",
   "dependencies": {
-    "aws-sdk": "^2.457.0",
-    "dynasty": "^0.3.15"
+    "aws-sdk": "^2.459.0",
+    "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.3",
