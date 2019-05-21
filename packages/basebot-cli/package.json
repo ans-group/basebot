@@ -32,5 +32,6 @@
     "simple-git": "^1.107.0",
     "socket.io-client": "^2.2.0",
     "yeoman-environment": "^2.3.4"
-  }
+  },
+  "gitHead": "2ead7a0d23a6aa2e5e3689956997a1f806e13351"
 }

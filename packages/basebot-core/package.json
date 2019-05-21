@@ -48,7 +48,7 @@
     "botkit"
   ],
   "author": "calvin.evans@ansgroup.co.uk",
-  "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4",
+  "gitHead": "2ead7a0d23a6aa2e5e3689956997a1f806e13351",
   "devDependencies": {
     "@babel/cli": "^7.4.3",
     "@babel/core": "^7.4.3",
