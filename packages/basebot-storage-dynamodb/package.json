@@ -1,6 +1,6 @@
 {
   "name": "basebot-storage-dynamodb",
-  "version": "2.1.9",
+  "version": "2.1.12",
   "description": "DynamoDB integration for Basebot",
   "main": "dist/index.js",
   "scripts": {
