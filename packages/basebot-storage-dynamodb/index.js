@@ -3,9 +3,12 @@ import { DynamoDB } from 'aws-sdk'
 import mapValues from 'lodash/mapValues'
 
 export default (logger = () => console.log) => {
-  if (!process.env.AWS_REGION || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_ACCESS_KEY_ID) throw new Error('AWS_REGION, AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID are required')
   const debug = logger('services:storage:dynamoDB', 'debug')
   const error = logger('services:storage:dynamoDB', 'error')
+
+  if (!process.env.AWS_REGION || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_ACCESS_KEY_ID) {
+    error('AWS_REGION, AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID are required')
+  }
 
   const db = new DynamoDB({region: process.env.AWS_REGION})
   const storage = {}

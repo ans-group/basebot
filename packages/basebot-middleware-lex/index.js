@@ -5,8 +5,13 @@ const lex = new LexRuntime({
 })
 
 export default (logger) => {
-  if (!process.env.AWS_REGION || !process.env.LEX_BOT_NAME || !process.env.LEX_BOT_ALIAS) throw new Error('AWS_REGION, LEX_BOT_NAME and LEX_BOT_ALIAS must be set')
+  const error = logger('middleware:lex', 'error')
   const debug = logger('middleware:lex', 'debug')
+
+  if (!process.env.AWS_REGION || !process.env.LEX_BOT_NAME || !process.env.LEX_BOT_ALIAS) {
+    error('AWS_REGION, LEX_BOT_NAME and LEX_BOT_ALIAS must be set')
+  }
+
   return {
     receive,
   heard}

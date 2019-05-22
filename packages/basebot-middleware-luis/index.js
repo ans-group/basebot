@@ -1,7 +1,10 @@
 import request from 'request'
 
 export default (logger) => {
-  if (!process.env.LUIS_URI) throw new Error('LUIS_URI must be set')
+  const error = logger('middleware:luis', 'error')
+  if (!process.env.LUIS_URI) {
+    error('LUIS_URI must be set')
+  }
 
   return {receive,hearIntent}
 
