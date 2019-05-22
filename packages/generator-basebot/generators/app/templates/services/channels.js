@@ -25,16 +25,8 @@ const channels = {
   <% if (channels.includes('Direct (Web, Apps etc)')) { %>
   direct: {
     controller: webBot,
-    listen(controller) {
-      controller.httpserver = controller.webserver
-      controller.webserver.post('/botkit/receive', function (req, res) {
-        res.status(200)
-        controller.handleWebhookPayload(req, res)
-      })
-      controller.openSocketServer(controller.webserver, {
-        clientTracking: true,
-        port: process.env.WS_PORT || 3001
-      })
+    listen(controller, server) {
+      controller.openSocketServer(server, {path:'/socket'})
       controller.startTicking()
       info('Web bot online')
     }

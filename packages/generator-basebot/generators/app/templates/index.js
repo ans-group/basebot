@@ -1,12 +1,10 @@
 import '@babel/polyfill'
 import forEach from 'lodash/forEach'
 import groupBy from 'lodash/groupBy'
-import { logger, channels, middleware, server } from './services'
+import { logger, channels, middleware } from './services'
 import * as skills from './skills'
 
 const info = logger('main', 'info')
-// start server
-server.listen(process.env.PORT || 3000)
 
 // handle intents
 forEach(channels, ({ controller }) => {

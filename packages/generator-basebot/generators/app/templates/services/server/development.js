@@ -5,7 +5,7 @@
 
 import localtunnel from 'localtunnel'
 import logger from '../logger'
-import webserver from './production'
+import app from './production'
 
 const debug = logger('webserver', 'debug')
 const info = logger('webserver', 'info')
@@ -14,7 +14,7 @@ const error = logger('webserver', 'error')
 /* start localtunnel */
 startTunnel()
 
-export default webserver
+export default app
 
 function startTunnel () {
   if (!process.env.USE_LT_SUBDOMAIN) return

@@ -4,6 +4,7 @@
  ***************************************/
 import forEach from 'lodash/forEach'
 import path from 'path'
+import http from 'http'
 import express from 'express'
 import register from 'basebot-util-signup'
 import storage from '../storage'
@@ -14,32 +15,36 @@ import auth from '../auth'
 const error = logger('webserver', 'error')
 const info = logger('webserver', 'info')
 
-const webserver = express()
+const app = express()
+const server = http.createServer(app)
 
 /* set up various express things */
-webserver
+app
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
   .use(express.static(path.join(__dirname, 'public')))
 
 /* set up a /register endpoints for UUID generation */
-webserver.get('/register', register(storage))
+app.get('/register', register(storage))
 
 /* register controller webhook endpoints */
 forEach(channels, ({ controller, listen }) => {
-  controller.webserver = webserver
-  listen(controller)
+  controller.webserver = app
+  listen(controller, server)
 })
 
 /* register auth endpoints */
 forEach(auth, handler => {
-  handler.registerEndpoints(webserver, storage)
+  handler.registerEndpoints(app, storage)
 })
 
-webserver.on('error', onError)
-webserver.on('listening', onListening)
+app.on('error', onError)
+app.on('listening', onListening)
 
-export default webserver
+// start server
+server.listen(process.env.PORT || 3000)
+
+export default app
 
 /**
   * Event listener for HTTP server "error" event.
