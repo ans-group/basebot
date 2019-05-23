@@ -1,6 +1,6 @@
 {
   "name": "basebot-core",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "Virtual Assistant Framework by ANS Group",
   "main": "build/main.js",
   "license": "MIT",
@@ -21,7 +21,7 @@
     "basebot-controller-web": "^2.1.6",
     "basebot-logger-debug": "^2.1.0",
     "basebot-logger-papertrail": "^2.1.0",
-    "basebot-middleware-lex": "^2.1.12",
+    "basebot-middleware-lex": "^2.1.13",
     "basebot-middleware-registerdevicetoken": "^2.1.0",
     "basebot-storage-azuretables": "^2.1.0",
     "basebot-storage-dynamodb": "^2.1.12",
