@@ -8,8 +8,8 @@ export default (logger) => {
   const error = logger('middleware:lex', 'error')
   const debug = logger('middleware:lex', 'debug')
 
-  if (!process.env.AWS_REGION || !process.env.LEX_BOT_NAME || !process.env.LEX_BOT_ALIAS) {
-    error('AWS_REGION, LEX_BOT_NAME and LEX_BOT_ALIAS must be set')
+  if (!process.env.AWS_REGION || !process.env.BOT_NAME) {
+    error('AWS_REGION and BOT_NAME must be set')
   }
 
   return {
@@ -28,8 +28,8 @@ export default (logger) => {
     }
     debug(`userId: ${message.user}`)
     var params = {
-      botAlias: process.env.LEX_BOT_ALIAS,
-      botName: process.env.LEX_BOT_NAME,
+      botAlias: process.env.BOT_NAME || 'Basebot',
+      botName: process.env.BOT_NAME || 'Basebot',
       inputText: message.text,
       // FIXME - alexa provides a UID with > 200 characters - this will be massively truncated as a result and could even lead to unintentional session hijacking
       userId: message.user.substr(0, 100),
@@ -62,13 +62,9 @@ export default (logger) => {
   }
 
   function heard (bot, message, next) {
-    console.log('----------------------')
-    console.log(bot)
-    console.log('----------------------')
     if (message.lex && message.lex.dialogState === 'Fulfilled' && message.lex.intentName !== null) {
       return bot.reply(message, message.lex.response)
     }
-    console.log('****')
     next()
   }
 }
