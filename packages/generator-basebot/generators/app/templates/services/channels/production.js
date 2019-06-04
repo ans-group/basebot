@@ -24,9 +24,9 @@ const botOptions = { storage }
 const channels = {
   <% if (channels.includes('Direct (Web, Apps etc)')) { %>
   direct: {
-    controller: webBot,
+    controller: webBot(botOptions),
       listen(controller, server) {
-      controller.openSocketServer(server, { path: '/socket' })
+      controller.openSocketServer(server, { path: '/socket', port: 3001 })
       controller.startTicking()
       info('Web bot online')
     }
@@ -56,7 +56,7 @@ const channels = {
   <% }; %>
   <% if (channels.includes('Slack')) { %>
   slack: {
-    controller: botkit.slackbot({ storage }),
+    controller: botkit.slackbot(botOptions),
       listen(controller) {
       [
         'SLACK_CLIENT_ID',

@@ -41,15 +41,12 @@ forEach(auth, handler => {
 app.on('error', onError)
 app.on('listening', onListening)
 
-// start server
-server.listen(process.env.PORT || 3000)
-
 export default app
 
 /**
   * Event listener for HTTP server "error" event.
 */
-function onError (err) {
+function onError(err) {
   if (err.syscall !== 'listen') {
     throw err
   }
@@ -77,7 +74,7 @@ function onError (err) {
 /**
  * Event listener for HTTP server "listening" event.
 */
-function onListening () {
+function onListening() {
   const addr = server.address()
   const bind = typeof addr === 'string'
     ? `pipe ${addr}`
