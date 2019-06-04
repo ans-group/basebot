@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-luis",
-  "version": "2.1.12",
+  "version": "2.1.14",
   "description": "Enables LUIS NLP",
   "main": "dist/index.js",
   "scripts": {

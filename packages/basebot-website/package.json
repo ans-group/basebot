@@ -1,6 +1,6 @@
 {
   "name": "basebot-website",
-  "version": "2.1.9",
+  "version": "2.1.14",
   "description": "Public-facing website & documentation",
   "main": "dist/index.html",
   "private": true,
@@ -39,6 +39,5 @@
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.3.5",
     "moment": "^2.24.0"
-  },
-  "dependencies": {}
+  }
 }

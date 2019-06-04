@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-registerdevicetoken",
-  "version": "2.1.0",
+  "version": "2.1.14",
   "description": "registers a devices push token",
   "main": "dist/index.js",
   "scripts": {

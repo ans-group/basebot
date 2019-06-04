@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-lex",
-  "version": "2.1.13",
+  "version": "2.1.14",
   "description": "Enables AWS Lex NLP",
   "main": "dist/index.js",
   "scripts": {
