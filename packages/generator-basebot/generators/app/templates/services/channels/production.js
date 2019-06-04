@@ -12,10 +12,9 @@
 import botkit from 'botkit'
 import storage from '../storage'
 import logger from '../logger'
-<% imports.forEach(function (value) {
-  -%>
-    import <% - value.designation; %> from '<%- value.packageName; -%>'
-      <% }); %>
+<% imports.forEach(function (value) {-%>
+import <%- value.designation; %> from '<%- value.packageName; -%>'
+<% }); %>
 
 const info = logger('channels', 'info')
 const error = logger('channels', 'error')
