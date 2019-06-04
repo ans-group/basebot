@@ -1,0 +1,13 @@
+.content-trio {
+  @media(min-width: 768px){
+    display: flex;
+    justify-content: space-between;
+  }
+  > .col {
+    margin-bottom: 5rem;
+    @media(min-width: 768px){
+      margin-bottom: 0;
+      flex-basis: calc(33% - 3rem);
+    }
+  }
+}

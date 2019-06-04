@@ -1,0 +1,8 @@
+.content-wrapper {
+  padding: 0 3rem;
+  max-width: 120rem;
+  margin: 0 auto 7rem;
+  @media (min-width: 768px) {
+    margin-bottom: 15rem;
+  }
+}

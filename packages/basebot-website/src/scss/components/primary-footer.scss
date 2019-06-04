@@ -1,0 +1,18 @@
+.primary-footer {
+  background:color(black);
+  color: #fff;
+  font-weight: normal;
+  text-align: center;
+  padding: 5rem 2rem 3rem;
+  position: relative;
+  z-index: 8;
+  .copyright {
+    color: color(grey);
+    margin: 0 auto;
+    opacity: 0.8;
+    font-size: 1.2rem;
+    &:last-child {
+      margin-top: 1.5rem;
+    }
+  }
+}

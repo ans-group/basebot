@@ -6,10 +6,10 @@ export default (logger) => {
     error('LUIS_URI must be set')
   }
 
-  return {receive,hearIntent}
+  return { receive, hearIntent }
 
-  function receive () {
-    serviceUri = process.env.LUIS_URI.trim()
+  function receive() {
+    const serviceUri = process.env.LUIS_URI.trim()
     if (serviceUri.lastIndexOf('&q=') != serviceUri.length - 3) {
       serviceUri += '&q='
     }
@@ -26,12 +26,12 @@ export default (logger) => {
             if (!err) {
               const result = JSON.parse(body)
 
-              if (result.topScoringIntent) {
+              if (result.topScoringIntent && result.topScoringIntent.intent !== 'None') {
                 // API v2.0
                 message.topIntent = result.topScoringIntent
                 message.entities = result.entities || []
                 message.action = result.topScoringIntent.actions && result.topScoringIntent.actions[0].triggered ? result.topScoringIntent.actions[0] : null
-              } else {
+              } else if (!result.topScoringIntent) {
                 // API v1.0
 
                 // Intents for the builtin Cortana app don't return a score.
@@ -65,7 +65,7 @@ export default (logger) => {
     }
   }
 
-  function hearIntent (tests, { topIntent }) {
+  function hearIntent(tests, { topIntent }) {
     if (topIntent) {
       const intent = topIntent.intent.toLowerCase()
       for (let i = 0; i < tests.length; i++) {

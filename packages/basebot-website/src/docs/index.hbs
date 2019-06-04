@@ -1,0 +1,449 @@
+---
+title: Basebot Docs | Chatbot Framework by ANS
+slug: docs
+---
+
+{{> head}}
+
+<div class="docs-wrapper">
+  {{> docsNav}}
+  <main class="docs-content">
+    <div class="docs-section">
+      <h2 class="heading">Getting Started Guide</h2>
+
+      <h3 class="title" id="intro">Introduction</h3>
+
+      <section id="wh
+      at-is-basebot" class="section">
+        <h4>What is Basebot?</h4>
+        <p>
+          Basebot is a suite of tools for building and managing virtual assistants (AKA chatbots).
+        </p>
+        <p>
+          This guide will walk you through creating a simple chatbot that can tell you the weather for a given location
+          and deploy it to Azure.
+        </p>
+      </section>
+
+      <h3 class="title" id="pre-reqs">Pre-requisites</h3>
+      <section id="installing-node" class="section">
+        <h4>Installing NodeJS</h4>
+        <p>
+          Make sure you've got NodeJS installed. (<a href="https://nodejs.org/en/download/" target="_blank"
+            rel="noopener noreferrer">Install here</a>).
+        </p>
+        <p>
+          Test you have node installed with <code class="language-bash">node -v</code>
+        </p>
+        <pre class="command-line" data-output="2"><code class="language-bash">
+          node -v
+          v10.16.0 
+        </code></pre>
+      </section>
+
+      <section id="installing-azure-cli" class="section">
+        <h4>Installing the Azure CLI</h4>
+        <p>
+          Make sure you have the Azure CLI tool installed (<a
+            href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest" target="_blank"
+            rel="noopener noreferrer">Install here</a>).
+        </p>
+        <p>
+          <strong>
+            Note:
+          </strong>
+          We'll be using the bash version of the Azure CLI for this guide.
+        </p>
+        <p>
+          Login to the CLI with <code class="language-bash">az login</code>
+        </p>
+        <pre class="command-line" data-output="2-3"><code class="language-bash">
+          az login
+          Note, we have launched a browser for you to login. For old experience with device code, use "az login --use-device-code"
+          You have logged in. Now let us find all the subscriptions to which you have access...
+        </code></pre>
+      </section>
+
+      <section id="setting-up-services" class="section">
+        <h4>Setting up the Storage</h4>
+        <p>
+          We'll need credentials for a couple of services we'll be using in this guide.
+        </p>
+        <p>
+          With the Azure CLI tool, create a table storage account.
+        </p>
+        <pre><code class="language-bash">
+          az storage account create -n basebot -g Basebot -l ukwest --sku Standard_LRS
+        </code></pre>
+        <p>
+          Next, we need to grab the connection string for our newly created storage account.
+        </p>
+        <pre><code class="language-bash">
+          az storage account show-connection-string -g Basebot -n basebot --table-endpoint basebot | sed -n 2p | cut -d'"' -f 4
+        </code></pre>
+        <p>
+          Make a note of the string that is outputted (it should start with "DefaultEndpointsProtocol").
+        </p>
+      </section>
+      <section id="adding-nlp" class="section">
+        <h4>Adding NLP/NLU</h4>
+        <p>
+          Now we need to set up LUIS to extract intents from our user input.
+        </p>
+        <p>
+          Log in/sign up at <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a> and
+          create a new app.
+        </p>
+        <img src="/images/create-luis-app.png" alt="Creating a LUIS app">
+        <p>
+          Inside the app screen click on the <strong>Manage</strong> tab and go to <strong>Keys and Endpoints</strong>
+          on the left.
+        </p>
+        <img src="/images/copy-luis-key.png" alt="Copying LUIS endpoint URL">
+        <p>
+          Make a note of the Endpoint URL. We'll need this later.
+        </p>
+      </section>
+
+      <h3 class="title" id="project-setup">Creating a project</h3>
+
+      <section id="using-the-cli" class="section">
+        <h4>Using 'Basebot Create'</h4>
+        <p>
+          To create a new project, install the basebot CLI tool and run the <code
+            class="language-bash">basebot create</code>
+          command. This will scaffold a new project in your current
+          directory. Enter the following when prompted:
+        </p>
+        <ul>
+          <li>
+            <strong>What is your project name?</strong> my-first-bot
+          </li>
+          <li>
+            <strong>What is the name of your bot?</strong> BottyMcBotface
+          </li>
+          <li>
+            <strong>How do you want people to be able to access your bot?</strong> Direct (Web, Apps etc) <em>select
+              with &lt;space&gt; and press &lt;enter&gt; to confirm.</em>
+          </li>
+          <li>
+            <strong>What do you want to use for storage?</strong> Azure Table Storage
+          </li>
+          <li>
+            <strong>Do you wish to use an NLP service?</strong> Microsoft LUIS
+          </li>
+          <li>
+            <strong>(Optional) Do you require any third party authorization support?</strong> None
+          </li>
+          <li>
+            <strong>Would you like to aggregate your production logs with Papertrail?</strong> No
+          </li>
+        </ul>
+        <pre class="command-line" data-output="3-8"><code class="language-bash">
+          npm i -g basebot-cli
+          basebot create
+          ? What is your project name? my-first-bot
+          ? What is the name of your bot? BottyMcBotface
+          ? How do you want people to be able to access your bot? Direct (Web, Apps etc)
+          ? What do you want to use for storage? Azure Table Storage
+          ? Do you wish to use an NLP service? Microsoft LUIS
+          ? (Optional) Do you require any third party authorization support? None
+          ? Would you like to aggregate your production logs with Papertrail? No
+        </code></pre>
+        <p>
+          Open your newly created project in your favorite text editor. For example, with VSCode:
+        </p>
+        <pre><code class="language-bash">
+          code my-first-bot
+        </code></pre>
+      </section>
+
+      <section id="configuring-env" class="section">
+        <h4>Configuring Environment</h4>
+        <p>
+          Open the .env file inside your project root. Add your LUIS endpoint URL and your storage connection string as
+          shown:
+        </p>
+        <pre><code class="language-bash">
+          BOT_NAME=BottyMcBotface
+          USE_LT_SUBDOMAIN=my-first-bot123
+          LUIS_URI="YOUR-LUIS-ENDPOINT-URL"
+          DB_URL="YOUR-AZURE-TABLE-STORAGE-CONNECTION-STRING"
+        </code></pre>
+        <p>To make sure everything is working, start your bot with <code class="language-bash">npm run dev</code></p>
+        <pre class="command-line" data-output="2-8"><code class="language-bash">
+          npm run dev
+          > DEBUG=server* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'          
+          [nodemon] 1.19.1
+          [nodemon] to restart at any time, enter `rs`
+          [nodemon] watching: *.*
+          [nodemon] starting `babel-node ./index.js`
+          Initializing Botkit v0.7.4
+          info: ** Using custom storage system.
+        </code></pre>
+      </section>
+
+      <h3 class="title" id="writing-skills">Creating a Skill</h3>
+
+      <section id="registering-skills" class="section">
+        <h4>Registering your skill</h4>
+        <p>Skills can be triggered in one of 3 ways:</p>
+        <ul>
+          <li><strong>pattern</strong>: specify a pattern to look for in the utterance, either as a plain string or
+            regex.</li>
+          <li><strong>intent</strong>: (requires NLP) - trigger when a specific intent name is identified</li>
+          <li><strong>event</strong>: respond to an in-built event or trigger a custom event manually</li>
+        </ul>
+        <p>Let's write a skill now. First, create a file called <strong>weather.js</strong> in the skills directory.</p>
+        <p>Skill files can contain multiple skills. Open the file you just created and export an array of <em>skill
+            objects</em>:</p>
+        <pre><code class="language-javascript">
+          // skills/weather.js
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler(bot, message, controller) {
+                bot.reply(message, `I'm not sure (yet)`)
+              }
+            }
+          ]
+        </code></pre>
+        <p>
+          As you can see, we're looking for a <em>pattern</em> with the above skill. If we wanted to look for an intent
+          or an event, we could just change that field. Currently, this skill will trigger whenever the bot hears either
+          the phrase 'what is the weather like' or 'weather report'. Not very robust - but we'll see to that in a second
+          😄
+        </p>
+        <p>
+          The <em>handler</em> field is the function you want to run when your skill is triggered. In the background it
+          leverages Botkit 0.7.4 - you can read more about the bot, message and controller objects over on the <a
+            href="https://botkit.ai/docs/v0/core.html#sending-messages" target="_blank" rel="noopener noreferrer">Botkit
+            documentation</a>.
+        </p>
+        <p>To make sure our new skill is imported by Basebot, we just need to add an extra line to skills/index.js:</p>
+        <pre><code class="language-javascript">
+          // skills/index.js
+          ... 
+          export { default as weather } from './weather'
+        </code></pre>
+      </section>
+
+      <section id="writing-skill-handler" class="section">
+        <h4>Writing the handler</h4>
+        <p>Let's have our bot look up the weather for a specific location. We'll start off by hardcoding this to London.
+        </p>
+        <p>In order to do this we can use the MetaWeather API - let's install the <em>Axios</em> package to make this
+          easier.</p>
+        <pre><code class="language-bash">
+          npm i --save axios
+        </code></pre>
+        <p>
+          Then let's refactor our skill module to the following:
+        </p>
+        <pre><code class="language-javascript">
+          // skills/weather.js
+
+          import axios from 'axios'
+          
+          const weatherAPI = axios.create({
+            baseURL: 'https://www.metaweather.com/api'
+          })
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler: async (bot, message, controller) => {
+                try {
+                  // hardcode the location to london for now
+                  const location = 'london'
+                  // grab the weather for today
+                  const { data: [{ woeid }] } = await weatherAPI.get(`/location/search?query=${location}`)
+                  const { data: { consolidated_weather: [{ the_temp, weather_state_name }] } } = await weatherAPI.get(`/location/${woeid}`)
+                  // reply to the message with the weather data, (notice that basebot web supports markdown)
+                  bot.reply(message, `looks like **${weather_state_name}** in **${location}** with a temperature of ${the_temp.toFixed(1)}°C`)
+                } catch (err) {
+                  // handle any errors
+                  console.error(err)
+                  bot.reply(message, 'yikes! something went wrong 😟')
+                }
+              }
+            }
+          ]
+        </code></pre>
+        <p>As you'll notice, Basebot supports the latest JavaScript features out of the box allowing us to use
+          async/await.</p>
+        <p>We can test this by visiting <em>localhost:3000</em> in our browser and typing <strong>"weather
+            report"</strong> to our bot.
+        </p>
+        <p>Next, let's have our bot ask the user where they want the weather for.</p>
+        <pre><code class="language-javascript">
+          import axios from 'axios'
+          import { promisify } from 'util'
+          
+          const weatherAPI = axios.create({
+            baseURL: 'https://www.metaweather.com/api'
+          })
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler: async (bot, message, controller) => {
+                try {
+                  // create a botkit conversation (see: https://botkit.ai/docs/v0/core.html#multi-message-conversations)
+                  const convo = await promisify(bot.startConversation.bind(bot))(message)
+
+                  // ask the user for a location (small delay for better UX)
+                  const { text: location } = await new Promise(resolve => convo.ask({
+                    text: 'Where would you like the weather for?',
+                    delay: 1000
+                  }, resolve))
+                  
+                  // send an interim message with typing: true to let the user know we're working on it
+                  convo.addMessage({ text: 'Checking the weather now...', typing: true })
+                  
+                  const { data: [locationData] } = await weatherAPI.get(`/location/search?query=${location.toLowerCase()}`)
+                  
+                  // handle invalid locations
+                  if (!locationData) {
+                    return bot.reply(message, `Hmm, I can't find weather for that location`)
+                  }
+                  
+                  // as before
+                  const { woeid } = locationData
+                  const { data: { consolidated_weather: [{ the_temp, weather_state_name }] } } = await weatherAPI.get(`/location/${woeid}`)
+                  
+                  convo.addMessage({
+                    text: `looks like **${weather_state_name}** in **${location}** with a temperature of ${the_temp.toFixed(1)}°C`,
+                    delay: 1000
+                  })
+                  convo.next()
+                } catch (err) {
+                  console.error(err)
+                  bot.reply(message, 'yikes! something went wrong 😟')
+                }
+              }
+            }
+          ]
+        </code></pre>
+        <p>
+          Great stuff! The only thing now is that it's somewhat difficult to trigger this skill. Wouldn't it be great if
+          the bot was able to tell that the user was asking about the weather without us having to describe every
+          possible variation? That's where LUIS comes in!
+        </p>
+        <p>
+          Let's head back over to <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a>.
+          This time we're going to go to the <strong>build</strong> tab.
+        </p>
+        <p>
+          We're going to use one of LUIS's built-in intents. Under the <strong>intents</strong> section, click <em>Add
+            prebuilt domain intent</em> and select <em>Weather.QueryWeather</em>.
+        </p>
+        <img src="/images/weather-intent.gif" alt="Adding Weather.QueryWeather intent">
+        <p>This is a prebuilt intent, but it's also really easy to add custom intents. Once you've added the weather
+          intent we need to train and publish our model. We can do that with the buttons on the top right.</p>
+        <img src="/images/weather-training.gif" alt="Training and publishing LUIS intents">
+        <p>
+          Let's change our skill to look for the <em>Weather.QueryWeather</em> intent.
+        </p>
+        <pre><code class="language-javascript">
+          ...
+          export default [
+            {
+              intent: 'Weather.QueryWeather',
+              handler: async (bot, message, controller) => {
+                ...
+              }
+            }
+          ]
+        </code></pre>
+      </section>
+
+      <h3 class="title" id="testing">Testing your bot</h3>
+
+      <section id="manual-testing" class="section">
+        <h4>Manually testing your bot</h4>
+        <p>Visit <strong>localhost:3000</strong> to chat with your bot.</p>
+        <p>Try asking it what the weather is like in as many different ways you can think of.</p>
+        <img src="/images/weather-testing.gif" alt="Testing the bot" style="box-shadow: inset -2px 0 white">
+      </section>
+
+      <section id="writing-tests" class="section">
+        <h4>Writing your first test</h4>
+      </section>
+
+      <section id="running-tests" class="section">
+        <h4>Running unit tests</h4>
+      </section>
+
+      <h3 class="title" id="deploying">Deploying</h3>
+
+      <section id="building" class="section">
+        <h4>Building the bot</h4>
+      </section>
+
+      <section id="deploying-to-azure" class="section">
+        <h4>Deploying to Azure</h4>
+      </section>
+
+    </div>
+
+    <div class="docs-section">
+      <h2 class="heading">Modules</h2>
+
+      <h3 class="title" id="connector-modules">Connectors</h3>
+
+      <section id="web-connector" class="section">
+        <h4>Web Connector</h4>
+      </section>
+
+      <section id="alexa-connector" class="section">
+        <h4>Alexa Connector</h4>
+      </section>
+
+      <section id="slack-connector" class="section">
+        <h4>Slack Connector</h4>
+      </section>
+
+      <section id="sms-connector" class="section">
+        <h4>SMS Connector (using Twilio)</h4>
+      </section>
+
+      <h3 class="title" id="storage-modules">Storage</h3>
+
+      <section id="mongo-storage" class="section">
+        <h4>MongoDB Storage</h4>
+      </section>
+
+      <section id="tablestorage-storage" class="section">
+        <h4>Azure Table Storage</h4>
+      </section>
+
+      <section id="dynamo-storage" class="section">
+        <h4>DynamoDB</h4>
+      </section>
+
+      <section id="firestore-storage" class="section">
+        <h4>Firestore</h4>
+      </section>
+
+      <h3 class="title" id="nlp-modules">Natural Language</h3>
+
+      <section id="luis-module" class="section">
+        <h4>LUIS (Microsoft)</h4>
+      </section>
+
+      <section id="lex-module" class="section">
+        <h4>Lex (AWS)</h4>
+      </section>
+
+      <h3 class="title" id="auth-modules">Authentication</h3>
+
+      <section id="microsoft-auth" class="section">
+        <h4>Microsoft Authentication</h4>
+      </section>
+    </div>
+  </main>
+</div>
+
+{{> footer}}

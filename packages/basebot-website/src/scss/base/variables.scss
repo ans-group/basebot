@@ -1,0 +1,39 @@
+$font-family: Work Sans, San Francisco, sans-serif;
+
+$colors: (
+  primary: #52347c,
+  white: #FFFFFF, 
+  pearl: #F6F6F6,
+  light: #E6F0F0,
+  grey: #b4b3b4,
+  darkGrey: #9a8d8d,
+  black: #302D2F,
+  accent1: #C9C52C,
+  accent2: #9169C9,
+  accent3: #7A40C9
+);
+
+$whitespace: (
+  xxxx-large: 8rem,
+  xxx-large: 6.5rem,
+  xx-large: 5rem,
+  x-large: 3.7rem,
+  large: 3rem,
+  x-medium: 2.25rem,
+  medium: 2rem,
+  small: 1.2rem,
+  x-small: 0.7rem,
+  xx-small: 0.25rem
+);
+
+$font-size: (
+  default: '16px/1.35',
+  xxx-large: '18rem/0.9',
+  xx-large: '8rem/1.05',
+  x-large: '5rem/1.0',
+  large: '3rem/1.2',
+  x-medium: '2.2rem/1.2',
+  medium: '1.2rem/1.4',
+  small: '1rem/1.6',
+  tiny: '0.8rem/1.0'
+);

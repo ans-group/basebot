@@ -10,7 +10,7 @@ module.exports = {
   ],
   'Amazon Alexa (voice)': [],
   'Azure Table Storage': [
-    { key: 'DB_URL', initialValue: '(YOUR AZURE TABLE STORAGE CONNECTION STRING)'}
+    { key: 'DB_URL', initialValue: '(YOUR AZURE TABLE STORAGE CONNECTION STRING)' }
   ],
   'Firebase Firestore': [
     { key: 'DB_URL', initialValue: '(YOUR FIRESTORE URL)' },
@@ -18,8 +18,8 @@ module.exports = {
   ],
   'AWS DynamoDB': [
     { key: 'AWS_REGION', initialValue: 'eu-west-2' },
-    { key: 'AWS_ACCESS_KEY_ID'},
-    { key: 'AWS_SECRET_ACCESS_KEY'}
+    { key: 'AWS_ACCESS_KEY_ID' },
+    { key: 'AWS_SECRET_ACCESS_KEY' }
   ],
   'MongoDB': [
     { key: 'DB_URL', initialValue: '(YOUR MONGO URI)' }
@@ -46,7 +46,7 @@ module.exports = {
     { key: 'SLACK_CLIENT_ID' },
     { key: 'SLACK_CLIENT_SECRET' },
     { key: 'SLACK_REDIRECT_URI' },
-    { key: 'SLACK_SCOPES', initialValue: 'incoming-webhook,team:read,users:read,channels:read,im:read,im:write,groups:read,emoji:read,chat:write:bot'}
+    { key: 'SLACK_SCOPES', initialValue: 'incoming-webhook,team:read,users:read,channels:read,im:read,im:write,groups:read,emoji:read,chat:write:bot' }
   ],
   'Facebook Messenger': [
     { key: 'MESSENGER_ACCESS_TOKEN' },
@@ -63,6 +63,5 @@ module.exports = {
     { key: 'LEX_BOT_ALIAS' }
   ],
   'Direct (Web, Apps etc)': [
-    {key: 'WS_PORT', initialValue: '3001'}
   ]
 }

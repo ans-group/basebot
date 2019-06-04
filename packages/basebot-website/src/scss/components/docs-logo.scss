@@ -1,0 +1,23 @@
+.docs-logo {
+  padding: 1.5rem 2.5rem;
+  line-height: 3rem;
+  display: flex;
+  width: 100%;
+  margin-bottom: 3rem;
+  > .logo {
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+  }
+  > .logoText {
+    font-size: 1.8rem;
+    font-weight: 600;
+    line-height: 3rem;
+    vertical-align: top;
+  }
+  > .version {
+    flex: 1 0 auto;
+    margin-left: 0.7rem;
+    color: color(grey);
+  }
+}

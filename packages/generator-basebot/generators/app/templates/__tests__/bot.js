@@ -1,62 +1,28 @@
-import Botmock from 'botkit-mock'
-import startBot from '../bot'
-import storage from '../mocks/storage'
-
-let controller, bot
+import channels from '../'
+const { controller } = channels.test
+const { bot } = controller
 
 jest.setTimeout(10000)
-
-beforeAll(done => {
-  controller = Botmock({ storage: storage })
-  bot = controller.spawn()
-  startBot(controller, bot)
-  done()
-})
-
-test('Bot responds to hello', done => {
-  bot.usersInput(
-    [
-      {
-        user: 'directline:123',
-        channel: 'directline:789',
-        type: 'message_received',
-        messages: [
-          {
-            deep: 1,
-            waitAfter: 3000,
-            isAssertion: true,
-            text: 'hello there'
-          }
-        ]
-      }
-    ]
-  ).then((message) => {
-    expect(message).toEqual(expect.objectContaining({
-      text: expect.stringMatching(`Hey there! 👋 \n\nI'm ${process.env.BOT_NAME || 'Basebot'}.`)
-    }))
-    done()
-  })
-})
 
 test('User can tell bot their name', done => {
   bot.usersInput(
     [
       {
-        user: 'directline:123',
-        channel: 'directline:789',
+        user: 'user123',
+        channel: 'socket',
         type: 'message_received',
         messages: [
           {
             waitAfter: 3000,
             isAssertion: true,
-            text: 'Testman'
+            text: 'my name is Testman'
           }
         ]
       }
     ]
   ).then((message) => {
     expect(message).toEqual(expect.objectContaining({
-      text: expect.stringMatching(`Nice to meet you Testman!`)
+      text: expect.stringMatching(`Great, I'll call you Testman from now on 😊`)
     }))
     done()
   })
@@ -66,21 +32,21 @@ test('Bot remembers users name', done => {
   bot.usersInput(
     [
       {
-        user: 'directline:123',
-        channel: 'directline:789',
+        user: 'user123',
+        channel: 'socket',
         type: 'message_received',
         messages: [
           {
             waitAfter: 3000,
             isAssertion: true,
-            text: 'Hey'
+            text: 'who am i?'
           }
         ]
       }
     ]
   ).then((message) => {
     expect(message).toEqual(expect.objectContaining({
-      text: expect.stringMatching(`Hey Testman 👋`)
+      text: expect.stringMatching(`You're Testman! I'd never forget you 😁`)
     }))
     done()
   })

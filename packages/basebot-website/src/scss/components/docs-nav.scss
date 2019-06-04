@@ -1,0 +1,16 @@
+.docs-nav {
+  padding: 0 2.5rem;
+  overflow-y: auto;
+
+  > .sectionTitle {
+    color: color(darkGrey);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: normal;
+  }
+  > .section {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 5rem;
+  }
+}

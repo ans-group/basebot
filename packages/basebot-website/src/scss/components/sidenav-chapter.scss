@@ -1,0 +1,26 @@
+.sidenav-chapter {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  color: color(#333);
+  cursor: pointer;
+  > .title {
+    margin-bottom: 0;
+  }
+  > .anchors {
+    display: none;
+  }
+  > .anchors > .anchor {
+    display: block;
+    outline: 0;
+    font-size: 1.3rem;
+    line-height: 2.2;
+    font-weight: 100;
+    padding-left: 1em;
+    border-left: 0.2rem solid lighten(color(primary), 45%);
+    transition: border .2s ease-in-out;
+    &.-active {
+      border-left-color: color(primary);
+    }
+  }
+}

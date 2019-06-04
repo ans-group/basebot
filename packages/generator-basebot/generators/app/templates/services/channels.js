@@ -12,9 +12,10 @@
 import botkit from 'botkit'
 import storage from './storage'
 import logger from './logger'
-<% imports.forEach(function(value) { -%>
-import <%- value.designation; %> from '<%- value.packageName; -%>'
-<% }); %>
+<% imports.forEach(function (value) {
+-%>
+  import <% - value.designation; %> from '<%- value.packageName; -%>'
+    <% }); %>
 
 const info = logger('channels', 'info')
 const error = logger('channels', 'error')
@@ -25,8 +26,8 @@ const channels = {
   <% if (channels.includes('Direct (Web, Apps etc)')) { %>
   direct: {
     controller: webBot,
-    listen(controller, server) {
-      controller.openSocketServer(server, {path:'/socket'})
+      listen(controller, server) {
+      controller.openSocketServer(server, { path: '/socket' })
       controller.startTicking()
       info('Web bot online')
     }
@@ -35,13 +36,13 @@ const channels = {
   <% if (channels.includes('Microsoft Bot Service')) { %>
   botservice: {
     controller: botkit.botframeworkbot(botOptions),
-    listen(controller) {
+      listen(controller) {
       [
         'MS_APP_ID',
         'MS_APP_PASSWORD'
       ].forEach(envVar => {
         if (!process.env[envVar]) {
-            throw new Error(`${envVar} is required`)
+          throw new Error(`${envVar} is required`)
         }
       })
       controller.spawn({
@@ -57,7 +58,7 @@ const channels = {
   <% if (channels.includes('Slack')) { %>
   slack: {
     controller: botkit.slackbot({ storage }),
-    listen(controller) {
+      listen(controller) {
       [
         'SLACK_CLIENT_ID',
         'SLACK_CLIENT_SECRET',
@@ -65,7 +66,7 @@ const channels = {
         'SLACK_SCOPES'
       ].forEach(envVar => {
         if (!process.env[envVar]) {
-            throw new Error(`${ envVar } is required`)
+          throw new Error(`${envVar} is required`)
         }
       })
       controller
@@ -85,13 +86,13 @@ const channels = {
   <% if (channels.includes('Facebook Messenger')) { %>
   messenger: {
     controller: botkit.facebookbot(botOptions),
-    listen(controller) {
+      listen(controller) {
       [
         'MESSENGER_ACCESS_TOKEN',
         'MESSENGER_VERIFY_TOKEN'
       ].forEach(envVar => {
         if (!process.env[envVar]) {
-            throw new Error(`${ envVar } is required`)
+          throw new Error(`${envVar} is required`)
         }
       })
       const bot = controller.spawn({
@@ -108,14 +109,14 @@ const channels = {
   <% if (channels.includes('SMS (using Twilio)')) { %>
   sms: {
     controller: botkit.twiliosmsbot(botOptions),
-    listen(controller) {
+      listen(controller) {
       [
         'TWILIO_ACCOUNT_SID',
         'TWILIO_AUTH_TOKEN',
         'TWILIO_NUMBER'
       ].forEach(envVar => {
         if (!process.env[envVar]) {
-            throw new Error(`${ envVar } is required`)
+          throw new Error(`${envVar} is required`)
         }
       })
       const bot = controller.spawn({
@@ -133,7 +134,7 @@ const channels = {
   <% if (channels.includes('Amazon Alexa (voice)')) { %>
   alexa: {
     controller: alexabot(botOptions),
-    options: {},
+      options: { },
     listen(controller) {
       const bot = controller.spawn({})
       controller.createWebhookEndpoints(controller.webserver, bot)

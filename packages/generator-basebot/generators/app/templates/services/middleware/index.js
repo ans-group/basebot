@@ -1,6 +1,6 @@
 import development from './development'
 import production from './production'
 
-const configurations = { development, production}
+const configurations = { development, production }
 
-export default configurations[process.env.NODE_ENV || 'development']
+export default configurations[process.env.NODE_ENV] || configurations.development

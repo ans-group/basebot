@@ -1,0 +1,28 @@
+.code-pane {
+  display: flex;
+  flex-wrap: wrap;
+  &:not(:last-child){
+    margin-bottom: 6rem;
+  }
+  @media (min-width: 768px) {
+    flex-wrap: nowrap;
+  }
+  > .code {
+    box-sizing: border-box;
+    padding: 1rem 0;
+    flex: 1 1 100%;
+    width: 100%;
+    @media (min-width: 768px) {
+      width: 50%;
+      margin-top: 3rem;
+      flex: 1 1 50%;
+    }
+  }
+  > .content {
+    box-sizing: border-box;
+    @media (min-width: 768px) {
+      flex: 0 0 50%;
+      padding-right: 5rem;
+    }
+  }
+}

@@ -101,7 +101,9 @@ module.exports = class extends Generator {
         "build": "rm -rf ./build && npm run build-server && npm run build-docker",
         "build-docker": "cd build && docker build -t basebot-core .",
         "build-server": "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
-        "dev": "DEBUG=server* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'"
+        "dev": `DEBUG=${this.answers.botName}* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'`,
+        "test": "NODE_ENV=test node-env-run --exec 'npm run jest'",
+        "jest": "jest --detectOpenHandles --testRegex='(/__tests__/.*|(\\.|/)(spec))\\.[jt]sx?$' --env=node --forceExit --silent"
       },
       "keywords": [
         "bots",
@@ -133,16 +135,19 @@ module.exports = class extends Generator {
       'services/storage/test.js',
       'services/logger/index.js',
       'services/logger/development.js',
+      'services/logger/index.js',
+      'services/channels/index.js',
+      'services/channels/test.js'
     ].forEach(quickCopy.bind(this))
-    
+
     //create .gitignore 
     this.fs.copyTpl(this.templatePath('.gi'), this.destinationPath('.gitignore'))
 
     // env vars
     const vars = [
-        { key: 'BOT_NAME', initialValue: this.answers.botName },
-        { key: 'USE_LT_SUBDOMAIN', initialValue: this.answers.projectName + '123' }
-      ]
+      { key: 'BOT_NAME', initialValue: this.answers.botName },
+      { key: 'USE_LT_SUBDOMAIN', initialValue: this.answers.projectName + '123' }
+    ]
       .concat(...this.answers.channelModules.map(channelName => defaultVars[channelName]))
       .concat(...this.answers.authModules.map(authName => defaultVars[authName]))
       .concat(this.answers.nlpModule !== '<None>' ? defaultVars[this.answers.nlpModule] : [])
@@ -158,8 +163,8 @@ module.exports = class extends Generator {
     // channels
     const additionalChannelImports = this.answers.channelModules.map(channel => channelImports[channel]).filter(Boolean)
     this.fs.copyTpl(
-      this.templatePath('./services/channels.js'),
-      this.destinationPath('./services/channels.js'),
+      this.templatePath('./services/channels/production.js'),
+      this.destinationPath('./services/channels/production.js'),
       { channels: this.answers.channelModules, imports: additionalChannelImports }
     )
 
@@ -187,25 +192,24 @@ module.exports = class extends Generator {
     )
 
     // NLP Middleware
-    // TODO handle Lex
     this.fs.copyTpl(
       this.templatePath('./services/middleware/production.js'),
       this.destinationPath('./services/middleware/production.js'),
-      { 
+      {
         luis: this.answers.nlpModule === 'Microsoft LUIS',
         lex: this.answers.nlpModule === 'Amazon LEX',
         alexa: this.answers.channelModules.includes('Amazon Alexa (voice)')
       }
     )
   }
-  
+
   install() {
     this.log('installing dependencies')
-    this.npmInstall(null, {silent: true})
+    this.npmInstall(null, { silent: true })
     const packages = [
       'basebot-util-signup',
       'basebot-logger-debug',
-      this.answers.papertrailIntegration && 'basebot-logger-papertrail',
+      this.answers.papertrailIntegration && 'basebot-logger-papertrail',
       packageNames[this.answers.storageModule],
       ...this.answers.authModules.map(module => packageNames[module] || ''),
       ...this.answers.channelModules.map(module => packageNames[module] || ''),
