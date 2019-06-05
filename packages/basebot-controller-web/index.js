@@ -1,9 +1,9 @@
 import Botkit from 'botkit/lib/CoreBot'
 import WebSocket from 'ws';
 
-function WebBot (configuration) {
+function WebBot(configuration) {
   const controller = Botkit(configuration || {});
-  const error = configuration.logger 
+  const error = configuration.logger
     ? configuration.logger.error('controller:web', 'error')
     : console.error
 
@@ -13,7 +13,7 @@ function WebBot (configuration) {
 
   controller.excludeFromConversations(['hello', 'welcome_back', 'reconnect'])
 
-  controller.openSocketServer = (server, wsconfig = {port: 3001}) => {
+  controller.openSocketServer = (server, wsconfig = { port: 3001 }) => {
 
     // create the socket server along side the existing webserver.
     const wss = new WebSocket.Server({
@@ -24,19 +24,18 @@ function WebBot (configuration) {
     // Expose the web socket server object to the controller so it can be used later.
     controller.wss = wss
 
-    function heartbeat () {
-      this.isAlive = true
-    }
-
-    wss.on('connection', function connection (ws) {
-      ws.isAlive = true
-      ws.on('pong', heartbeat)
+    wss.on('connection', function connection(ws) {
+      ws.on('message', (message) => {
+        if (message === 'ping') {
+          return ws.send(JSON.stringify({ type: 'heartbeat', event: 'pong' }))
+        }
+      })
       // search through all the convos, if a bot matches, update its ws
       const bot = controller.spawn();
       bot.ws = ws
       bot.connected = true
 
-      ws.on('message', function incoming (message) {
+      ws.on('message', function incoming(message) {
         try {
           var message = JSON.parse(message)
           controller.ingest(bot, message, ws)
@@ -57,17 +56,6 @@ function WebBot (configuration) {
         bot.connected = false
       })
     })
-
-    setInterval(function ping () {
-      wss.clients.forEach(function each (ws) {
-        if (ws.isAlive === false) {
-          return ws.terminate()
-        }
-        //  if (ws.isAlive === false) return ws.terminate()
-        ws.isAlive = false
-        ws.ping('', false, true)
-      })
-    }, 30000)
   }
 
   controller.middleware.ingest.use((bot, message, reply_channel, next) => {
@@ -203,7 +191,7 @@ function WebBot (configuration) {
       }
     }
 
-    bot.typingDelay = ({typingDelay, text}) => new Promise(resolve => {
+    bot.typingDelay = ({ typingDelay, text }) => new Promise(resolve => {
       let typingLength = 0;
       if (typingDelay) {
         typingLength = typingDelay
@@ -226,7 +214,7 @@ function WebBot (configuration) {
       }, typingLength)
     })
 
-    bot.replyWithTyping = ({user, channel}, resp, cb) => {
+    bot.replyWithTyping = ({ user, channel }, resp, cb) => {
       bot.startTyping()
       bot.typingDelay(resp).then(() => {
         if (typeof (resp) == 'string') {
@@ -261,7 +249,7 @@ function WebBot (configuration) {
       }
     }
 
-    bot.findConversation = ({user, channel, type}, cb) => {
+    bot.findConversation = ({ user, channel, type }, cb) => {
       botkit.debug('CUSTOM FIND CONVO', user, channel)
       for (let t = 0; t < botkit.tasks.length; t++) {
         for (let c = 0; c < botkit.tasks[t].convos.length; c++) {
@@ -339,7 +327,7 @@ function WebBot (configuration) {
     return bot
   })
 
-  controller.handleWebhookPayload = ({body}, res) => {
+  controller.handleWebhookPayload = ({ body }, res) => {
     const payload = body;
     controller.ingest(controller.spawn({}), payload, res)
   }
