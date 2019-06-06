@@ -16,16 +16,42 @@ startTunnel()
 
 export default app
 
-function startTunnel () {
+function startTunnel() {
   if (!process.env.USE_LT_SUBDOMAIN) return
   const tunnel = localtunnel(process.env.PORT || 3000, { subdomain: process.env.USE_LT_SUBDOMAIN }, (err, tunnel) => {
     if (err) {
       error(err)
       throw err
     }
+    const spacesCount = tunnel.url.length >= 65 ? 0 : (65 - tunnel.url.length) / 2
+    const spacesStart = new Array(Math.floor(spacesCount)).fill(' ').join('')
+    const spacesEnd = new Array(Math.ceil(spacesCount)).fill(' ').join('')
+    const tunnelUrl = spacesStart + tunnel.url + spacesEnd
     /* eslint-disable */
-    info(`Your bot is available on the web at the following URL: ${tunnel.url}`)
-  /* eslint-enable */
+    console.log(`
+$$$$$$$\\                                $$$$$$$\\             $$\\     
+$$  __$$\\                               $$  __$$\\            $$ |    
+$$ |  $$ | $$$$$$\\   $$$$$$$\\  $$$$$$\\  $$ |  $$ | $$$$$$\\ $$$$$$\\   
+$$$$$$$\\ | \\____$$\\ $$  _____|$$  __$$\\ $$$$$$$\\ |$$  __$$\\_$$  _|  
+$$  __$$\\  $$$$$$$ |\\$$$$$$\\  $$$$$$$$ |$$  __$$\\ $$ /  $$ | $$ |    
+$$ |  $$ |$$  __$$ | \\____$$\\ $$   ____|$$ |  $$ |$$ |  $$ | $$ |$$\\ 
+$$$$$$$  |\\$$$$$$$ |$$$$$$$  |\\$$$$$$$\\ $$$$$$$  |\\$$$$$$  | \\$$$$  |
+\\_______/  \\_______|\\_______/  \\_______|\\_______/  \\______/   \\____/ 
+
+
+
+===================================================================
+|                                                                 |
+|                   Your bot is now online at:                    |
+|${tunnelUrl}|
+|                                                                 |
+|        Visit https://ans-group.github.io/basebot/docs to        |
+|                          get started                            |
+|                                                                 |
+===================================================================
+`
+    )
+    /* eslint-enable */
   })
 
   tunnel.on('close', () => {
