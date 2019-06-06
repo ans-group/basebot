@@ -24,8 +24,6 @@ forEach(channels, ({ controller }) => {
   controller.hears('.*', 'message_received', defaultResponse)
 })
 
-info('bot online')
-
 export default channels
 
 function defaultResponse(bot, message) {
@@ -71,3 +69,26 @@ function filterHandlers(channelName, type) {
     return channelValid && typeValid
   }
 }
+
+console.log(`
+$$$$$$$\\                                $$$$$$$\\             $$\\     
+$$  __$$\\                               $$  __$$\\            $$ |    
+$$ |  $$ | $$$$$$\\   $$$$$$$\\  $$$$$$\\  $$ |  $$ | $$$$$$\\ $$$$$$\\   
+$$$$$$$\\ | \\____$$\\ $$  _____|$$  __$$\\ $$$$$$$\ |$$  __$$\\_$$  _|  
+$$  __$$\\  $$$$$$$ |\\$$$$$$\\  $$$$$$$$ |$$  __$$\\ $$ /  $$ | $$ |    
+$$ |  $$ |$$  __$$ | \\____$$\\ $$   ____|$$ |  $$ |$$ |  $$ | $$ |$$\\ 
+$$$$$$$  |\\$$$$$$$ |$$$$$$$  |\\$$$$$$$\\ $$$$$$$  |\\$$$$$$  | \\$$$$  |
+\\_______/  \\_______|\\_______/  \\_______|\\_______/  \\______/   \\____/ 
+                                                                     
+                                                                     
+                                                                     
+===================================================================
+|                                                                 |
+|                    Your bot is now online!                      |
+|                                                                 |
+|        Visit https://ans-group.githu.io/basebot/docs to         |
+|                          get started                            |
+|                                                                 |
+===================================================================
+`
+)
