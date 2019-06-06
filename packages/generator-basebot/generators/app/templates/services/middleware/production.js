@@ -13,6 +13,7 @@ import lex from 'basebot-middleware-lex'
 <% if (alexa) {
   -%>
 import { heard as alexaMiddleware } from 'basebot-controller-alexa'
+import storage from '../storage'
 <% }; -%>
 
 export default [
