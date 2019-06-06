@@ -154,8 +154,9 @@ module.exports = class extends Generator {
       .concat(this.answers.papertrailIntegration ? defaultVars.papertrail : [])
       .concat(defaultVars[this.answers.storageModule])
       .filter(Boolean)
+      .reduce((prev, curr) => prev.reduce((found, item) => item.key === curr.key, false) ? prev : prev.concat(curr), [])
     this.fs.copyTpl(
-      this.templatePath('.env'),
+      this.templatePath('.e'),
       this.destinationPath('.env'),
       { vars }
     )
@@ -224,7 +225,7 @@ module.exports = class extends Generator {
 }
 
 function quickCopy(path) {
-  this.fs.copyTpl(
+  this.fs.copy(
     this.templatePath(path),
     this.destinationPath(path)
   )

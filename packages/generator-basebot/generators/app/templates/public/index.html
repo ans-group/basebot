@@ -97,9 +97,11 @@
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <script>
     // CHANGE THIS IF NEEDED
-    window.basebot.connect_url = 'localhost:3001'
+    window.basebot = {
+      connect_url: 'localhost:3001'
+    }
   </script>
-  <script type="text/javascript" src="static/webchat.dev.js"></script>
+  <script type="text/javascript" src="/static/webchat.dev.js"></script>
 </body>
 
 </html>

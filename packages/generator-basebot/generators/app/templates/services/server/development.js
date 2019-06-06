@@ -18,7 +18,7 @@ export default app
 
 function startTunnel() {
   if (!process.env.USE_LT_SUBDOMAIN) return
-  const tunnel = localtunnel(process.env.PORT || 3000, { subdomain: process.env.USE_LT_SUBDOMAIN }, (err, tunnel) => {
+  const tunnel = localtunnel(process.env.PORT || 3000, { subdomain: process.env.USE_LT_SUBDOMAIN ? process.env.USE_LT_SUBDOMAIN.toLowerCase() : 'basebot' + Math.round(Math.random * 1000) }, (err, tunnel) => {
     if (err) {
       error(err)
       throw err
@@ -42,13 +42,14 @@ $$$$$$$  |\\$$$$$$$ |$$$$$$$  |\\$$$$$$$\\ $$$$$$$  |\\$$$$$$  | \\$$$$  |
 
 ===================================================================
 |                                                                 |
-|                   Your bot is now locally at:                   |
-|                      http://localhost:${process.env.PORT || 3000}                      |
+|                Your bot is available locally at:                |
+|                      http://localhost:${process.env.PORT || 3000}
+|                                                                 |                      |
 |                          and online at:                         |
 |${tunnelUrl}|
 |                                                                 |
-|        Visit https://ans-group.github.io/basebot/docs to        |
-|                          get started                            |
+|                      To learn more, visit:                      |
+|             https://ans-group.github.io/basebot/docs            |
 |                                                                 |
 ===================================================================
 `

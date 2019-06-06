@@ -22,7 +22,7 @@ const server = http.createServer(app)
 app
   .use(express.json())
   .use(express.urlencoded({ extended: false }))
-  .use(express.static(path.join(__dirname, 'public')))
+  .use(express.static(path.join(__dirname, '../../public')))
 
 /* set up a /register endpoints for UUID generation */
 app.get('/register', register(storage))
