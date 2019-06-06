@@ -25,17 +25,15 @@ function WebBot(configuration) {
     controller.wss = wss
 
     wss.on('connection', function connection(ws) {
-      ws.on('message', (message) => {
-        if (message === 'ping') {
-          return ws.send(JSON.stringify({ type: 'heartbeat', event: 'pong' }))
-        }
-      })
       // search through all the convos, if a bot matches, update its ws
       const bot = controller.spawn();
       bot.ws = ws
       bot.connected = true
 
       ws.on('message', function incoming(message) {
+        if (message === 'ping') {
+          return ws.send(JSON.stringify({ type: 'heartbeat', event: 'pong' }))
+        }
         try {
           var message = JSON.parse(message)
           controller.ingest(bot, message, ws)
