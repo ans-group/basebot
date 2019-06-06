@@ -14,9 +14,10 @@ export default (logger) => {
 
   return {
     receive,
-  heard}
+    heard
+  }
 
-  function receive (bot, message, next) {
+  function receive(bot, message, next) {
     if (!message.text) {
       next()
       return
@@ -32,7 +33,7 @@ export default (logger) => {
       botName: process.env.BOT_NAME || 'Basebot',
       inputText: message.text,
       // FIXME - alexa provides a UID with > 200 characters - this will be massively truncated as a result and could even lead to unintentional session hijacking
-      userId: message.user.substr(0, 100),
+      userId: message.user && message.user.substr(0, 100),
       requestAttributes: message.requestAttributes,
       sessionAttributes: message.sessionAttributes
     }
@@ -61,7 +62,7 @@ export default (logger) => {
     }
   }
 
-  function heard (bot, message, next) {
+  function heard(bot, message, next) {
     if (message.lex && message.lex.dialogState === 'Fulfilled' && message.lex.intentName !== null) {
       return bot.reply(message, message.lex.response)
     }
