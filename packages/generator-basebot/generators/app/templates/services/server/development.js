@@ -42,7 +42,9 @@ $$$$$$$  |\\$$$$$$$ |$$$$$$$  |\\$$$$$$$\\ $$$$$$$  |\\$$$$$$  | \\$$$$  |
 
 ===================================================================
 |                                                                 |
-|                   Your bot is now online at:                    |
+|                   Your bot is now locally at:                   |
+|                      http://localhost:${process.env.PORT || 3000}                      |
+|                          and online at:                         |
 |${tunnelUrl}|
 |                                                                 |
 |        Visit https://ans-group.github.io/basebot/docs to        |
