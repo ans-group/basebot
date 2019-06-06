@@ -141,7 +141,7 @@ module.exports = class extends Generator {
     ].forEach(quickCopy.bind(this))
 
     //create .gitignore 
-    this.fs.copyTpl(this.templatePath('.gi'), this.destinationPath('.gitignore'))
+    this.fs.copy(this.templatePath('.gi'), this.destinationPath('.gitignore'))
 
     // env vars
     const vars = [
