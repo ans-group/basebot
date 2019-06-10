@@ -343,12 +343,12 @@ p, li {
   p *, li * {
     font-size: inherit; }
 
-p a, a.link {
+p a, li a.link {
   font-weight: 500;
   letter-spacing: 0;
   box-shadow: inset 0 -0.2em rgba(145, 105, 201, 0.7);
   transition: box-shadow .15s ease-in-out; }
-  p a:hover, a.link:hover {
+  p a:hover, li a.link:hover {
     box-shadow: inset 0 -0.2em rgba(145, 105, 201, 0.9); }
 
 ul {
