@@ -1,6 +1,6 @@
 {
   "name": "basebot-cli",
-  "version": "2.1.27",
+  "version": "2.1.28",
   "description": "Helps with basebot-related tasks",
   "bin": {
     "basebot": "basebot"
@@ -21,7 +21,7 @@
     "cli-spinner": "^0.2.8",
     "commander": "^2.19.0",
     "fs-jetpack": "^2.2.0",
-    "generator-basebot": "^2.1.27",
+    "generator-basebot": "^2.1.28",
     "hasbin": "^1.2.3",
     "inquirer": "^6.2.1",
     "lodash": "^4.17.11",

@@ -1,6 +1,6 @@
 {
   "name": "basebot-controller-web",
-  "version": "2.1.26",
+  "version": "2.1.28",
   "description": "Web controller for Basebot",
   "main": "dist/index.js",
   "scripts": {
