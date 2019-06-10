@@ -1,6 +1,6 @@
 {
   "name": "basebot-storage-mongo",
-  "version": "2.1.17",
+  "version": "2.1.29",
   "description": "Mongo integration for Basebot",
   "main": "dist/index.js",
   "scripts": {
