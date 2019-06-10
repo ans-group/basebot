@@ -4,7 +4,7 @@ module.exports = {
   'Azure Table Storage': 'basebot-storage-azuretables',
   'Firebase Firestore': 'basebot-storage-firestore',
   'AWS DynamoDB': 'basebot-storage-dynamodb',
-  'MongoDB': 'botkit-storage-mongo',
+  'MongoDB': 'basebot-storage-mongo',
   'Redis': 'botkit-storage-redis',
   'CouchDB': 'botkit-storage-couchdb',
   'MySQL': 'botkit-storage-mysql',

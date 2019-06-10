@@ -13,8 +13,7 @@ slug: docs
 
       <h3 class="title" id="intro">Introduction</h3>
 
-      <section id="wh
-      at-is-basebot" class="section">
+      <section id="what-is-basebot" class="section">
         <h4>What is Basebot?</h4>
         <p>
           Basebot is a suite of tools for building and managing virtual assistants (AKA chatbots).
@@ -273,7 +272,7 @@ slug: docs
         <p>
           Then let's refactor our skill module to the following:
         </p>
-        <pre><code class="language-javascript">
+        <pre data-line="3,5-7,13-25"><code class="language-javascript">
           // skills/weather.js
 
           import axios from 'axios'
@@ -309,7 +308,9 @@ slug: docs
             report"</strong> to our bot.
         </p>
         <p>Next, let's have our bot ask the user where they want the weather for.</p>
-        <pre><code class="language-javascript">
+        <pre data-line="4,15-32"><code class="language-javascript">
+          // skills/weather.js
+
           import axios from 'axios'
           import { promisify } from 'util'
           
@@ -359,9 +360,10 @@ slug: docs
           ]
         </code></pre>
         <p>
-          Great stuff! The only thing now is that it's somewhat difficult to trigger this skill. Wouldn't it be great if
-          the bot was able to tell that the user was asking about the weather without us having to describe every
-          possible variation? That's where LUIS comes in!
+          Great stuff! The only thing now is that it's somewhat difficult for a user to trigger this skill. There are so
+          many varying ways a user could ask for the weather. Wouldn't it be great if we could just give a few examples
+          of
+          things they might say and have some AI do the rest? That's where LUIS comes in!
         </p>
         <p>
           Let's head back over to <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a>.
@@ -522,6 +524,30 @@ slug: docs
           If the ProvisioningState is "Succeeded" then your container instance is up. If not, wait a minute and try
           again.
         </p>
+        <p>
+          Once you see "Succeeded" copy the FQDN URL (it will be something like basebot.uksouth.azurecontainer.io).
+        </p>
+        <p>
+          You can speak to your bot via this URL on port 3001 through a websocket, but for now, let's just use the local
+          version. Run <code class="language-bash">npm run dev</code> again in your project root and visit
+          localhost:3000 in your browser. Change the endpoint URL to (your FQDN URL):3001 - e.g.
+          basebot.uksouth.azurecontainer.io:3001
+        </p>
+        <img src="/images/basebot-chat-test.png" alt="Basebot Chat Test Interface">
+        <p>
+          Wait a second for it to connect and then try it out. If it responds, congratulations! You've just successfully
+          deployed your bot!
+        </p>
+      </section>
+
+      <section id="deploying-to-azure" class="section">
+        <h4>Next Steps</h4>
+        <p>
+          Next, why not write some more skills. Or explore the rest of this documentation.
+        </p>
+        <p>
+          If you need any help, contact <a href="mailto:devaccess@ansgroup.co.uk">devaccess@ansgroup.co.uk</a>.
+        </p>
       </section>
 
     </div>
@@ -534,7 +560,7 @@ slug: docs
       <section id="web-connector" class="section">
         <h4>Web Connector</h4>
         <p>
-          The Web (or Direct) connector enables direct websocket connections from any bespoke client to Basebot.
+          The basebot-controller-web connector enables direct websocket connections from any bespoke client to Basebot.
         </p>
         <p>
           To enable, add the following to services/channels/production.js
@@ -586,50 +612,326 @@ slug: docs
       <section id="alexa-connector" class="section">
         <h4>Alexa Connector</h4>
         <p>
-          The Alexa connector allows you to
+          The basebot-controller-alexa connector allows you to handle Alexa input with Basebot
         </p>
+        <p>
+          To enable, add the following to services/channels/production.js
+        </p>
+        <pre data-line="3,12-20"><code class="language-javascript">
+          import storage from '../storage'
+          import logger from '../logger'
+          import alexabot from 'basebot-controller-alexa'
+
+          const info = logger('channels', 'info')
+          const error = logger('channels', 'error')
+
+          const botOptions = { storage }
+
+          const channels = {
+
+            alexa: {
+              controller: alexabot(botOptions),
+              listen(controller) {
+                const bot = controller.spawn({})
+                controller.createWebhookEndpoints(controller.webserver, bot)
+                controller.startTicking()
+                info('Alexa bot online')
+              }
+            },
+
+          }
+
+          export default channels
+        </code></pre>
+        <p>
+          You'll also need to register the middleware in services/middleware/production.js
+        </p>
+        <pre data-line="1-2,7-10"><code class="language-javascript">
+          import { heard as alexaMiddleware } from 'basebot-controller-alexa'
+          import storage from '../storage'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'heard',
+              handler: alexaMiddleware(storage)
+            }
+
+          ]
+        </code></pre>
+        <p>
+          A couple of considerations when using the Alexa connector:
+        </p>
+        <ol>
+          <li>Alexa doesn't store the utterance so pattern matching won't work. You have to match on an intent. If you
+            specify a pattern, then the module will treat the intent name as the utterance which could cause unforeseen
+            weirdness.</li>
+          <li>Alexa doesn't like multiple responses. You can send 1 or 2 messages and indicate there are more coming by
+            adding <code class="language-javascript">progressive: true</code> to the message object, but you won't be
+            able to send more than 4 without an additional user input.</li>
+        </ol>
       </section>
 
       <section id="slack-connector" class="section">
         <h4>Slack Connector</h4>
+        <p>
+          <em>Docs coming soon</em>
+        </p>
       </section>
 
       <section id="sms-connector" class="section">
         <h4>SMS Connector (using Twilio)</h4>
+        <p>
+          <em>Docs coming soon</em>
+        </p>
       </section>
 
       <h3 class="title" id="storage-modules">Storage</h3>
 
       <section id="mongo-storage" class="section">
         <h4>MongoDB Storage</h4>
+        <p>
+          The basebot-storage-mongo storage module enables MongoDB integration.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-mongo'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> a Mongo URL
+          </li>
+        </ul>
       </section>
 
       <section id="tablestorage-storage" class="section">
         <h4>Azure Table Storage</h4>
+        <p>
+          The basebot-storage-azuretables module enables integration with Azure Table Storage.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-azuretables'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> an Azure Table Storage connection string
+          </li>
+        </ul>
       </section>
 
       <section id="dynamo-storage" class="section">
         <h4>DynamoDB</h4>
+        <p>
+          The azure-storage-dynamodb storage module enables integration with AWS DynamoDB.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+                  import storage from 'basebot-storage-dynamodb'
+                  import logger from '../logger'
+                  
+                  export default storage(logger)
+                </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">AWS_REGION</code> the AWS region (e.g. eu-west-1)
+          </li>
+          <li>
+            <code class="language-bash">AWS_ACCESS_KEY_ID</code> AWS access key ID
+          </li>
+          <li>
+            <code class="language-bash">AWS_SECRET_ACCESS_KEY</code> AWS secret access key
+          </li>
+        </ul>
       </section>
 
       <section id="firestore-storage" class="section">
         <h4>Firestore</h4>
+        <p>
+          The basebot-storage-firestore module enables integration with Firebase's Firestore.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-firestore'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> your Firestore endpoint
+          </li>
+          <li>
+            <code class="language-bash">FIREBASE</code> Stringified service account JSON from a firebase.json.
+          </li>
+        </ul>
       </section>
 
       <h3 class="title" id="nlp-modules">Natural Language</h3>
 
       <section id="luis-module" class="section">
         <h4>LUIS (Microsoft)</h4>
+        <p>
+          The basebot-middleware-luis module allows all messages to have an intent associated with them via Microsoft
+          LUIS
+        </p>
+        <p>
+          To enable, add the following to services/middleware/production.js
+        </p>
+        <pre data-line="1,6-14"><code class="language-javascript">
+          import luis from 'basebot-middleware-luis'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'receive',
+              handler: luis(logger).receive()
+            },
+            {
+              type: 'hear',
+              triggers: ['intent'],
+              handler: luis(logger).hearIntent
+            },
+
+          ]
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">LUIS_URL</code> your LUIS.ai endpoint URL
+          </li>
+        </ul>
+        <p>
+          Enabling this module will allow you to listen for intents inside skill modules.
+        </p>
       </section>
 
       <section id="lex-module" class="section">
         <h4>Lex (AWS)</h4>
+        <p>
+          The basebot-middleware-lex module allows all messages to have an intent associated with them via AWS Lex.
+        </p>
+        <p>
+          To enable, add the following to services/middleware/production.js
+        </p>
+        <pre data-line="1,6-13"><code class="language-javascript">
+          import lex from 'basebot-middleware-lex'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'receive',
+              handler: lex(logger).receive
+            },
+            {
+              type: 'heard',
+              handler: lex(logger).heard
+            },
+
+          ]
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">AWS_REGION</code> the AWS region (e.g. eu-west-1)
+          </li>
+          <li>
+            <code class="language-bash">AWS_ACCESS_KEY_ID</code> AWS access key ID
+          </li>
+          <li>
+            <code class="language-bash">AWS_SECRET_ACCESS_KEY</code> AWS secret access key
+          </li>
+        </ul>
+        <p>
+          Enabling this module will allow you to listen for intents inside skill modules.
+        </p>
       </section>
 
       <h3 class="title" id="auth-modules">Authentication</h3>
 
       <section id="microsoft-auth" class="section">
         <h4>Microsoft Authentication</h4>
+        <p>
+          The basebot-auth-microsoft module allows you to quickly authenticate users with Microsoft services (via
+          OAuth2)
+        </p>
+        <p>
+          To enable, add the following to services/auth.js
+        </p>
+        <pre data-line="2,8"><code class="language-javascript">
+          import mapValues from 'lodash/mapValues'
+          import microsoft from 'basebot-auth-microsoft'
+          import logger from './logger'
+          import storage from './storage'
+          import server from './server'
+
+          const handlers = {
+            microsoft
+          }
+
+          const authModules = mapValues(handlers, init => {
+            const handler = init(logger)
+            handler.registerEndpoints(server, storage)
+          })
+
+          export default authModules
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">MS_APP_ID</code> App ID (Azure apps)
+          </li>
+          <li>
+            <code class="language-bash">MS_APP_PASSWORD</code> App password
+          </li>
+          <li>
+            <code class="language-bash">MS_APP_SCOPES</code> Scopes: See <a class="link"
+              href="https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent"
+              target="_blank" rel="noopener noreferrer">here</a>
+          </li>
+          <li>
+            <code class="language-bash">CRYPTR_SECRET</code> (required in production only) - a string to use as a cipher
+            for at-rest encryption.
+          </li>
+        </ul>
+        <p>
+          Use the getAuthUrl(userId) method to generate an authorization URL for a user.
+        </p>
       </section>
     </div>
   </main>

@@ -1,9 +1,7 @@
 import mapValues from 'lodash/mapValues'
 import logger from './logger'
-/*********************************************************
- * Register any basebot compatible auth handlers here.
- * For example, we are using the microsoft auth handler below
- *******************************************************/
+import storage from './storage'
+import server from './server'
 <% imports.forEach(function(value) { -%>
 import <%- value.designation; %> from '<%- value.packageName; -%>'
 <% }); %>
@@ -11,8 +9,13 @@ import <%- value.designation; %> from '<%- value.packageName; -%>'
 
 const handlers = {
   <% handlers.forEach(function(handler) { -%>
-  <%- handler %>,
+    <%- handler %>,
   <% }); %>
 }
 
-export default mapValues(handlers, handler => handler(logger))
+const authModules = mapValues(handlers, init => {
+  const handler = init(logger)
+  handler.registerEndpoints(server, storage)
+})
+
+export default authModules

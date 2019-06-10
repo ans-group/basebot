@@ -38,7 +38,6 @@ module.exports = {
     { key: 'PAPERTRAIL_HOST' },
     { key: 'PAPERTRAIL_PORT' }
   ],
-  'Amazon Alexa (voice)': [],
   'Microsoft LUIS': [
     { key: 'LUIS_URI' }
   ],
