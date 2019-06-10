@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Basebot | Chatbot Framework by ANS</title>
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0">
+  <meta name="MobileOptimized" content="320">
+  <meta name="theme-color" content="#000000" />
+  <meta name="description"
+    content="A suite of open source tools for creating and managing virtual assistants and chat bots. Built by ANS Group">
+  <meta name="keywords" content="Chatbot,Virtual Assistant,ANS,Basebot,Bot Framework">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="https://ans-group.github.io/basebot">
+  <meta name="twitter:title" content="Basebot">
+  <meta name="twitter:description" content="A Chatbot Framework by ANS Group">
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="https://ans-group.github.io/basebot/images/favicon.ico" />
+  <link rel="manifest" href="https://ans-group.github.io/basebot/site.webmanifest" />
+
+  <!-- Stylesheets -->
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://ans-group.github.io/basebot/css/main.css">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140971542-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140971542-1');
+  </script>
+</head>
+
+<body class="index">
+  <main>
+<nav class="primary-nav">
+  <img src="https://ans-group.github.io/basebot/images/bot_icon.png" alt="Basebot Icon" class="logo">
+  <a href="https://ans-group.github.io/basebot" class="logoText">
+    Basebot
+  </a>
+  <span class="version">
+    v2.1.28
+  </span>
+  <a href="https://ans-group.github.io/basebot/docs" class="link">
+    Docs
+  </a>
+  <a href="https://github.com/ans-group/basebot" target="_blank" rel="noopener noreferrer" class="openGithub">
+    Github
+  </a>
+</nav>
+
+<div class="homepage-hero">
+  <h1 class="headline">Deploy an AI-powered Chatbot in less than 1 hour</h1>
+  <pre class="code"><code class="language-bash">
+    npm i -g basebot-cli
+    basebot create
+  </code></pre>
+  <div class="buttons">
+    <button class="button" id="learnMoreButton">Learn More</button>
+    <button class="button primary" id="quickStartButton">Get Started</button>
+  </div>
+  <div class="eq-meter" id="eq"></div>
+</div>
+
+<div id="learnMore" class="content-wrapper">
+  <h2>Why Basebot?</h2>
+
+  <div class="content-trio">
+    <div class="col">
+      <h3 class="number-title">
+        <span class="number">01</span>
+        Accelerated "Time to Value"
+      </h3>
+      <p>
+        Basebot allows you to start writing business-logic within minutes. All of the integration work is done for you,
+        allowing you to start building value from day one.
+      </p>
+      <p>
+        We have an ever-growing library of platform connectors, storage modules, authentication methods and more!
+      </p>
+    </div>
+    <div class="col">
+      <h3 class="number-title">
+        <span class="number">02</span>
+        Extensive platform support
+      </h3>
+      <p>
+        Support multiple platforms from the same codebase!
+      </p>
+      <p>
+        Basebot acts as an adapter, allowing you to write bot skills that require little-to-no alteration to work
+        with multiple platforms.
+        Need a chatbot that runs on Alexa <em>and</em> your website?
+      </p>
+      <p>Basebot has you covered.</p>
+    </div>
+    <div class="col">
+      <h3 class="number-title">
+        <span class="number">03</span>
+        Built and backed by experts
+      </h3>
+      <p>Basebot is built and maintained by ANS. One of the UK's leading Cloud and Digital services providers.</p>
+      <p>Whether you build with Basebot on your own, or use it as a springboard for an engagement with us, we're always
+        here to help and we're constantly making imrovements and adding features.
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div id="quickStart" class="content-wrapper">
+  <h2>Getting Started</h2>
+
+  <div class="code-pane">
+    <div class="content">
+      <h3 id="create-a-project">
+        Creating a new project
+      </h3>
+      <p>
+        To create a new project, install the basebot CLI tool and run the <code
+          class="language-bash">basebot create</code> command. This will scaffold a new project in your current
+        directory. Fill in the prompts and customise your project to your requirements. You will be asked the
+        following questions:
+      </p>
+      <ul>
+        <li>
+          <strong>Project Name:</strong> your project name (used to create a directory at your current location)
+        </li>
+        <li>
+          <strong>Bot Name:</strong> The name of your bot. This will potentially be seen by end users.
+        </li>
+        <li>
+          <strong>Channels:</strong> How users will access your bot. Use &lt;space&gt; to select and &lt;enter&gt; to
+          continue. You can
+          select as many channels as you like.
+        </li>
+        <li>
+          <strong>Storage:</strong> Where bot-related information will be stored.
+        </li>
+        <li>
+          <strong>NLP Engine:</strong> What service you want to use for NLP/NLU (optional).
+        </li>
+        <li>
+          <strong>Authentication:</strong> Any oAuth modules you want to enable.
+        </li>
+      </ul>
+    </div>
+    <div class="code">
+      <pre class="command-line" data-output="3-8"><code class="language-bash">
+        npm i -g basebot-cli
+        basebot create
+        ? What is your project name? (This will create a folder in your current directory) my-first-bot
+        ? What is the name of your bot? Barbara Botface
+        ? How do you want people to be able to access your bot? Microsoft Bot Service
+        ? What do you want to use for storage? Azure Table Storage
+        ? Do you wish to use an NLP service? Microsoft LUIS
+        ? (Optional) Do you require any third party authorization support? None
+      </code></pre>
+    </div>
+  </div>
+
+  <div class="code-pane">
+    <div class="content">
+      <h3 id="configuration">
+        Configuring your environment
+      </h3>
+      <p>
+        Once the create script is complete, you'll find a .env file in the newly-created project folder.
+        This file will contain a number of fields depending on your module selection. These should all be filled in
+        before you can run your app.
+      </p>
+      <p>
+        In most cases the value you need is self explanatory,
+        for example, <code class="language-base">AWS_SECRET_ACCESS_KEY</code> would be a secret access key for AWS
+        (usually from an IAM user).
+        However, if you do get stuck, just check the documentation for the module in question (the module that requires
+        said env var is commented above each var).
+      </p>
+    </div>
+    <div class="code">
+      <pre class="command-line"><code class="language-bash">
+        cd my-first-bot
+        nano .env #open with your favourite text editor
+      </code></pre>
+      <pre><code class="language-bash">
+        # Core
+        BOT_NAME=Barbara Botface
+        USE_LT_SUBDOMAIN=my-first-bot123.localtunnel.me
+        DEBUG=basebot*
+        
+        # AWS Services
+        AWS_ACCESS_KEY_ID=
+        AWS_SECRET_ACCESS_KEY=
+        AWS_REGION='eu-west-1'
+      </code></pre>
+    </div>
+  </div>
+
+  <div class="code-pane">
+    <div class="content">
+      <h3 id="running-in-dev-mode">
+        Running your app
+      </h3>
+      <p>
+        Once you've filled in your env vars you should be ready to run your app in dev mode. To do this just use the
+        <code class="language-base">npm run dev</code> command.
+      </p>
+      <p>
+        No errors? Congrats! you're ready to start writing some code.
+      </p>
+    </div>
+    <div class="code">
+      <pre class="command-line" data-output="2-5"><code class="language-bash">
+          npm run dev
+          [nodemon] 1.19.0
+          [nodemon] to restart at any time, enter `rs`
+          [nodemon] watching: *.*
+          [nodemon] starting `babel-node ./index.js`
+        </code></pre>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <div class="content">
+      <h3 class="heading">
+        Next step:
+      </h3>
+      <a href="https://ans-group.github.io/basebot/docs/#writing-skills" class="cta">Building your first Skill</a>
+    </div>
+  </div>
+
+</div>
+
+</main>
+<script src="https://ans-group.github.io/basebot/js/libs/jquery.min.js"></script>
+<script src="https://ans-group.github.io/basebot/js/libs/prism.min.js"></script>
+<script src="https://ans-group.github.io/basebot/js/bundle.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<footer class="primary-footer">
+  <div class="github-buttons">
+    <a class="github-button button" href="https://github.com/ans-group/basebot/issues" data-icon="octicon-issue-opened"
+      data-show-count="true" aria-label="Issue ans-group/basebot on GitHub">Issues</a>
+    <a class="github-button button" href="https://github.com/ans-group/basebot" data-icon="octicon-star"
+      data-show-count="true" aria-label="Star ans-group/basebot on GitHub">Stars</a>
+  </div>
+
+  <div class="footer-list">
+    <span class="item">
+      Current Version: 2.1.28
+    </span>
+    <a class="item" href="https://github.com/ans-group/basebot/issues" target="_blank" rel="noopener noreferrer">
+      Issues
+    </a>
+    <a class="item" href="https://github.com/ans-group/basebot" target="_blank" rel="noopener noreferrer">
+      GitHub
+    </a>
+    <a class="item" href="https://ans.co.uk" target="_blank" rel="noopener noreferrer">
+      ANS Website
+    </a>
+  </div>
+
+  <p class="copyright">
+    Basebot is available under the <a class="item" href="https://github.com/ans-group/basebot/blob/master/LICENSE"
+      target="_blank" rel="noopener noreferrer">MIT License</a>
+  </p>
+
+  <p class="copyright">
+    Documentation available under Creative Commons 2.0
+  </p>
+
+  <p class="copyright">
+    Built with <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
+      style="enable-background:new 0 0 50 50;" xml:space="preserve" width="1em" height="1em">
+      <path style="fill:#D75A4A;" d="M24.85,10.126c2.018-4.783,6.628-8.125,11.99-8.125c7.223,0,12.425,6.179,13.079,13.543
+    	c0,0,0.353,1.828-0.424,5.119c-1.058,4.482-3.545,8.464-6.898,11.503L24.85,48L7.402,32.165c-3.353-3.038-5.84-7.021-6.898-11.503
+    	c-0.777-3.291-0.424-5.119-0.424-5.119C0.734,8.179,5.936,2,13.159,2C18.522,2,22.832,5.343,24.85,10.126z" />
+    </svg> by <a href="https://ans.co.uk" target="_blank" rel="noopener noreferrer">ANS</a>
+  </p>
+
+</footer>
+</body>
+
+</html>
