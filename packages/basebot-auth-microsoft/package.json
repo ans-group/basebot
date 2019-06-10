@@ -1,6 +1,6 @@
 {
   "name": "basebot-auth-microsoft",
-  "version": "2.1.17",
+  "version": "2.1.32",
   "description": "Microsoft OAuth (v2 endpoint) middleware for Basebot",
   "main": "dist/index.js",
   "scripts": {
