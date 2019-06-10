@@ -1,0 +1,34 @@
+.docs-section {
+  border-bottom: 0.1rem solid color(grey);
+  padding: 5rem 2.5rem;
+  max-width: 110rem;
+  @media (min-width: 768px){
+    padding: 7.5rem 2.5rem;
+  }
+  p {
+    max-width: 85rem;
+  }
+  pre {
+    margin-bottom: 2rem;
+  }
+  img {
+    display: block;
+    margin-bottom: 3rem;
+  }
+  > .heading {
+    font-size: 1.5rem;
+    color: color(darkGrey);
+  }
+  > .title {
+    font-size: 2.9rem;
+  }
+  > *:last-child {
+    margin-bottom: 0;
+  }
+  > .section {
+    padding-bottom: 5rem;
+    @media (min-width: 768px){
+      padding-bottom: 8rem;
+    }
+  }
+}

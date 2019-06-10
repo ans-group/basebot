@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+const pjson = require('./package.json')
+const program = require('commander')
+
+program
+  .version(pjson.version)
+  .command('create', 'Create a new project')
+  .command('create-app', 'Create a new mobile app (Alpha)')
+  .command('build', 'Build for Android and/or IOS')
+  .command('icons', 'Generate launcher icons')
+  .option('-v, --verbose', 'Enable logging')
+  .parse(process.argv)

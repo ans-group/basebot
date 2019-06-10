@@ -1,0 +1,54 @@
+.homepage-hero {
+  text-align: center;
+  background: color(pearl);
+  min-height: 70rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 7rem;
+  @media (min-width: 768px) {
+    height: 100vh;
+    margin-bottom: 15rem;
+  }
+  > .headline {
+    font-weight: bold;
+    max-width: 80rem;
+    margin: auto auto 0;
+    letter-spacing: 0.03em;
+    padding: 5rem 4rem 0;
+    font-size: 3.2rem;
+    @media (min-width: 468px){
+      font-size: 5rem;
+      padding: 10rem 4rem 0;
+    }
+  }
+  > .code {
+    max-width: 90%;
+    width: 30rem;
+    padding: 1.5rem 3rem;
+    margin: 5rem auto;
+    border-radius: 0.5rem;
+  }
+  > .buttons {
+    > .button {
+      border: 0.1rem solid color(grey);
+      margin: 0 auto;
+      padding: 1.2rem;
+      border-radius: 0.5rem;
+      background: transparent;
+      transition: background .2s ease-in-out;
+      cursor: pointer;
+      outline: 0;
+      &:hover {
+        background: rgba(color(grey), 0.1);
+      }
+    }
+    > .button.primary {
+      background: color(primary);
+      color: #fff;
+    }
+  }
+  > .eq-meter {
+    margin-top: auto;
+  }
+}

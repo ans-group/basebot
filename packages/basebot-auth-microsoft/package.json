@@ -1,0 +1,31 @@
+{
+  "name": "basebot-auth-microsoft",
+  "version": "2.1.17",
+  "description": "Microsoft OAuth (v2 endpoint) middleware for Basebot",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
+    "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ans-group/basebot.git"
+  },
+  "author": "ANS Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ans-group/basebot/issues"
+  },
+  "homepage": "https://github.com/ans-group/basebot#readme",
+  "dependencies": {
+    "cryptr": "^4.0.2",
+    "simple-oauth2": "^2.2.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  },
+  "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4"
+}

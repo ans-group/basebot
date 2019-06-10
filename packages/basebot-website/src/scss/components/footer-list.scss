@@ -1,0 +1,11 @@
+.footer-list {
+  margin-bottom: 2rem;
+  > .item {
+    &:not(:last-child):after {
+      content: " · ";
+      display: inline-block;
+      color: #fff;
+      margin: 0 1rem;
+    }
+  }
+}

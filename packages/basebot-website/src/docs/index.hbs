@@ -1,0 +1,940 @@
+---
+title: Basebot Docs | Chatbot Framework by ANS
+slug: docs
+---
+
+{{> head}}
+
+<div class="docs-wrapper">
+  {{> docsNav}}
+  <main class="docs-content">
+    <div class="docs-section">
+      <h2 class="heading">Getting Started Guide</h2>
+
+      <h3 class="title" id="intro">Introduction</h3>
+
+      <section id="what-is-basebot" class="section">
+        <h4>What is Basebot?</h4>
+        <p>
+          Basebot is a suite of tools for building and managing virtual assistants (AKA chatbots).
+        </p>
+        <p>
+          This guide will walk you through creating a simple chatbot that can tell you the weather for a given location
+          and deploy it to Azure.
+        </p>
+      </section>
+
+      <h3 class="title" id="pre-reqs">Pre-requisites</h3>
+      <section id="installing-node" class="section">
+        <h4>Installing NodeJS</h4>
+        <p>
+          Make sure you've got NodeJS installed. (<a href="https://nodejs.org/en/download/" target="_blank"
+            rel="noopener noreferrer">Install here</a>).
+        </p>
+        <p>
+          Test you have node installed with <code class="language-bash">node -v</code>
+        </p>
+        <pre class="command-line" data-output="2"><code class="language-bash">
+          node -v
+          v10.16.0 
+        </code></pre>
+      </section>
+
+      <section id="installing-azure-cli" class="section">
+        <h4>Installing the Azure CLI</h4>
+        <p>
+          Make sure you have the Azure CLI tool installed (<a
+            href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest" target="_blank"
+            rel="noopener noreferrer">Install here</a>).
+        </p>
+        <p>
+          <strong>
+            Note:
+          </strong>
+          We'll be using the bash version of the Azure CLI for this guide.
+        </p>
+        <p>
+          Login to the CLI with <code class="language-bash">az login</code>
+        </p>
+        <pre class="command-line" data-output="2-3"><code class="language-bash">
+          az login
+          Note, we have launched a browser for you to login. For old experience with device code, use "az login --use-device-code"
+          You have logged in. Now let us find all the subscriptions to which you have access...
+        </code></pre>
+      </section>
+
+      <section id="signup-to-docker" class="section">
+        <h4>Creating a Docker account</h4>
+        <p>
+          If you wish to follow the "deploying to Azure" part of this guide, you'll need a Docker account. (<a
+            href="https://hub.docker.com/signup" target="_blank" rel="noopener noreferrer">Register here</a>).
+        </p>
+        <p>
+          Make a note of your username - you'll need that in a second.
+        </p>
+      </section>
+
+      <section id="setting-up-services" class="section">
+        <h4>Setting up the Storage</h4>
+        <p>
+          We'll need credentials for a couple of services we'll be using in this guide.
+        </p>
+        <p>
+          With the Azure CLI tool, create a table storage account.
+        </p>
+        <pre><code class="language-bash">
+          az storage account create -n basebot -g Basebot -l ukwest --sku Standard_LRS
+        </code></pre>
+        <p>
+          Next, we need to grab the connection string for our newly created storage account.
+        </p>
+        <pre><code class="language-bash">
+          az storage account show-connection-string -g Basebot -n basebot --table-endpoint basebot | sed -n 2p | cut -d'"' -f 4
+        </code></pre>
+        <p>
+          Make a note of the string that is outputted (it should start with "DefaultEndpointsProtocol").
+        </p>
+      </section>
+      <section id="adding-nlp" class="section">
+        <h4>Adding NLP/NLU</h4>
+        <p>
+          Now we need to set up LUIS to extract intents from our user input.
+        </p>
+        <p>
+          Log in/sign up at <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a> and
+          create a new app.
+        </p>
+        <img src="/images/create-luis-app.png" alt="Creating a LUIS app">
+        <p>
+          Inside the app screen click on the <strong>Manage</strong> tab and go to <strong>Keys and Endpoints</strong>
+          on the left.
+        </p>
+        <img src="/images/copy-luis-key.png" alt="Copying LUIS endpoint URL">
+        <p>
+          Make a note of the Endpoint URL. We'll need this later.
+        </p>
+      </section>
+
+      <h3 class="title" id="project-setup">Creating a project</h3>
+
+      <section id="using-the-cli" class="section">
+        <h4>Using 'Basebot Create'</h4>
+        <p>
+          To create a new project, install the basebot CLI tool and run the <code
+            class="language-bash">basebot create</code>
+          command. This will scaffold a new project in your current
+          directory. Enter the following when prompted:
+        </p>
+        <ul>
+          <li>
+            <strong>What is your project name?</strong> my-first-bot
+          </li>
+          <li>
+            <strong>What is the name of your bot?</strong> BottyMcBotface
+          </li>
+          <li>
+            <strong>How do you want people to be able to access your bot?</strong> Direct (Web, Apps etc) <em>select
+              with &lt;space&gt; and press &lt;enter&gt; to confirm.</em>
+          </li>
+          <li>
+            <strong>What do you want to use for storage?</strong> Azure Table Storage
+          </li>
+          <li>
+            <strong>Do you wish to use an NLP service?</strong> Microsoft LUIS
+          </li>
+          <li>
+            <strong>(Optional) Do you require any third party authorization support?</strong> None
+          </li>
+          <li>
+            <strong>Would you like to aggregate your production logs with Papertrail?</strong> No
+          </li>
+        </ul>
+        <pre class="command-line" data-output="3-8"><code class="language-bash">
+          npm i -g basebot-cli
+          basebot create
+          ? What is your project name? my-first-bot
+          ? What is the name of your bot? BottyMcBotface
+          ? How do you want people to be able to access your bot? Direct (Web, Apps etc)
+          ? What do you want to use for storage? Azure Table Storage
+          ? Do you wish to use an NLP service? Microsoft LUIS
+          ? (Optional) Do you require any third party authorization support? None
+          ? Would you like to aggregate your production logs with Papertrail? No
+        </code></pre>
+        <p>
+          Open your newly created project in your favorite text editor. For example, with VSCode:
+        </p>
+        <pre><code class="language-bash">
+          code my-first-bot
+        </code></pre>
+      </section>
+
+      <section id="configuring-env" class="section">
+        <h4>Configuring Environment</h4>
+        <p>
+          Open the .env file inside your project root. Add your LUIS endpoint URL and your storage connection string as
+          shown. Also, change "YOUR_DOCKER_USERNAME" to your Docker username if you have one.
+        </p>
+        <pre><code class="language-bash">
+          BOT_NAME=BottyMcBotface
+          USE_LT_SUBDOMAIN=my-first-bot123
+          LUIS_URI="YOUR-LUIS-ENDPOINT-URL"
+          DB_URL="YOUR-AZURE-TABLE-STORAGE-CONNECTION-STRING"
+          DOCKER_IMAGE_NAME="YOUR_DOCKER_USERNAME/basebot-core"
+        </code></pre>
+        <p>To make sure everything is working, start your bot with <code class="language-bash">npm run dev</code></p>
+        <pre class="command-line" data-output="2-30"><code class="language-bash">
+          npm run dev
+          > DEBUG=server* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'          
+          [nodemon] 1.19.1
+          [nodemon] to restart at any time, enter `rs`
+          [nodemon] watching: *.*
+          [nodemon] starting `babel-node ./index.js`
+          
+          $$$$$$$\                                $$$$$$$\             $$\    
+          $$  __$$\                               $$  __$$\            $$ |    
+          $$ |  $$ | $$$$$$\   $$$$$$$\  $$$$$$\  $$ |  $$ | $$$$$$\ $$$$$$\   
+          $$$$$$$\ | \____$$\ $$  _____|$$  __$$\ $$$$$$$\ |$$  __$$\_$$  _|  
+          $$  __$$\  $$$$$$$ |\$$$$$$\  $$$$$$$$ |$$  __$$\ $$ /  $$ | $$ |    
+          $$ |  $$ |$$  __$$ | \____$$\ $$   ____|$$ |  $$ |$$ |  $$ | $$ |$$\ 
+          $$$$$$$  |\$$$$$$$ |$$$$$$$  |\$$$$$$$\ $$$$$$$  |\$$$$$$  | \$$$$  |
+          \_______/  \_______|\_______/  \_______|\_______/  \______/   \____/ 
+
+          ===================================================================
+          |                                                                 |
+          |                Your bot is available locally at:                |
+          |                      http://localhost:3000                      |
+          |                                                                 |                      
+          |                          and online at:                         |
+          |              https://my-first-bot123.localtunnel.me             |
+          |                                                                 |
+          |                      To learn more, visit:                      |
+          |             https://ans-group.github.io/basebot/docs            |
+          |                                                                 |
+          ===================================================================
+        </code></pre>
+      </section>
+
+      <h3 class="title" id="writing-skills">Creating a Skill</h3>
+
+      <section id="registering-skills" class="section">
+        <h4>Registering your skill</h4>
+        <p>Skills can be triggered in one of 3 ways:</p>
+        <ul>
+          <li><strong>pattern</strong>: specify a pattern to look for in the utterance, either as a plain string or
+            regex.</li>
+          <li><strong>intent</strong>: (requires NLP) - trigger when a specific intent name is identified</li>
+          <li><strong>event</strong>: respond to an in-built event or trigger a custom event manually</li>
+        </ul>
+        <p>Let's write a skill now. First, create a file called <strong>weather.js</strong> in the skills directory.</p>
+        <p>Skill files can contain multiple skills. Open the file you just created and export an array of <em>skill
+            objects</em>:</p>
+        <pre><code class="language-javascript">
+          // skills/weather.js
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler(bot, message, controller) {
+                bot.reply(message, `I'm not sure (yet)`)
+              }
+            }
+          ]
+        </code></pre>
+        <p>
+          As you can see, we're looking for a <em>pattern</em> with the above skill. If we wanted to look for an intent
+          or an event, we could just change that field. Currently, this skill will trigger whenever the bot hears either
+          the phrase 'what is the weather like' or 'weather report'. Not very robust - but we'll see to that in a second
+          😄
+        </p>
+        <p>
+          The <em>handler</em> field is the function you want to run when your skill is triggered. In the background it
+          leverages Botkit 0.7.4 - you can read more about the bot, message and controller objects over on the <a
+            href="https://botkit.ai/docs/v0/core.html#sending-messages" target="_blank" rel="noopener noreferrer">Botkit
+            documentation</a>.
+        </p>
+        <p>To make sure our new skill is imported by Basebot, we just need to add an extra line to skills/index.js:</p>
+        <pre><code class="language-javascript">
+          // skills/index.js
+          ... 
+          export { default as weather } from './weather'
+        </code></pre>
+      </section>
+
+      <section id="writing-skill-handler" class="section">
+        <h4>Writing the handler</h4>
+        <p>Let's have our bot look up the weather for a specific location. We'll start off by hardcoding this to London.
+        </p>
+        <p>In order to do this we can use the MetaWeather API - let's install the <em>Axios</em> package to make this
+          easier.</p>
+        <pre><code class="language-bash">
+          npm i --save axios
+        </code></pre>
+        <p>
+          Then let's refactor our skill module to the following:
+        </p>
+        <pre data-line="3,5-7,13-25"><code class="language-javascript">
+          // skills/weather.js
+
+          import axios from 'axios'
+          
+          const weatherAPI = axios.create({
+            baseURL: 'https://www.metaweather.com/api'
+          })
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler: async (bot, message, controller) => {
+                try {
+                  // hardcode the location to london for now
+                  const location = 'london'
+                  // grab the weather for today
+                  const { data: [{ woeid }] } = await weatherAPI.get(`/location/search?query=${location}`)
+                  const { data: { consolidated_weather: [{ the_temp, weather_state_name }] } } = await weatherAPI.get(`/location/${woeid}`)
+                  // reply to the message with the weather data, (notice that basebot web supports markdown)
+                  bot.reply(message, `looks like **${weather_state_name}** in **${location}** with a temperature of ${the_temp.toFixed(1)}°C`)
+                } catch (err) {
+                  // handle any errors
+                  console.error(err)
+                  bot.reply(message, 'yikes! something went wrong 😟')
+                }
+              }
+            }
+          ]
+        </code></pre>
+        <p>As you'll notice, Basebot supports the latest JavaScript features out of the box allowing us to use
+          async/await.</p>
+        <p>We can test this by visiting <em>localhost:3000</em> in our browser and typing <strong>"weather
+            report"</strong> to our bot.
+        </p>
+        <p>Next, let's have our bot ask the user where they want the weather for.</p>
+        <pre data-line="4,15-32"><code class="language-javascript">
+          // skills/weather.js
+
+          import axios from 'axios'
+          import { promisify } from 'util'
+          
+          const weatherAPI = axios.create({
+            baseURL: 'https://www.metaweather.com/api'
+          })
+          
+          export default [
+            {
+              pattern: ['what is the weather like?', 'weather report'],
+              handler: async (bot, message, controller) => {
+                try {
+                  // create a botkit conversation (see: https://botkit.ai/docs/v0/core.html#multi-message-conversations)
+                  const convo = await promisify(bot.startConversation.bind(bot))(message)
+
+                  // ask the user for a location (small delay for better UX)
+                  const { text: location } = await new Promise(resolve => convo.ask({
+                    text: 'Where would you like the weather for?',
+                    delay: 1000
+                  }, resolve))
+                  
+                  // send an interim message with typing: true to let the user know we're working on it
+                  convo.addMessage({ text: 'Checking the weather now...', typing: true })
+                  
+                  const { data: [locationData] } = await weatherAPI.get(`/location/search?query=${location.toLowerCase()}`)
+                  
+                  // handle invalid locations
+                  if (!locationData) {
+                    return bot.reply(message, `Hmm, I can't find weather for that location`)
+                  }
+                  
+                  // as before
+                  const { woeid } = locationData
+                  const { data: { consolidated_weather: [{ the_temp, weather_state_name }] } } = await weatherAPI.get(`/location/${woeid}`)
+                  
+                  convo.addMessage({
+                    text: `looks like **${weather_state_name}** in **${location}** with a temperature of ${the_temp.toFixed(1)}°C`,
+                    delay: 1000
+                  })
+                  convo.next()
+                } catch (err) {
+                  console.error(err)
+                  bot.reply(message, 'yikes! something went wrong 😟')
+                }
+              }
+            }
+          ]
+        </code></pre>
+        <p>
+          Great stuff! The only thing now is that it's somewhat difficult for a user to trigger this skill. There are so
+          many varying ways a user could ask for the weather. Wouldn't it be great if we could just give a few examples
+          of
+          things they might say and have some AI do the rest? That's where LUIS comes in!
+        </p>
+        <p>
+          Let's head back over to <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a>.
+          This time we're going to go to the <strong>build</strong> tab.
+        </p>
+        <p>
+          We're going to use one of LUIS's built-in intents. Under the <strong>intents</strong> section, click <em>Add
+            prebuilt domain intent</em> and select <em>Weather.QueryWeather</em>.
+        </p>
+        <img src="/images/weather-intent.gif" alt="Adding Weather.QueryWeather intent">
+        <p>This is a prebuilt intent, but it's also really easy to add custom intents. Once you've added the weather
+          intent we need to train and publish our model. We can do that with the buttons on the top right.</p>
+        <img src="/images/weather-training.gif" alt="Training and publishing LUIS intents">
+        <p>
+          Let's change our skill to look for the <em>Weather.QueryWeather</em> intent.
+        </p>
+        <pre><code class="language-javascript">
+          ...
+          export default [
+            {
+              intent: 'Weather.QueryWeather',
+              handler: async (bot, message, controller) => {
+                ...
+              }
+            }
+          ]
+        </code></pre>
+      </section>
+
+      <h3 class="title" id="testing">Testing your bot</h3>
+
+      <section id="manual-testing" class="section">
+        <h4>Manually testing your bot</h4>
+        <p>Visit <strong>localhost:3000</strong> to chat with your bot.</p>
+        <p>Try asking it what the weather is like in as many different ways you can think of.</p>
+        <img src="/images/weather-testing.gif" alt="Testing the bot" style="box-shadow: inset -2px 0 white">
+      </section>
+
+      <section id="writing-tests" class="section">
+        <h4>Writing your first test</h4>
+        <p>
+          If you run the <code class="language-bash">npm test</code> command you should see that there area already two
+          example unit tests (that should hopefully be passing!).
+        </p>
+        <p>Let's write a test for our newly-created weather skill.</p>
+        <p>Create a new file at <strong>/__tests__/weather.js</strong> and add the following:</p>
+        <pre><code class="language-javascript">
+          // __tests__/weather.js
+
+          import channels from '..'
+          const { controller } = channels.test
+          const { bot } = controller
+
+          jest.setTimeout(10000)
+
+
+          describe('Weather skill', function () {
+            test('User can ask about the weather', done => {
+              bot.usersInput(
+                [
+                  {
+                    user: 'user123',
+                    channel: 'socket',
+                    type: 'message_received',
+                    messages: [
+                      {
+                        waitAfter: 3000,
+                        isAssertion: true,
+                        text: 'Weather report'
+                      }
+                    ]
+                  }
+                ]
+              ).then((message) => {
+                expect(message).toEqual(expect.objectContaining({
+                  text: expect.stringMatching(`Where would you like the weather for?`)
+                }))
+                done()
+              })
+            })
+
+            test('User can provide location for weather report', done => {
+              bot.usersInput(
+                [
+                  {
+                    user: 'user123',
+                    channel: 'socket',
+                    type: 'message_received',
+                    messages: [
+                      {
+                        waitAfter: 3000,
+                        isAssertion: true,
+                        text: 'London'
+                      }
+                    ]
+                  }
+                ]
+              ).then((message) => {
+                expect(message).toEqual(expect.objectContaining({
+                  text: expect.stringMatching(`Checking the weather now...`)
+                }))
+                done()
+              })
+            })
+          })
+        </code></pre>
+        <p>
+          All we're doing here is writing two really simple unit tests to check that the responses are what we expect
+          them to be. Feel free to improve these so that they cover more scenarios (e.g. invalid location).
+        </p>
+        <p>
+          Run all tests with the <code class="language-bash">npm test</code> command.
+        </p>
+      </section>
+
+      <h3 class="title" id="deploying">Deploying</h3>
+
+      <section id="building" class="section">
+        <h4>Building the bot</h4>
+        <p>
+          To build the bot, just run the <code class="language-bash">npm run build</code> command. This will
+          bundle/transpile all of your code into the <strong>build</strong> directory and build you a docker image.
+        </p>
+        <p>
+          The docker image name will be whatever you set the DOCKER_IMAGE_NAME variable to in .env.
+        </p>
+        <p>
+          <em>Note: </em>You can also just run the files in /build with <code class="language-bash">node build</code> if
+          you don't want to use containers (make sure to set your env vars).
+        </p>
+      </section>
+
+      <section id="deploying-to-azure" class="section">
+        <h4>Deploying to Azure</h4>
+        <p>
+          First, let's push our container to Docker Hub (this will be public by default).
+        </p>
+        <pre><code class="language-bash">
+          npm run push-docker
+        </code></pre>
+        <p>Next, create a container with the Azure CLI using the same image name you set previously.</p>
+        <pre><code class="language-bash">
+          source .env && az container create \
+          --resource-group Basebot \
+          --name basebot-core \
+          --image YOUR_DOCKER_USERNAME/basebot-core:latest \
+          --dns-name-label basebot \
+          --ports 80 443 3001 \
+          --location uksouth \
+          --restart-policy OnFailure \
+          --environment-variables 'BOT_NAME'="$BOT_NAME" LUIS_URI="$LUIS_URI" DB_URL="$DB_URL"
+        </code></pre>
+        <p>Once that completes, you can check the status using:</p>
+        <pre><code class="language-bash">
+          container show --resource-group Baesbot --name basebot-core --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+        </code></pre>
+        <p>
+          If the ProvisioningState is "Succeeded" then your container instance is up. If not, wait a minute and try
+          again.
+        </p>
+        <p>
+          Once you see "Succeeded" copy the FQDN URL (it will be something like basebot.uksouth.azurecontainer.io).
+        </p>
+        <p>
+          You can speak to your bot via this URL on port 3001 through a websocket, but for now, let's just use the local
+          version. Run <code class="language-bash">npm run dev</code> again in your project root and visit
+          localhost:3000 in your browser. Change the endpoint URL to (your FQDN URL):3001 - e.g.
+          basebot.uksouth.azurecontainer.io:3001
+        </p>
+        <img src="/images/basebot-chat-test.png" alt="Basebot Chat Test Interface">
+        <p>
+          Wait a second for it to connect and then try it out. If it responds, congratulations! You've just successfully
+          deployed your bot!
+        </p>
+      </section>
+
+      <section id="deploying-to-azure" class="section">
+        <h4>Next Steps</h4>
+        <p>
+          Next, why not write some more skills. Or explore the rest of this documentation.
+        </p>
+        <p>
+          If you need any help, contact <a href="mailto:devaccess@ansgroup.co.uk">devaccess@ansgroup.co.uk</a>.
+        </p>
+      </section>
+
+    </div>
+
+    <div class="docs-section">
+      <h2 class="heading">Modules</h2>
+
+      <h3 class="title" id="connector-modules">Connectors</h3>
+
+      <section id="web-connector" class="section">
+        <h4>Web Connector</h4>
+        <p>
+          The basebot-controller-web connector enables direct websocket connections from any bespoke client to Basebot.
+        </p>
+        <p>
+          To enable, add the following to services/channels/production.js
+        </p>
+        <pre data-line="3,12-23"><code class="language-javascript">
+          import storage from '../storage'
+          import logger from '../logger'
+          import webBot from 'basebot-controller-web'
+
+          const info = logger('channels', 'info')
+          const error = logger('channels', 'error')
+
+          const botOptions = { storage }
+
+          const channels = {
+
+            direct: {
+              controller: webBot(botOptions),
+              listen(controller, server) {
+                server.post('/botkit/receive', function (req, res) {
+                  res.status(200)
+                  controller.handleWebhookPayload(req, res)
+                })
+                controller.openSocketServer(server)
+                controller.startTicking()
+                info('Web bot online')
+              }
+            },
+
+          }
+
+          export default channels
+        </code></pre>
+        <p>
+          When using <code class="language-bash">basebot create</code> with the web connector, it will automatically
+          bundle a test chat interface which will be served at the web root (e.g. localhost:3000).
+        </p>
+        <p>
+          By default, the websocket will mount on port 3001 - this can be changed by passing a second argument into the
+          controller.openSocketServer function. e.g.
+        </p>
+        <pre><code class="language-javascript">
+          controller.openSocketServer(server, {
+            port: 3005
+          })
+        </code></pre>
+      </section>
+
+      <section id="alexa-connector" class="section">
+        <h4>Alexa Connector</h4>
+        <p>
+          The basebot-controller-alexa connector allows you to handle Alexa input with Basebot
+        </p>
+        <p>
+          To enable, add the following to services/channels/production.js
+        </p>
+        <pre data-line="3,12-20"><code class="language-javascript">
+          import storage from '../storage'
+          import logger from '../logger'
+          import alexabot from 'basebot-controller-alexa'
+
+          const info = logger('channels', 'info')
+          const error = logger('channels', 'error')
+
+          const botOptions = { storage }
+
+          const channels = {
+
+            alexa: {
+              controller: alexabot(botOptions),
+              listen(controller) {
+                const bot = controller.spawn({})
+                controller.createWebhookEndpoints(controller.webserver, bot)
+                controller.startTicking()
+                info('Alexa bot online')
+              }
+            },
+
+          }
+
+          export default channels
+        </code></pre>
+        <p>
+          You'll also need to register the middleware in services/middleware/production.js
+        </p>
+        <pre data-line="1-2,7-10"><code class="language-javascript">
+          import { heard as alexaMiddleware } from 'basebot-controller-alexa'
+          import storage from '../storage'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'heard',
+              handler: alexaMiddleware(storage)
+            }
+
+          ]
+        </code></pre>
+        <p>
+          A couple of considerations when using the Alexa connector:
+        </p>
+        <ol>
+          <li>Alexa doesn't store the utterance so pattern matching won't work. You have to match on an intent. If you
+            specify a pattern, then the module will treat the intent name as the utterance which could cause unforeseen
+            weirdness.</li>
+          <li>Alexa doesn't like multiple responses. You can send 1 or 2 messages and indicate there are more coming by
+            adding <code class="language-javascript">progressive: true</code> to the message object, but you won't be
+            able to send more than 4 without an additional user input.</li>
+        </ol>
+      </section>
+
+      <section id="slack-connector" class="section">
+        <h4>Slack Connector</h4>
+        <p>
+          <em>Docs coming soon</em>
+        </p>
+      </section>
+
+      <section id="sms-connector" class="section">
+        <h4>SMS Connector (using Twilio)</h4>
+        <p>
+          <em>Docs coming soon</em>
+        </p>
+      </section>
+
+      <h3 class="title" id="storage-modules">Storage</h3>
+
+      <section id="mongo-storage" class="section">
+        <h4>MongoDB Storage</h4>
+        <p>
+          The basebot-storage-mongo storage module enables MongoDB integration.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-mongo'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> a Mongo URL
+          </li>
+        </ul>
+      </section>
+
+      <section id="tablestorage-storage" class="section">
+        <h4>Azure Table Storage</h4>
+        <p>
+          The basebot-storage-azuretables module enables integration with Azure Table Storage.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-azuretables'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> an Azure Table Storage connection string
+          </li>
+        </ul>
+      </section>
+
+      <section id="dynamo-storage" class="section">
+        <h4>DynamoDB</h4>
+        <p>
+          The azure-storage-dynamodb storage module enables integration with AWS DynamoDB.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+                  import storage from 'basebot-storage-dynamodb'
+                  import logger from '../logger'
+                  
+                  export default storage(logger)
+                </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">AWS_REGION</code> the AWS region (e.g. eu-west-1)
+          </li>
+          <li>
+            <code class="language-bash">AWS_ACCESS_KEY_ID</code> AWS access key ID
+          </li>
+          <li>
+            <code class="language-bash">AWS_SECRET_ACCESS_KEY</code> AWS secret access key
+          </li>
+        </ul>
+      </section>
+
+      <section id="firestore-storage" class="section">
+        <h4>Firestore</h4>
+        <p>
+          The basebot-storage-firestore module enables integration with Firebase's Firestore.
+        </p>
+        <p>
+          To enable, add the following to services/storage/development.js
+        </p>
+        <pre><code class="language-javascript">
+          import storage from 'basebot-storage-firestore'
+          import logger from '../logger'
+          
+          export default storage(logger)
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">DB_URL</code> your Firestore endpoint
+          </li>
+          <li>
+            <code class="language-bash">FIREBASE</code> Stringified service account JSON from a firebase.json.
+          </li>
+        </ul>
+      </section>
+
+      <h3 class="title" id="nlp-modules">Natural Language</h3>
+
+      <section id="luis-module" class="section">
+        <h4>LUIS (Microsoft)</h4>
+        <p>
+          The basebot-middleware-luis module allows all messages to have an intent associated with them via Microsoft
+          LUIS
+        </p>
+        <p>
+          To enable, add the following to services/middleware/production.js
+        </p>
+        <pre data-line="1,6-14"><code class="language-javascript">
+          import luis from 'basebot-middleware-luis'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'receive',
+              handler: luis(logger).receive()
+            },
+            {
+              type: 'hear',
+              triggers: ['intent'],
+              handler: luis(logger).hearIntent
+            },
+
+          ]
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">LUIS_URL</code> your LUIS.ai endpoint URL
+          </li>
+        </ul>
+        <p>
+          Enabling this module will allow you to listen for intents inside skill modules.
+        </p>
+      </section>
+
+      <section id="lex-module" class="section">
+        <h4>Lex (AWS)</h4>
+        <p>
+          The basebot-middleware-lex module allows all messages to have an intent associated with them via AWS Lex.
+        </p>
+        <p>
+          To enable, add the following to services/middleware/production.js
+        </p>
+        <pre data-line="1,6-13"><code class="language-javascript">
+          import lex from 'basebot-middleware-lex'
+          import logger from '../logger'
+          
+          export default [
+
+            {
+              type: 'receive',
+              handler: lex(logger).receive
+            },
+            {
+              type: 'heard',
+              handler: lex(logger).heard
+            },
+
+          ]
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">AWS_REGION</code> the AWS region (e.g. eu-west-1)
+          </li>
+          <li>
+            <code class="language-bash">AWS_ACCESS_KEY_ID</code> AWS access key ID
+          </li>
+          <li>
+            <code class="language-bash">AWS_SECRET_ACCESS_KEY</code> AWS secret access key
+          </li>
+        </ul>
+        <p>
+          Enabling this module will allow you to listen for intents inside skill modules.
+        </p>
+      </section>
+
+      <h3 class="title" id="auth-modules">Authentication</h3>
+
+      <section id="microsoft-auth" class="section">
+        <h4>Microsoft Authentication</h4>
+        <p>
+          The basebot-auth-microsoft module allows you to quickly authenticate users with Microsoft services (via
+          OAuth2)
+        </p>
+        <p>
+          To enable, add the following to services/auth.js
+        </p>
+        <pre data-line="2,8"><code class="language-javascript">
+          import mapValues from 'lodash/mapValues'
+          import microsoft from 'basebot-auth-microsoft'
+          import logger from './logger'
+          import storage from './storage'
+          import server from './server'
+
+          const handlers = {
+            microsoft
+          }
+
+          const authModules = mapValues(handlers, init => {
+            const handler = init(logger)
+            handler.registerEndpoints(server, storage)
+          })
+
+          export default authModules
+        </code></pre>
+        <p>
+          Required environment variables:
+        </p>
+        <ul>
+          <li>
+            <code class="language-bash">MS_APP_ID</code> App ID (Azure apps)
+          </li>
+          <li>
+            <code class="language-bash">MS_APP_PASSWORD</code> App password
+          </li>
+          <li>
+            <code class="language-bash">MS_APP_SCOPES</code> Scopes: See <a class="link"
+              href="https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent"
+              target="_blank" rel="noopener noreferrer">here</a>
+          </li>
+          <li>
+            <code class="language-bash">CRYPTR_SECRET</code> (required in production only) - a string to use as a cipher
+            for at-rest encryption.
+          </li>
+        </ul>
+        <p>
+          Use the getAuthUrl(userId) method to generate an authorization URL for a user.
+        </p>
+      </section>
+    </div>
+  </main>
+</div>
+
+{{> footer}}

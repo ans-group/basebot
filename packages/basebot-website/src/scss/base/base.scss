@@ -1,0 +1,119 @@
+:focus {
+  outline: color(primary) solid 1px;
+}
+
+[contenteditable] {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+html {
+  font-size: 62.5%;
+  font-family: 'Work Sans', sans-serif;
+}
+
+body {
+  background: #fff;
+  font-size: 1.6em;
+  overflow-x: hidden;
+  * {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+  }
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin-bottom: 1em;
+  margin-top: 0;
+  font-weight: 600;
+  color: color(black);
+}
+
+h1 {
+  font-size: 3.1rem;
+}
+
+h2 {
+  font-size: 3rem;
+  margin-bottom: 1.5em;
+  @media (min-width: 768px){
+    font-size: 4rem;
+  }
+}
+
+h3 {
+  font-size: 2.1rem;
+}
+
+h4 {
+  font-size: 1.9rem;
+}
+
+h5 {
+  font-size: 1.5rem;
+}
+
+h6 {
+  font-size: 1.4rem;
+}
+
+p, li {
+  margin-top: 0;
+  max-width: 60rem;
+  font-weight: 100;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  margin: 0 0 2rem;
+  font-size: 1.9rem;
+  * {
+    font-size: inherit;
+  }
+}
+p a, a.link {
+  font-weight: 500;
+  letter-spacing: 0;
+  box-shadow: inset 0 -0.2em rgba(color(accent2), 0.7);
+  transition: box-shadow .15s ease-in-out;
+  &:hover {
+    box-shadow: inset 0 -0.2em rgba(color(accent2), 0.9);
+  }
+}
+
+ul {
+  padding-left: 2rem;
+}
+
+::placeholder {
+  color: color(grey);
+}
+
+:not(pre) > code[class*="language-"] {
+  padding: 0.05em 0.3em;
+  border-radius: .2rem;
+  font-size: 0.8em;
+  display: inline-block;
+  transform: translateY(-0.1em);
+  color: #333;
+  background: rgba(color(grey), 0.6);
+  text-shadow: none;
+}
+
+.command-line-prompt {
+  border-right: 0;
+  margin-right: 0;
+  opacity: 0.7;
+}
+
+.line-highlight:before, .line-highlight[data-end]:after {
+  display: none;
+}

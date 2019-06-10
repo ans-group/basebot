@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+const program = require('commander')
+const chalk = require('chalk')
+const yeoman = require('yeoman-environment')
+const { log, error } = console
+const env = yeoman.createEnv()
+env.register(require.resolve('generator-basebot'))
+
+env.lookup(() => {
+  env.run('basebot:app', {}, err => {
+    if (err) {
+      log(chalk.red('Something went wrong:'))
+      error(err)
+      process.exit(1)
+    }
+    log('✔ ' + chalk.green('Project Created'))
+    log('Check your .env file to add any environmental configuration you might need')
+  })
+})

@@ -1,0 +1,301 @@
+#!/usr/bin/env node
+
+const inquirer = require('inquirer')
+const replaceInFiles = require('replace-in-files')
+const chalk = require('chalk')
+const path = require('path')
+const jetpack = require('fs-jetpack')
+const git = require('simple-git')()
+const { exec } = require('child_process')
+const hasbin = require('hasbin')
+const os = require('os')
+const addToPath = require('add-to-path')
+const program = require('commander')
+const io = require('socket.io-client')
+const opn = require('opn')
+const _ = require('lodash')
+const flutter = require('./helpers/flutter')
+const Spinner = require('cli-spinner').Spinner
+const spinner = new Spinner(chalk.yellow('%s'))
+
+spinner.setSpinnerString(22)
+
+const { log, error } = console
+
+program.parse(process.argv)
+
+if (!hasbin.sync('git')) {
+  error(chalk.red('Please install git before using this tool') + '\nhttps://git-scm.com/book/en/v2/Getting-Started-Installing-Git')
+  process.exit(1)
+}
+
+const prompt = inquirer.createPromptModule()
+const questions = [
+  {
+    name: 'appName',
+    message: 'What is the name of your app? ' + chalk.gray('(will create a folder in your current directory)'),
+    validate(answer) {
+      const fullPath = path.join(process.cwd(), answer)
+      if (jetpack.exists(fullPath)) {
+        return `${fullPath} already exists`
+      }
+      return !!answer || 'Please enter a name'
+    }
+  },
+  {
+    name: 'bundleName',
+    message: 'What should your app bundle be called?',
+    default(answers) {
+      return `com.ans.${_.snakeCase(answers.appName)}`
+    },
+    validate(answer) {
+      if (!answer.match(/^[a-z][a-z0-9_]*(\.[a-z0-9_]+)+[0-9a-z_]$/, 'i')) {
+        return 'Invalid bundle name'
+      }
+      return !!answer || 'Please enter a bundle name'
+    }
+  },
+  {
+    name: 'botName',
+    message: 'What is the name of the bot?',
+    validate(answer) {
+      if (answer && answer.replace(/[^A-Za-z_]+/g, '').toLowerCase().length < 6) {
+        return 'Please enter a longer name'
+      }
+      return !!answer || 'Please enter a name'
+    }
+  },
+  {
+    name: 'shouldInstallFlutter',
+    message: 'Install Flutter?',
+    type: 'confirm'
+  },
+  {
+    name: 'shouldSetupFirebase',
+    message: 'Create and link Firebase project?',
+    type: 'confirm'
+  },
+  {
+    name: 'dlSecret',
+    message: 'Paste your Direct Line secret (you can add this later)'
+  },
+  {
+    name: 'botUrl',
+    message: 'Paste your endpoint URL (you can add this later) ' + chalk.gray('e.g. https://my-bot.azurewebsites.net')
+  },
+  {
+    name: 'botHandle',
+    message: 'What is your bot handle on Direct Line? (you can add this later)'
+  },
+  {
+    name: 'keyDirectory',
+    message: 'Where is your keystore located for signing (you can add this later)',
+    default() {
+      return path.join(os.homedir(), 'key.jks')
+    }
+  },
+  {
+    name: 'keyAlias',
+    message: 'What is your key alias? (you can add this later)',
+    default: 'key'
+  },
+  {
+    name: 'keyPassword',
+    message: 'What is your key password? (you can add this later)'
+  }
+]
+
+const cloneRepo = projectRoot => {
+  spinner.setSpinnerTitle('Downloading project files')
+  return new Promise((resolve, reject) => {
+    git.clone('https://github.com/ans-group/basebot-app.git', projectRoot, err => {
+      if (err) {
+        return reject(err)
+      }
+      jetpack.remove(path.join(projectRoot, '.git'))
+      git.cwd(projectRoot)
+      git.init()
+      resolve()
+    })
+  })
+}
+
+function findReplaceAll (projectRoot, from, to) {
+  return replaceInFiles({
+    files: path.join(projectRoot, '**/*.*'),
+    from: from,
+    to: to,
+    optionsForFiles: {
+      'ignore': [
+        '**/*.png',
+        '**/*.jpg',
+        '**/*.gif',
+        '**/*.ttf'
+      ]
+    }
+  })
+}
+
+const findReplace = (botName, bundleName, botUrl, botHandle, projectRoot) => () => {
+  spinner.setSpinnerTitle('Setting bot name')
+  const _findReplaceAll = (from, to) => findReplaceAll(projectRoot, from, to)
+  return new Promise((resolve, reject) => {
+    _findReplaceAll(/Basebot/g, botName)
+      .then(() => _findReplaceAll(/com.ans.basebot/g, bundleName))
+      .then(() => {
+        if (botUrl) {
+          return _findReplaceAll(/https:\/\/SOME-URL.com/g, botUrl)
+        } else {
+          return new Promise(r => r())
+        }
+      })
+      .then(() => {
+        if (botHandle) {
+          return _findReplaceAll(/basebotHandle/g, botHandle)
+        } else {
+          return new Promise(r => r())
+        }
+      })
+      .then(() => {
+        if (program.verbose) log('✔ ' + chalk.green(`Updated file(s)`))
+        resolve()
+      })
+      .catch(err => {
+        error('Error occurred:', err)
+        reject(err)
+      })
+  })
+}
+
+const addDlSecret = (secret, projectRoot) => () => {
+  spinner.setSpinnerTitle('Setting DirectLine Secret')
+  return new Promise((resolve, reject) => {
+    replaceInFiles({
+      files: path.join(projectRoot, 'lib/config/settings.dart'),
+      from: /DIRECT_LINE_SECRET/g,
+      to: secret
+    })
+      .then(({ countOfMatchesByPaths }) => {
+        const filesChanged = countOfMatchesByPaths.length
+        if (program.verbose) log('✔ ' + chalk.green(`Added direct line secret to /lib/config/settings.dart`))
+        resolve()
+      })
+      .catch(err => {
+        error('Error occurred:', err)
+        reject(err)
+      })
+  })
+}
+
+const installFlutter = skip => () => {
+  return new Promise(((resolve, reject) => {
+    if (skip) return resolve()
+    if (hasbin.sync('flutter')) {
+      if (program.verbose) log('✔ ' + chalk.green('Flutter binary found -- skipping installation'))
+      resolve()
+    } else {
+      spinner.setSpinnerTitle('Installing flutter (might take a while)')
+      const homedir = os.homedir()
+      git.clone('https://github.com/flutter/flutter.git', path.join(homedir, 'flutter'), err => {
+        if (err) {
+          return reject(err)
+        }
+        if (program.verbose) log('✔ ' + chalk.green('Flutter installed'))
+        const restorePath = addToPath(path.join(homedir, 'flutter', 'bin'))
+        restorePath()
+        resolve()
+      })
+    }
+  }))
+}
+
+const copyConfigFiles = projectRoot => () => {
+  return new Promise((resolve, reject) => {
+    spinner.setSpinnerTitle('Creating config files')
+    jetpack.copy(path.join(projectRoot, 'lib/config/settings.example.dart'), path.join(projectRoot, 'lib/config/settings.dart'))
+    jetpack.copy(path.join(projectRoot, 'lib/config/theme.example.dart'), path.join(projectRoot, 'lib/config/theme.dart'))
+    if (program.verbose) log('✔ ' + chalk.green('Created config files in ') + chalk.green.bgBlackBright('lib/config'))
+    resolve()
+  })
+}
+
+const setupFirebase = (shouldSetupFirebase, botName, bundleName, projectRoot) => () => {
+  return new Promise((resolve, reject) => {
+    if (!shouldSetupFirebase || !botName || !bundleName) return resolve()
+    spinner.setSpinnerTitle('Contacting Firebase')
+    const socket = io.connect('https://basebot-google-auth.ans.tools')
+    let requestedURI = false
+    socket.on('connect', () => {
+      if (!requestedURI) {
+        socket.emit('requestUrl', botName, bundleName)
+      }
+      requestedURI = true
+    })
+    socket.on('url', url => {
+      spinner.setSpinnerTitle('Opening login page.')
+      // console.log(chalk.gray(`if this doesn't work, visit: ${url}`))
+      opn(url)
+    })
+    socket.on('authorized', () => {
+      spinner.setSpinnerTitle('Setting up Firebase Project')
+    })
+    socket.on('androidSettings', fileContents => {
+      spinner.setSpinnerTitle('Saving android-settings.json to android/app')
+      jetpack.append(path.join(projectRoot, 'android/app/google-services.json'), Buffer.from(fileContents, 'base64'))
+    })
+    socket.on('iosSettings', fileContents => {
+      spinner.setSpinnerTitle('Saving GoogleService-Info.plist to ios/Runner')
+      jetpack.append(path.join(projectRoot, 'ios/Runner/GoogleService-Info.plist'), Buffer.from(fileContents, 'base64'))
+    })
+    socket.on('done', () => {
+      socket.disconnect()
+      resolve()
+    })
+    socket.on('error', err => {
+      socket.disconnect()
+      reject(err)
+    })
+  })
+}
+
+const setupKeyPropertiesFile = (keyDirectory, keyAlias, keyPassword, projectRoot) => () => {
+  spinner.setSpinnerTitle('Setting up key properties file')
+  return new Promise((resolve, reject) => {
+    jetpack.append(path.join(projectRoot, 'android/key.properties'), `storePassword=${keyPassword}\nkeyPassword=${keyPassword}\nkeyAlias=${keyAlias}\nstoreFile=${keyDirectory}`)
+    resolve()
+  })
+}
+
+prompt(questions).then(({appName, botName, botUrl, botHandle, shouldInstallFlutter, bundleName, dlSecret, keyDirectory, keyAlias, keyPassword, shouldSetupFirebase}) => {
+  const projectRoot = path.join(process.cwd(), appName)
+  spinner.start()
+  cloneRepo(projectRoot)
+    .then(copyConfigFiles(projectRoot))
+    .then(findReplace(botName, bundleName, botUrl, botHandle, projectRoot))
+    .then(addDlSecret(dlSecret, projectRoot))
+    .then(installFlutter(!shouldInstallFlutter))
+    .then(setupFirebase(shouldSetupFirebase, botName, bundleName, projectRoot))
+    .then(setupKeyPropertiesFile(keyDirectory, keyAlias, keyPassword, projectRoot))
+    .then(() => {
+      spinner.stop(true)
+      log('✔ ' + chalk.green(`Complete, project available at ${projectRoot}`))
+      log('Running Flutter Doctor...')
+      const doctor = flutter.run(['doctor'])
+      //   doctor.stdout.on('data', data => log(data.toString()))
+      //   doctor.stderr.on('data', data => error(data.toString()))
+      doctor.on('close', () => {
+        flutter.run(['packages', 'get'], projectRoot).on('close', () => {
+          flutter.run(['packages', 'pub', 'run', 'flutter_launcher_icons:main'], projectRoot).on('close', () => {
+            log('✔ ' + chalk.green('Complete'))
+            log('Type ' + chalk.bold(`cd ${appName} && basebot build`) + ' to start')
+            process.exit(0)
+          })
+        })
+      })
+    })
+    .catch(err => {
+      log(chalk.red('Something went wrong:'))
+      error(err)
+      process.exit(1)
+    })
+})
