@@ -1,4 +1,11 @@
 .docs-wrapper {
   position: relative;
-  padding-left: 35rem;
+  padding-top: 5rem;
+  @media (min-width: 768px) {
+    padding-top: 1rem;
+    padding-left: 35rem;
+    & > .mobileNav {
+      display: none; 
+    }
+  }
 }

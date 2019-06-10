@@ -538,7 +538,13 @@ ul {
 
 .docs-wrapper {
   position: relative;
-  padding-left: 35rem; }
+  padding-top: 5rem; }
+  @media (min-width: 768px) {
+    .docs-wrapper {
+      padding-top: 1rem;
+      padding-left: 35rem; }
+      .docs-wrapper > .mobileNav {
+        display: none; } }
 
 .eq-meter {
   margin-top: 10rem;
@@ -726,14 +732,21 @@ ul {
   background: #F6F6F6;
   height: 100%;
   position: fixed;
-  left: 0;
   top: 0;
   width: 30rem;
   z-index: 5;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
-      flex-direction: column; }
+      flex-direction: column;
+  left: 0;
+  transform: translateX(-100%);
+  transition: transform ease-in-out .3s; }
+  @media (min-width: 768px) {
+    .side-bar {
+      transform: translateX(0); } }
+  .side-bar.visible {
+    transform: translateX(0); }
 
 .sidenav-chapter {
   font-size: 1.6rem;

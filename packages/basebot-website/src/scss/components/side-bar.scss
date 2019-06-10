@@ -2,10 +2,18 @@
   background: color(pearl);
   height: 100%;
   position: fixed;
-  left: 0;
   top:0;
   width: 30rem;
   z-index: 5;
   display: flex;
   flex-direction: column;
+  left: 0;
+  transform: translateX(-100%);
+  transition: transform ease-in-out .3s;
+  @media (min-width: 768px) {
+    transform: translateX(0);
+  }
+  &.visible {
+    transform: translateX(0);
+  }
 }
