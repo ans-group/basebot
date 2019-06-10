@@ -46,7 +46,7 @@
         Basebot
       </a>
       <span class="version">
-        v2.1.31
+        v2.1.32
       </span>
     </div>
     <nav class="docs-nav">
@@ -272,12 +272,12 @@
           Log in/sign up at <a href="https://www.luis.ai/" target="_blank" rel="noopener noreferrer">Luis.ai</a> and
           create a new app.
         </p>
-        <img src="/images/create-luis-app.png" alt="Creating a LUIS app">
+        <img src="https://ans-group.github.io/basebot/images/create-luis-app.png" alt="Creating a LUIS app">
         <p>
           Inside the app screen click on the <strong>Manage</strong> tab and go to <strong>Keys and Endpoints</strong>
           on the left.
         </p>
-        <img src="/images/copy-luis-key.png" alt="Copying LUIS endpoint URL">
+        <img src="https://ans-group.github.io/basebot/images/copy-luis-key.png" alt="Copying LUIS endpoint URL">
         <p>
           Make a note of the Endpoint URL. We'll need this later.
         </p>
@@ -317,7 +317,7 @@
             <strong>Would you like to aggregate your production logs with Papertrail?</strong> No
           </li>
         </ul>
-        <pre class="command-line" data-output="3-8"><code class="language-bash">
+        <pre class="command-line" data-output="3-9"><code class="language-bash">
           npm i -g basebot-cli
           basebot create
           ? What is your project name? my-first-bot
@@ -383,6 +383,9 @@
       </section>
 
       <h3 class="title" id="writing-skills">Creating a Skill</h3>
+
+      <p class="notice">If you're joining us from the homepage check out the <a href="#installing-node">pre-reqs</a>
+        before you continue.</p>
 
       <section id="registering-skills" class="section">
         <h4>Registering your skill</h4>
@@ -541,10 +544,10 @@
           We're going to use one of LUIS's built-in intents. Under the <strong>intents</strong> section, click <em>Add
             prebuilt domain intent</em> and select <em>Weather.QueryWeather</em>.
         </p>
-        <img src="/images/weather-intent.gif" alt="Adding Weather.QueryWeather intent">
+        <img src="https://ans-group.github.io/basebot/images/weather-intent.gif" alt="Adding Weather.QueryWeather intent">
         <p>This is a prebuilt intent, but it's also really easy to add custom intents. Once you've added the weather
           intent we need to train and publish our model. We can do that with the buttons on the top right.</p>
-        <img src="/images/weather-training.gif" alt="Training and publishing LUIS intents">
+        <img src="https://ans-group.github.io/basebot/images/weather-training.gif" alt="Training and publishing LUIS intents">
         <p>
           Let's change our skill to look for the <em>Weather.QueryWeather</em> intent.
         </p>
@@ -567,7 +570,7 @@
         <h4>Manually testing your bot</h4>
         <p>Visit <strong>localhost:3000</strong> to chat with your bot.</p>
         <p>Try asking it what the weather is like in as many different ways you can think of.</p>
-        <img src="/images/weather-testing.gif" alt="Testing the bot" style="box-shadow: inset -2px 0 white">
+        <img src="https://ans-group.github.io/basebot/images/weather-testing.gif" alt="Testing the bot" style="box-shadow: inset -2px 0 white">
       </section>
 
       <section id="writing-tests" class="section">
@@ -701,7 +704,7 @@
           localhost:3000 in your browser. Change the endpoint URL to (your FQDN URL):3001 - e.g.
           basebot.uksouth.azurecontainer.io:3001
         </p>
-        <img src="/images/basebot-chat-test.png" alt="Basebot Chat Test Interface">
+        <img src="https://ans-group.github.io/basebot/images/basebot-chat-test.png" alt="Basebot Chat Test Interface">
         <p>
           Wait a second for it to connect and then try it out. If it responds, congratulations! You've just successfully
           deployed your bot!
@@ -1120,7 +1123,7 @@
 
   <div class="footer-list">
     <span class="item">
-      Current Version: 2.1.31
+      Current Version: 2.1.32
     </span>
     <a class="item" href="https://github.com/ans-group/basebot/issues" target="_blank" rel="noopener noreferrer">
       Issues

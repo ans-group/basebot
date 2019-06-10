@@ -75,43 +75,46 @@ slug: index
       </h3>
       <p>
         To create a new project, install the basebot CLI tool and run the <code
-          class="language-bash">basebot create</code> command. This will scaffold a new project in your current
-        directory. Fill in the prompts and customise your project to your requirements. You will be asked the
-        following questions:
+          class="language-bash">basebot create</code>
+        command. This will scaffold a new project in your current
+        directory. Enter the following when prompted:
       </p>
       <ul>
         <li>
-          <strong>Project Name:</strong> your project name (used to create a directory at your current location)
+          <strong>What is your project name?</strong> my-first-bot
         </li>
         <li>
-          <strong>Bot Name:</strong> The name of your bot. This will potentially be seen by end users.
+          <strong>What is the name of your bot?</strong> BottyMcBotface
         </li>
         <li>
-          <strong>Channels:</strong> How users will access your bot. Use &lt;space&gt; to select and &lt;enter&gt; to
-          continue. You can
-          select as many channels as you like.
+          <strong>How do you want people to be able to access your bot?</strong> Direct (Web, Apps etc) <em>select
+            with &lt;space&gt; and press &lt;enter&gt; to confirm.</em>
         </li>
         <li>
-          <strong>Storage:</strong> Where bot-related information will be stored.
+          <strong>What do you want to use for storage?</strong> Azure Table Storage
         </li>
         <li>
-          <strong>NLP Engine:</strong> What service you want to use for NLP/NLU (optional).
+          <strong>Do you wish to use an NLP service?</strong> Microsoft LUIS
         </li>
         <li>
-          <strong>Authentication:</strong> Any oAuth modules you want to enable.
+          <strong>(Optional) Do you require any third party authorization support?</strong> None
+        </li>
+        <li>
+          <strong>Would you like to aggregate your production logs with Papertrail?</strong> No
         </li>
       </ul>
     </div>
     <div class="code">
-      <pre class="command-line" data-output="3-8"><code class="language-bash">
+      <pre class="command-line" data-output="3-9"><code class="language-bash">
         npm i -g basebot-cli
         basebot create
-        ? What is your project name? (This will create a folder in your current directory) my-first-bot
-        ? What is the name of your bot? Barbara Botface
-        ? How do you want people to be able to access your bot? Microsoft Bot Service
+        ? What is your project name? my-first-bot
+        ? What is the name of your bot? BottyMcBotface
+        ? How do you want people to be able to access your bot? Direct (Web, Apps etc)
         ? What do you want to use for storage? Azure Table Storage
         ? Do you wish to use an NLP service? Microsoft LUIS
         ? (Optional) Do you require any third party authorization support? None
+        ? Would you like to aggregate your production logs with Papertrail? No
       </code></pre>
     </div>
   </div>
@@ -122,61 +125,27 @@ slug: index
         Configuring your environment
       </h3>
       <p>
-        Once the create script is complete, you'll find a .env file in the newly-created project folder.
-        This file will contain a number of fields depending on your module selection. These should all be filled in
-        before you can run your app.
+        Open the .env file inside your project root. Add your LUIS endpoint URL and your storage connection string as
+        shown. Also, change "YOUR_DOCKER_USERNAME" to your Docker username if you have one.
       </p>
       <p>
-        In most cases the value you need is self explanatory,
-        for example, <code class="language-base">AWS_SECRET_ACCESS_KEY</code> would be a secret access key for AWS
-        (usually from an IAM user).
-        However, if you do get stuck, just check the documentation for the module in question (the module that requires
-        said env var is commented above each var).
-      </p>
-    </div>
-    <div class="code">
-      <pre class="command-line"><code class="language-bash">
-        cd my-first-bot
-        nano .env #open with your favourite text editor
-      </code></pre>
-      <pre><code class="language-bash">
-        # Core
-        BOT_NAME=Barbara Botface
-        USE_LT_SUBDOMAIN=my-first-bot123.localtunnel.me
-        DEBUG=basebot*
-        
-        # AWS Services
-        AWS_ACCESS_KEY_ID=
-        AWS_SECRET_ACCESS_KEY=
-        AWS_REGION='eu-west-1'
-      </code></pre>
-    </div>
-  </div>
-
-  <div class="code-pane">
-    <div class="content">
-      <h3 id="running-in-dev-mode">
-        Running your app
-      </h3>
-      <p>
-        Once you've filled in your env vars you should be ready to run your app in dev mode. To do this just use the
-        <code class="language-base">npm run dev</code> command.
+        To make sure everything is working, start your bot with <code class="language-bash">npm run dev</code>
       </p>
       <p>
         No errors? Congrats! you're ready to start writing some code.
       </p>
     </div>
     <div class="code">
-      <pre class="command-line" data-output="2-5"><code class="language-bash">
+      <pre class="command-line" data-output="2-30"><code class="language-bash">
           npm run dev
-          [nodemon] 1.19.0
+          > DEBUG=server* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'          
+          [nodemon] 1.19.1
           [nodemon] to restart at any time, enter `rs`
           [nodemon] watching: *.*
           [nodemon] starting `babel-node ./index.js`
         </code></pre>
     </div>
   </div>
-
   <div class="cta-section">
     <div class="content">
       <h3 class="heading">
