@@ -18,17 +18,27 @@ function WebBot(configuration) {
     // create the socket server along side the existing webserver.
     const wss = new WebSocket.Server({
       server,
-      ...wsconfig
+      ...wsconfig,
+      clientTracking: true,
     });
 
     // Expose the web socket server object to the controller so it can be used later.
     controller.wss = wss
+
+    function noop() { }
+
+    function heartbeat() {
+      console.log('pong received')
+      this.isAlive = true;
+    }
 
     wss.on('connection', function connection(ws) {
       // search through all the convos, if a bot matches, update its ws
       const bot = controller.spawn();
       bot.ws = ws
       bot.connected = true
+      ws.isAlive = true;
+      ws.on('pong', heartbeat.bind(ws));
 
       ws.on('message', function incoming(message) {
         if (message === 'ping') {
@@ -54,6 +64,15 @@ function WebBot(configuration) {
         bot.connected = false
       })
     })
+
+    const interval = setInterval(() => {
+      wss.clients.forEach(function each(ws) {
+        if (ws.isAlive === false) return ws.terminate();
+
+        ws.isAlive = false;
+        ws.ping(noop);
+      });
+    }, 30000);
   }
 
   controller.middleware.ingest.use((bot, message, reply_channel, next) => {

@@ -113,3 +113,7 @@ ul {
   margin-right: 0;
   opacity: 0.7;
 }
+
+.line-highlight:before, .line-highlight[data-end]:after {
+  display: none;
+}

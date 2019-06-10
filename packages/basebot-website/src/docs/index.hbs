@@ -64,6 +64,17 @@ slug: docs
         </code></pre>
       </section>
 
+      <section id="signup-to-docker" class="section">
+        <h4>Creating a Docker account</h4>
+        <p>
+          If you wish to follow the "deploying to Azure" part of this guide, you'll need a Docker account. (<a
+            href="https://hub.docker.com/signup" target="_blank" rel="noopener noreferrer">Register here</a>).
+        </p>
+        <p>
+          Make a note of your username - you'll need that in a second.
+        </p>
+      </section>
+
       <section id="setting-up-services" class="section">
         <h4>Setting up the Storage</h4>
         <p>
@@ -162,13 +173,14 @@ slug: docs
         <h4>Configuring Environment</h4>
         <p>
           Open the .env file inside your project root. Add your LUIS endpoint URL and your storage connection string as
-          shown:
+          shown. Also, change "YOUR_DOCKER_USERNAME" to your Docker username if you have one.
         </p>
         <pre><code class="language-bash">
           BOT_NAME=BottyMcBotface
           USE_LT_SUBDOMAIN=my-first-bot123
           LUIS_URI="YOUR-LUIS-ENDPOINT-URL"
           DB_URL="YOUR-AZURE-TABLE-STORAGE-CONNECTION-STRING"
+          DOCKER_IMAGE_NAME="YOUR_DOCKER_USERNAME/basebot-core"
         </code></pre>
         <p>To make sure everything is working, start your bot with <code class="language-bash">npm run dev</code></p>
         <pre class="command-line" data-output="2-30"><code class="language-bash">
@@ -395,20 +407,121 @@ slug: docs
           example unit tests (that should hopefully be passing!).
         </p>
         <p>Let's write a test for our newly-created weather skill.</p>
-      </section>
+        <p>Create a new file at <strong>/__tests__/weather.js</strong> and add the following:</p>
+        <pre><code class="language-javascript">
+          // __tests__/weather.js
 
-      <section id="running-tests" class="section">
-        <h4>Running unit tests</h4>
+          import channels from '..'
+          const { controller } = channels.test
+          const { bot } = controller
+
+          jest.setTimeout(10000)
+
+
+          describe('Weather skill', function () {
+            test('User can ask about the weather', done => {
+              bot.usersInput(
+                [
+                  {
+                    user: 'user123',
+                    channel: 'socket',
+                    type: 'message_received',
+                    messages: [
+                      {
+                        waitAfter: 3000,
+                        isAssertion: true,
+                        text: 'Weather report'
+                      }
+                    ]
+                  }
+                ]
+              ).then((message) => {
+                expect(message).toEqual(expect.objectContaining({
+                  text: expect.stringMatching(`Where would you like the weather for?`)
+                }))
+                done()
+              })
+            })
+
+            test('User can provide location for weather report', done => {
+              bot.usersInput(
+                [
+                  {
+                    user: 'user123',
+                    channel: 'socket',
+                    type: 'message_received',
+                    messages: [
+                      {
+                        waitAfter: 3000,
+                        isAssertion: true,
+                        text: 'London'
+                      }
+                    ]
+                  }
+                ]
+              ).then((message) => {
+                expect(message).toEqual(expect.objectContaining({
+                  text: expect.stringMatching(`Checking the weather now...`)
+                }))
+                done()
+              })
+            })
+          })
+        </code></pre>
+        <p>
+          All we're doing here is writing two really simple unit tests to check that the responses are what we expect
+          them to be. Feel free to improve these so that they cover more scenarios (e.g. invalid location).
+        </p>
+        <p>
+          Run all tests with the <code class="language-bash">npm test</code> command.
+        </p>
       </section>
 
       <h3 class="title" id="deploying">Deploying</h3>
 
       <section id="building" class="section">
         <h4>Building the bot</h4>
+        <p>
+          To build the bot, just run the <code class="language-bash">npm run build</code> command. This will
+          bundle/transpile all of your code into the <strong>build</strong> directory and build you a docker image.
+        </p>
+        <p>
+          The docker image name will be whatever you set the DOCKER_IMAGE_NAME variable to in .env.
+        </p>
+        <p>
+          <em>Note: </em>You can also just run the files in /build with <code class="language-bash">node build</code> if
+          you don't want to use containers (make sure to set your env vars).
+        </p>
       </section>
 
       <section id="deploying-to-azure" class="section">
         <h4>Deploying to Azure</h4>
+        <p>
+          First, let's push our container to Docker Hub (this will be public by default).
+        </p>
+        <pre><code class="language-bash">
+          npm run push-docker
+        </code></pre>
+        <p>Next, create a container with the Azure CLI using the same image name you set previously.</p>
+        <pre><code class="language-bash">
+          source .env && az container create \
+          --resource-group Basebot \
+          --name basebot-core \
+          --image YOUR_DOCKER_USERNAME/basebot-core:latest \
+          --dns-name-label basebot \
+          --ports 80 443 3001 \
+          --location uksouth \
+          --restart-policy OnFailure \
+          --environment-variables 'BOT_NAME'="$BOT_NAME" LUIS_URI="$LUIS_URI" DB_URL="$DB_URL"
+        </code></pre>
+        <p>Once that completes, you can check the status using:</p>
+        <pre><code class="language-bash">
+          container show --resource-group Baesbot --name basebot-core --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" --out table
+        </code></pre>
+        <p>
+          If the ProvisioningState is "Succeeded" then your container instance is up. If not, wait a minute and try
+          again.
+        </p>
       </section>
 
     </div>
@@ -420,10 +533,61 @@ slug: docs
 
       <section id="web-connector" class="section">
         <h4>Web Connector</h4>
+        <p>
+          The Web (or Direct) connector enables direct websocket connections from any bespoke client to Basebot.
+        </p>
+        <p>
+          To enable, add the following to services/channels/production.js
+        </p>
+        <pre data-line="3,12-23"><code class="language-javascript">
+          import storage from '../storage'
+          import logger from '../logger'
+          import webBot from 'basebot-controller-web'
+
+          const info = logger('channels', 'info')
+          const error = logger('channels', 'error')
+
+          const botOptions = { storage }
+
+          const channels = {
+
+            direct: {
+              controller: webBot(botOptions),
+              listen(controller, server) {
+                server.post('/botkit/receive', function (req, res) {
+                  res.status(200)
+                  controller.handleWebhookPayload(req, res)
+                })
+                controller.openSocketServer(server)
+                controller.startTicking()
+                info('Web bot online')
+              }
+            },
+
+          }
+
+          export default channels
+        </code></pre>
+        <p>
+          When using <code class="language-bash">basebot create</code> with the web connector, it will automatically
+          bundle a test chat interface which will be served at the web root (e.g. localhost:3000).
+        </p>
+        <p>
+          By default, the websocket will mount on port 3001 - this can be changed by passing a second argument into the
+          controller.openSocketServer function. e.g.
+        </p>
+        <pre><code class="language-javascript">
+          controller.openSocketServer(server, {
+            port: 3005
+          })
+        </code></pre>
       </section>
 
       <section id="alexa-connector" class="section">
         <h4>Alexa Connector</h4>
+        <p>
+          The Alexa connector allows you to
+        </p>
       </section>
 
       <section id="slack-connector" class="section">
