@@ -18,7 +18,7 @@
     "url": "https://github.com/ans-group/basebot/issues"
   },
   "homepage": "https://github.com/ans-group/basebot#readme",
-  "gitHead": "396eca19b05aff6a0025727e4924a5ee22d8abf4",
+  "gitHead": "99447c0bb873202cdc96a4dff2b68e90d917e566",
   "dependencies": {
     "monk": "^6.0.6"
   },
