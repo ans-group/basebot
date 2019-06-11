@@ -516,6 +516,10 @@ ul {
     @media (min-width: 768px) {
       .docs-section > .section {
         padding-bottom: 8rem; } }
+  .docs-section > .imgButton {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-top: 1rem; }
   .docs-section > .notice {
     padding: 1.5rem 1rem;
     padding-left: 6rem;
