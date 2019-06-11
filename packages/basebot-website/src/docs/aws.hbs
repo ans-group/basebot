@@ -1,0 +1,115 @@
+---
+title: AWS | Basebot Docs | Chatbot Framework by ANS
+slug: docs
+---
+
+{{> head}}
+
+<div class="docs-wrapper">
+  {{> awsNav}}
+  <div class="mobileNav">
+    {{> nav}}
+  </div>
+  <main class="docs-content">
+    <div class="docs-section">
+      <h2 class="heading">AWS Example Stack - Deployment Guide</h2>
+
+      <a class="imgButton"
+        href="https://console.aws.amazon.com/cloudformation/home?region=eu-west-1#/stacks/new?stackName=ANS-BaseBot&templateURL=https://ans-cloudformation-templates-public.s3.eu-west-2.amazonaws.com/aws/basebot/basebot-deletion-policy-retain.json"
+        target="_blank" rel="noopener noreferrer">
+        <img src="{{ROOT_URL}}/images/aws-deploy.png" alt="Deploy to AWS">
+      </a>
+      <a class="imgButton"
+        href="https://console.aws.amazon.com/cloudformation/designer/home?region=eu-west-1&&templateUrl=https://ans-cloudformation-templates-public.s3.eu-west-2.amazonaws.com/aws/basebot/basebot-deletion-policy-retain.json"
+        target="_blank" rel="noopener noreferrer">
+        <img src="{{ROOT_URL}}/images/aws-view.png" alt="Visualize on AWS">
+      </a>
+
+      <section id="introduction" class="section">
+        <h4>Introduction</h4>
+        <p>
+          This guide provides instructions on how to deploy the pre-built example stack for AWS. This example stack is
+          configured to use the following:
+        </p>
+        <ul>
+          <li>
+            <a class="link" href="https://aws.amazon.com/lex/" target="_blank" rel="noopener noreferrer">Lex</a> NLP
+            module
+          </li>
+          <li>
+            <a class="link" href="https://developer.amazon.com/alexa" target="_blank"
+              rel="noopener noreferrer">Alexa</a> connector
+            module
+          </li>
+          <li>
+            <a class="link" href="{{ROOT_URL}}/docs/#web-connector" target="_blank" rel="noopener noreferrer">Web</a>
+            connector
+            module
+          </li>
+          <li>
+            <a class="link" href="https://aws.amazon.com/dynamodb/" target="_blank"
+              rel="noopener noreferrer">DynamoDB</a> storage
+            module
+          </li>
+        </ul>
+        <p>
+          The stack also includes an early version (free while in Alpha) of the <strong>Basebot manager</strong> - a
+          graphical interface for managing simple Q&A style responses without the need for code.
+        </p>
+        <p>
+          The deployment is provided as an easy to deploy CloudFormation template that will have you up and running in a
+          matter of minutes.
+        </p>
+        <p>
+          <em>
+            Note: While this configuration has been extensively tested this stack is provides "as-is". Issues should be
+            raised via the main Basebot <a href="https://github.com/ans-group/basebot/issues" target="_blank"
+              rel="noopener noreferrer">Issue page</a>.
+          </em>
+        </p>
+      </section>
+
+      <section id="pre-requisites" class="section">
+        <h4>Pre-requisites</h4>
+        <p>
+          Before deploying the template there are a number of pre-requisites that need to be met along with some
+          additional information you will required to provide.
+        </p>
+        <ul>
+          <li>
+            An AWS Account with AWS Administrator privileges.
+          </li>
+          <li>
+            An SSL certificate that has either been created in or imported to AWS Certificate manager in the region the
+            template is to be deployed.
+          </li>
+          <li>
+            A CIDR range for the VPC which will then be split into 4 subnets, ANS recommend this should be a /24, but
+            can support CIDR address space that support a greater number of IP Addresses than a /24.
+          </li>
+        </ul>
+      </section>
+
+      <section id="architecture" class="section">
+        <h4>Architecture</h4>
+        <p>
+          The above template will deploy a standardised AWS infrastructure to host the BaseBot core and
+          manager Docker containers and has been designed to provide both resiliency and security, whilst utilising
+          services that keep operational tasks to a minimum.
+        </p>
+        <img src="{{ROOT_URL}}/images/aws-diagram.png" alt="AWS Architecture Diagram">
+        <p>
+          The design utilises AWS Fargate to provide a managed compute service that hosts the BaseBot Server Docker
+          containers, persistent and stateful information is stored in DynamoDB tables, AWS ELBv2 (Application Load
+          balancer) is used to make the bot server available to Bot clients on the internet. Amazon LEX is integrated
+          into the Bot server to provide AI based Natural Language Processing.
+        </p>
+        <p>
+          Questions, feedback, comments? Email us at <a href="mailto:appdev@ansgroup.co.uk">appdev@ansgroup.co.uk</a>
+        </p>
+      </section>
+    </div>
+  </main>
+</div>
+
+{{> footer}}

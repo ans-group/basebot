@@ -41,7 +41,12 @@ var paths = {
 
 gulp.task('serve', () => {
   browserSync.init({
-    server: paths.dist.root,
+    server: {
+      baseDir: paths.dist.root,
+      serveStaticOptions: {
+        extensions: ['html']
+      }
+    },
     open: false,
     notify: false,
 
@@ -61,7 +66,7 @@ gulp.task('styles', () => {
     .pipe(prefixer('last 2 versions'))
     .on('error', util.log)
     .pipe(gulp.dest(paths.dist.css))
-    .pipe(browserSync.reload({stream: true}))
+    .pipe(browserSync.reload({ stream: true }))
 })
 
 /*
@@ -92,7 +97,7 @@ gulp.task('templates', () => {
     }))
     .on('error', util.log)
     .pipe(gulp.dest(paths.dist.root))
-    .pipe(browserSync.reload({stream: true}))
+    .pipe(browserSync.reload({ stream: true }))
 })
 
 /*
@@ -108,7 +113,7 @@ gulp.task('scripts', () => {
     .pipe(uglify())
     .on('error', util.log)
     .pipe(gulp.dest(paths.dist.javascript))
-    .pipe(browserSync.reload({stream: true}))
+    .pipe(browserSync.reload({ stream: true }))
 
   /*
   * Uglify JS libs and move to dist folder
@@ -121,7 +126,7 @@ gulp.task('scripts', () => {
     }))
     .on('error', util.log)
     .pipe(gulp.dest(paths.dist.libs))
-    .pipe(browserSync.reload({stream: true}))
+    .pipe(browserSync.reload({ stream: true }))
 })
 
 gulp.task('images', () => {
