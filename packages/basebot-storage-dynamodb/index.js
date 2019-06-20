@@ -9,12 +9,15 @@ export default (logger = () => console.log) => {
   if (!process.env.AWS_REGION || !process.env.AWS_SECRET_ACCESS_KEY || !process.env.AWS_ACCESS_KEY_ID) {
     error('AWS_REGION, AWS_SECRET_ACCESS_KEY and AWS_ACCESS_KEY_ID are required')
   }
-
-  const db = new DynamoDB({region: process.env.AWS_REGION})
+  const params = {region: process.env.AWS_REGION}
+  if (process.env.NODE_ENV !== 'production') {
+      params.endpoint = 'http://localhost:8000'
+  }
+  const db = new DynamoDB(params)
   const storage = {}
   const keys = ['teams', 'channels', 'users', 'responses']
   keys.forEach(function (type) {
-    const dynamoTable = type
+    const dynamoTable = type === 'responses' ? 'response' : type
     storage[type] = getStorage(db, dynamoTable)
   })
 
