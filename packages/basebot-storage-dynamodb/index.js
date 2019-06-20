@@ -38,7 +38,7 @@ export default (logger = () => console.log) => {
             resolve(mapValues(items[0], cleanRes))
           }
         }
-        if (table === 'responses') {
+        if (table === 'response') {
           db.getItem({
             TableName: table,
             Key: {
