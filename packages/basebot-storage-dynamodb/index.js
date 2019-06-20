@@ -31,11 +31,11 @@ export default (logger = () => console.log) => {
             return reject(err)
           }
           debug('Response received: ', res)
-          const items = res.Items || []
-          if (items.length === 0) { // no result found
+          const {Item} = res
+          if (!Item) { // no result found
             resolve(null)
           } else { // result found
-            resolve(mapValues(items[0], cleanRes))
+            resolve(mapValues(Item, cleanRes))
           }
         }
         if (table === 'response') {
