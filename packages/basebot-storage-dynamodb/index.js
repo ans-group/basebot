@@ -39,12 +39,10 @@ export default (logger = () => console.log) => {
           }
         }
         if (table === 'responses') {
-          db.query({
+          db.getItem({
             TableName: table,
-            IndexName: 'intentName',
-            KeyConditionExpression: 'intentName = :v1',
-            ExpressionAttributeValues: {
-              ':v1': {
+            Key: {
+              intentName: {
                 S: hash
               }
             }
