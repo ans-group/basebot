@@ -517,7 +517,7 @@ slug: docs
           --name basebot-core \
           --image YOUR_DOCKER_USERNAME/basebot-core:latest \
           --dns-name-label basebot \
-          --ports 80 443 3001 \
+          --ports 80 443 3000 \
           --location uksouth \
           --restart-policy OnFailure \
           --environment-variables 'BOT_NAME'="$BOT_NAME" LUIS_URI="$LUIS_URI" DB_URL="$DB_URL"
@@ -534,10 +534,10 @@ slug: docs
           Once you see "Succeeded" copy the FQDN URL (it will be something like basebot.uksouth.azurecontainer.io).
         </p>
         <p>
-          You can speak to your bot via this URL on port 3001 through a websocket, but for now, let's just use the local
+          You can speak to your bot via this URL on port 3000 through a websocket, but for now, let's just use the local
           version. Run <code class="language-bash">npm run dev</code> again in your project root and visit
-          localhost:3000 in your browser. Change the endpoint URL to (your FQDN URL):3001 - e.g.
-          basebot.uksouth.azurecontainer.io:3001
+          localhost:3000 in your browser. Change the endpoint URL to (your FQDN URL):3000 - e.g.
+          basebot.uksouth.azurecontainer.io:3000
         </p>
         <img src="{{ROOT_URL}}/images/basebot-chat-test.png" alt="Basebot Chat Test Interface">
         <p>
@@ -605,7 +605,7 @@ slug: docs
           bundle a test chat interface which will be served at the web root (e.g. localhost:3000).
         </p>
         <p>
-          By default, the websocket will mount on port 3001 - this can be changed by passing a second argument into the
+          By default, the websocket will mount on port 3000 - this can be changed by passing a second argument into the
           controller.openSocketServer function. e.g.
         </p>
         <pre><code class="language-javascript">

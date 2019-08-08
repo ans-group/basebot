@@ -27,6 +27,11 @@ app
 /* set up a /register endpoints for UUID generation */
 app.get('/register', register(storage))
 
+/* health check endpoint */
+app.get('/status', (req, res) => {
+  res.sendStatus(200)
+})
+
 /* register controller webhook endpoints */
 forEach(channels, ({ controller, listen }) => {
   controller.webserver = app
@@ -41,7 +46,7 @@ forEach(auth, handler => {
 app.on('error', onError)
 app.on('listening', onListening)
 
-export default app
+export default server
 
 /**
   * Event listener for HTTP server "error" event.

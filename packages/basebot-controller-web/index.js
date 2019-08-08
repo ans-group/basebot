@@ -1,11 +1,16 @@
+import { promisify } from 'util'
 import Botkit from 'botkit/lib/CoreBot'
+import uuid from 'uuid/v1'
 import WebSocket from 'ws';
 
 function WebBot(configuration) {
   const controller = Botkit(configuration || {});
   const error = configuration.logger
-    ? configuration.logger.error('controller:web', 'error')
+    ? configuration.logger('controller:web', 'error')
     : console.error
+  const debug = configuration.logger
+    ? configuration.logger('controller:web', 'debug')
+    : console.log
 
   if (controller.config.typingDelayFactor === undefined) {
     controller.config.typingDelayFactor = 1
@@ -13,7 +18,7 @@ function WebBot(configuration) {
 
   controller.excludeFromConversations(['hello', 'welcome_back', 'reconnect'])
 
-  controller.openSocketServer = (server, wsconfig = { port: 3001 }) => {
+  controller.openSocketServer = (server, wsconfig = {}) => {
 
     // create the socket server along side the existing webserver.
     const wss = new WebSocket.Server({
@@ -28,7 +33,6 @@ function WebBot(configuration) {
     function noop() { }
 
     function heartbeat() {
-      console.log('pong received')
       this.isAlive = true;
     }
 
@@ -40,7 +44,7 @@ function WebBot(configuration) {
       ws.isAlive = true;
       ws.on('pong', heartbeat.bind(ws));
 
-      ws.on('message', function incoming(message) {
+      ws.on('message', async function incoming(message) {
         if (message === 'ping') {
           return ws.send(JSON.stringify({ type: 'heartbeat', event: 'pong' }))
         }
@@ -74,6 +78,7 @@ function WebBot(configuration) {
       });
     }, 30000);
   }
+
 
   controller.middleware.ingest.use((bot, message, reply_channel, next) => {
 
@@ -254,6 +259,8 @@ function WebBot(configuration) {
           text: resp
         }
       }
+      console.log("RESPONSE IS")
+      console.log(resp)
 
       resp.user = src.user
       resp.channel = src.channel

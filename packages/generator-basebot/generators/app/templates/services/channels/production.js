@@ -26,7 +26,7 @@ const channels = {
   direct: {
     controller: webBot(botOptions),
       listen(controller, server) {
-      controller.openSocketServer(server, { path: '/socket', port: 3001 })
+      controller.openSocketServer(server, { path: '/socket' })
       controller.startTicking()
       info('Web bot online')
     }

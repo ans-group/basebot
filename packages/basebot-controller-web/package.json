@@ -24,6 +24,7 @@
     "@babel/preset-env": "^7.4.3"
   },
   "dependencies": {
+    "aws-sdk": "^2.478.0",
     "botkit": "^0.7.4",
     "ws": "^7.0.0"
   }
