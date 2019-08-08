@@ -1,6 +1,6 @@
 {
   "name": "basebot-website",
-  "version": "2.1.40",
+  "version": "2.1.41",
   "description": "Public-facing website & documentation",
   "main": "dist/index.html",
   "private": true,
