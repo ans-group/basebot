@@ -52,6 +52,8 @@ export default (logger) => {
           }
           debug('response received from Lex:', message.lex)
           if (data.intentName) {
+            //TODO implement a custom hears function  instead of replacing the text prop
+            message.text = data.intentName
             message.intent === data.intentName
           }
           next()
@@ -64,7 +66,7 @@ export default (logger) => {
 
   function heard(bot, message, next) {
     if (message.lex && message.lex.dialogState === 'Fulfilled' && message.lex.intentName !== null) {
-      return bot.reply(message, {text: message.lex.response, intent: message.lex.intent})
+      return bot.reply(message, { text: message.lex.response, intent: message.lex.intent })
     }
     next()
   }
