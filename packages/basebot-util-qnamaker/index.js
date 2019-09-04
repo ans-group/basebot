@@ -1,8 +1,9 @@
 import request from 'request-promise-native'
 
-export default logger => async function(bot, message) {
+export default logger => async function(bot, message, next) {
   const info = logger('qnaMaker', 'info')
   const error = logger('qnaMaker', 'error')
+  const threshold = process.env.QNA_THRESHOLD || 70
   if (!process.env.QNA_HOST || !process.env.QNA_KBID || !process.env.QNA_KEY) {
     info('not using QNA Maker as no key provided')
     return bot.reply(message, `Didn't catch that, sorry`)
@@ -17,8 +18,10 @@ export default logger => async function(bot, message) {
       },
       json: { question: message.text }
     })
-    if (res.answers && res.answers.length && res.answers[0].score > process.env.QNA_THRESHOLD) {
+    if (res.answers && res.answers.length && res.answers[0].score > threshold) {
       return bot.reply(message, res.answers[0].answer)
+    } else {
+      return next()
     }
   } catch (err) {
     bot.reply(message, `Didn't catch that, sorry`)
