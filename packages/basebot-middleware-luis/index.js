@@ -9,7 +9,7 @@ export default (logger) => {
   return { receive, hearIntent }
 
   function receive() {
-    const serviceUri = process.env.LUIS_URI.trim()
+    var serviceUri = process.env.LUIS_URI.trim()
     if (serviceUri.lastIndexOf('&q=') != serviceUri.length - 3) {
       serviceUri += '&q='
     }
