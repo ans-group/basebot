@@ -1,6 +1,7 @@
 import request from 'request-promise-native'
 
 export default logger => async function(bot, message, next) {
+  if (message.intent) return next()
   const info = logger('qnaMaker', 'info')
   const error = logger('qnaMaker', 'error')
   const threshold = process.env.QNA_THRESHOLD || 70
