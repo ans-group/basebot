@@ -66,7 +66,8 @@ export default (logger) => {
   }
 
   function hearIntent(tests, { topIntent }) {
-    if (topIntent) {
+    const captureThreshold = process.env.LUIS_CAPTURE_THRESHOLD || 0.7
+    if (topIntent && topIntent.score >= captureThreshold) {
       const intent = topIntent.intent.toLowerCase()
       for (let i = 0; i < tests.length; i++) {
         if (tests[i].trim().toLowerCase() == intent) {
