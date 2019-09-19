@@ -1,7 +1,7 @@
 import request from 'request-promise-native'
 
-export default logger => async function(bot, message, next) {
-  if (message.intent) return next()
+export default (logger, defaultResponse) => async function(bot, message ) {
+  if (message.intent) return bot.reply(message, defaultResponse)
   const info = logger('qnaMaker', 'info')
   const error = logger('qnaMaker', 'error')
   const threshold = process.env.QNA_THRESHOLD || 70
@@ -22,7 +22,7 @@ export default logger => async function(bot, message, next) {
     if (res.answers && res.answers.length && res.answers[0].score > threshold) {
       return bot.reply(message, res.answers[0].answer)
     } else {
-      return next()
+      return bot.reply(message, defaultResponse)
     }
   } catch (err) {
     bot.reply(message, `Didn't catch that, sorry`)
