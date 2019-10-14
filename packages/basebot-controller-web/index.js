@@ -1,10 +1,9 @@
 import { promisify } from 'util'
 import Botkit from 'botkit/lib/CoreBot'
-import uuid from 'uuid/v1'
-import WebSocket from 'ws';
+import WebSocket from 'ws'
 
 function WebBot(configuration) {
-  const controller = Botkit(configuration || {});
+  const controller = Botkit(configuration || {})
   const error = configuration.logger
     ? configuration.logger('controller:web', 'error')
     : console.error
@@ -16,16 +15,15 @@ function WebBot(configuration) {
     controller.config.typingDelayFactor = 1
   }
 
-  controller.excludeFromConversations(['hello', 'welcome_back', 'reconnect'])
+  controller.excludeFromConversations(['hello', 'welcome_back', 'reconnect', 'rating_received'])
 
   controller.openSocketServer = (server, wsconfig = {}) => {
-
     // create the socket server along side the existing webserver.
     const wss = new WebSocket.Server({
       server,
       ...wsconfig,
-      clientTracking: true,
-    });
+      clientTracking: true
+    })
 
     // Expose the web socket server object to the controller so it can be used later.
     controller.wss = wss
@@ -33,30 +31,31 @@ function WebBot(configuration) {
     function noop() { }
 
     function heartbeat() {
-      this.isAlive = true;
+      this.isAlive = true
     }
 
     wss.on('connection', function connection(ws) {
+      console.log('connected')
       // search through all the convos, if a bot matches, update its ws
-      const bot = controller.spawn();
+      const bot = controller.spawn()
       bot.ws = ws
       bot.connected = true
-      ws.isAlive = true;
-      ws.on('pong', heartbeat.bind(ws));
+      ws.isAlive = true
+      ws.on('pong', heartbeat.bind(ws))
 
       ws.on('message', async function incoming(message) {
         if (message === 'ping') {
           return ws.send(JSON.stringify({ type: 'heartbeat', event: 'pong' }))
         }
         try {
-          var message = JSON.parse(message)
-          controller.ingest(bot, message, ws)
+          const parsedMessage = JSON.parse(message)
+          controller.ingest(bot, parsedMessage, ws)
         } catch (e) {
           const alert = [
-            `Error parsing incoming message from websocket.`,
-            `Message must be JSON, and should be in the format documented here:`,
-            `https://botkit.ai/docs/readme-web.html#message-objects`
-          ];
+            'Error parsing incoming message from websocket.',
+            'Message must be JSON, and should be in the format documented here:',
+            'https://botkit.ai/docs/readme-web.html#message-objects'
+          ]
           error(alert.join('\n'))
           error(e)
         }
@@ -71,17 +70,15 @@ function WebBot(configuration) {
 
     const interval = setInterval(() => {
       wss.clients.forEach(function each(ws) {
-        if (ws.isAlive === false) return ws.terminate();
+        if (ws.isAlive === false) return ws.terminate()
 
-        ws.isAlive = false;
-        ws.ping(noop);
-      });
-    }, 30000);
+        ws.isAlive = false
+        ws.ping(noop)
+      })
+    }, 30000)
   }
 
-
   controller.middleware.ingest.use((bot, message, reply_channel, next) => {
-
     /*
      * this could be a message from the WebSocket
      * or it might be coming from a webhook.
@@ -109,7 +106,6 @@ function WebBot(configuration) {
             message.type = 'reconnect'
           }
         } else {
-
           /*
            * replace the reply channel in the active conversation
            * this is the one that gets used to send the actual reply
@@ -146,13 +142,13 @@ function WebBot(configuration) {
       botkit,
       config: config || {},
       utterances: botkit.utterances
-    };
+    }
 
-    bot.startConversation = function (message, cb) {
+    bot.startConversation = function(message, cb) {
       botkit.startConversation(this, message, cb)
     }
 
-    bot.createConversation = function (message, cb) {
+    bot.createConversation = function(message, cb) {
       botkit.createConversation(this, message, cb)
     }
 
@@ -214,19 +210,19 @@ function WebBot(configuration) {
     }
 
     bot.typingDelay = ({ typingDelay, text }) => new Promise(resolve => {
-      let typingLength = 0;
+      let typingLength = 0
       if (typingDelay) {
         typingLength = typingDelay
       } else {
-        let textLength;
+        let textLength
         if (text) {
           textLength = text.length
         } else {
           textLength = 80 // default attachment text length
         }
 
-        const avgWPM = 150;
-        const avgCPM = avgWPM * 7;
+        const avgWPM = 150
+        const avgCPM = avgWPM * 7
 
         typingLength = Math.min(Math.floor(textLength / (avgCPM / 60)) * 1000, 2000) * controller.config.typingDelayFactor
       }
@@ -239,7 +235,7 @@ function WebBot(configuration) {
     bot.replyWithTyping = ({ user, channel }, resp, cb) => {
       bot.startTyping()
       bot.typingDelay(resp).then(() => {
-        if (typeof (resp) == 'string') {
+        if (typeof (resp) === 'string') {
           resp = {
             text: resp
           }
@@ -254,12 +250,12 @@ function WebBot(configuration) {
     }
 
     bot.reply = (src, resp, cb) => {
-      if (typeof (resp) == 'string') {
+      if (typeof (resp) === 'string') {
         resp = {
           text: resp
         }
       }
-      console.log("RESPONSE IS")
+      console.log('RESPONSE IS')
       console.log(resp)
 
       resp.user = src.user
@@ -300,7 +296,7 @@ function WebBot(configuration) {
       const instance = {
         identity: {},
         team: {}
-      };
+      }
 
       if (bot.identity) {
         instance.identity.name = bot.identity.name
@@ -339,7 +335,7 @@ function WebBot(configuration) {
           gender: user.attributes.gender, // no source for this info
           timezone_offset: user.attributes.timezone_offset,
           timezone: user.attributes.timezone
-        };
+        }
 
         if (cb) {
           cb(null, profile)
@@ -352,7 +348,7 @@ function WebBot(configuration) {
   })
 
   controller.handleWebhookPayload = ({ body }, res) => {
-    const payload = body;
+    const payload = body
     controller.ingest(controller.spawn({}), payload, res)
   }
 
@@ -367,4 +363,5 @@ function WebBot(configuration) {
   return controller
 }
 
-export default WebBot;
+export default WebBot
+
