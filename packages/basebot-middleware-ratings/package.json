@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-ratings",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Handle user ratings",
   "main": "dist/index.js",
   "scripts": {

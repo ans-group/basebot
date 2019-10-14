@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-priority",
-  "version": "2.2.4",
+  "version": "2.3.0",
   "description": "Handle priority responses",
   "main": "dist/index.js",
   "scripts": {
@@ -17,7 +17,5 @@
   "bugs": {
     "url": "https://github.com/ans-group/basebot/issues"
   },
-  "devDependencies": {},
-  "homepage": "https://github.com/ans-group/basebot#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/ans-group/basebot#readme"
 }
