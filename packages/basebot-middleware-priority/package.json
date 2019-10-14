@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-priority",
-  "version": "2.3.0",
+  "version": "2.3.3",
   "description": "Handle priority responses",
   "main": "dist/index.js",
   "scripts": {
