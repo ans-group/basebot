@@ -52,7 +52,7 @@ export default ({ logger, storage }) => async(bot, message, next) => {
 
   debug('sending intent trigger event')
   if (gaID) {
-    ua(accountId, message.user).event({
+    ua(gaID, message.user).event({
       ec: 'Rating',
       ea: message.intent,
       ev: message.value === 'positive' ? 1 : -1

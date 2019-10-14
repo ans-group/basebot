@@ -28,7 +28,7 @@ export default ({ logger, storage }) => async(bot, message, next) => {
 
   // send to GA
   if (gaID) {
-    const visitor = ua(accountId, message.user)
+    const visitor = ua(gaID, message.user)
     debug('sending utterance event')
     visitor.event('Utterance', message.text).send()
   }
