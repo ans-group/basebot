@@ -8,7 +8,7 @@ export default ({ storage }) => {
     let found = false
     responses.forEach(item => {
       item.phrases.forEach(phrase => {
-        if (message.text.includes(phrase) && !found) {
+        if (message.text && message.text.includes(phrase) && !found) {
           found = true
           bot.reply(message, item.response)
         }
