@@ -15,5 +15,7 @@ services/../storage
   import storage from 'basebot-storage-dynamodb'
   import { logger } from '../'
 
-  export default storage(logger)
+  const models = { /* ... */ }
+
+  export default storage({ storage, logger })
 ```
