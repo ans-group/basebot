@@ -47,6 +47,7 @@ export const ratingFlagMiddleware = ({ logger, storage }) => async(bot, message,
 }
 
 export default ({ logger, storage }) => async(bot, message, next) => {
+  if (message.type !== 'ratings_received') return next()
   logger = logger || (() => console.log)
   const debug = logger('middleware:ratings', 'debug')
 

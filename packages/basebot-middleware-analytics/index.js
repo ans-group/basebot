@@ -18,13 +18,12 @@ export const models = {
 }
 
 export default ({ logger, storage }) => async(bot, message, next) => {
+  if (message.type !== 'message_received') return next()
   logger = logger || (() => console.log)
   const debug = logger('middleware:analytics', 'debug')
 
   // rollup interaction data
-  if (message.type === 'message_received') {
-    aggregateInteractions(storage, message)
-  }
+  aggregateInteractions(storage, message)
 
   // send to GA
   if (gaID) {
