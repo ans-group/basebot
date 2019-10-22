@@ -1,36 +1,36 @@
 import azure from 'azure-storage'
 import { promisify } from 'util'
 
-if (!process.env.DB_URL) {
-  throw new Error('DB_URL is not set')
+const defaultModels = {
+  teams: {
+    hash: '_id'
+  },
+  channels: {
+    hash: '_id'
+  },
+  users: {
+    hash: '_id'
+  }
 }
 
-export default logger => {
-  const debug = logger('services:storage:azureTables', 'debug')
-  const error = logger('services:storage:azureTables', 'error')
-
+export default (config = {}) => {
+  const logger = config.logger ? config.logger : () => console.log
+  const models = Object.assign(defaultModels, config.models)
+  const debug = logger('services:storage:azuretables', 'debug')
+  const error = logger('services:storage:azuretables', 'error')
   const tablePrefix = (process.env.BOT_NAME || 'basebot').replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
-  const teamsRef = `${tablePrefix}Teams`
-  const usersRef = `${tablePrefix}Users`
-  const channelsRef = `${tablePrefix}Channels`
 
-  const driver = {
-    teams: {
-      get: get(teamsRef),
-      save: save(teamsRef),
-      all: all(teamsRef)
-    },
-    channels: {
-      get: get(channelsRef),
-      save: save(channelsRef),
-      all: all(channelsRef)
-    },
-    users: {
-      get: get(usersRef),
-      save: save(usersRef),
-      all: all(usersRef)
-    }
+  if (!process.env.DB_URL) {
+    error('DB_URL is not set')
   }
+
+  const storage = {}
+  const keys = Object.keys(models)
+  keys.forEach(function(model) {
+    const modelName = model + ''
+    const dbTable = process.env.RESOURCE_PREFIX.replace('_', '') + model.replace(/_/g, '')
+    storage[model] = getStorage(dbTable, modelName)
+  })
 
   const tableService = azure.createTableService(process.env.DB_URL)
   const entGen = azure.TableUtilities.entityGenerator
@@ -41,61 +41,72 @@ export default logger => {
   const insertOrMergeEntity = promisify(tableService.insertOrMergeEntity).bind(tableService)
   const queryEntities = promisify(tableService.queryEntities).bind(tableService)
 
-  function get (table) {
-    return id => new Promise(async (resolve, reject) => {
-      debug(`attempting to fetch document with ID: ${id}`)
-      try {
-        await createTableIfNotExists(table)
-        const { Data } = await retrieveEntity(table, 'partition', id)
-        const data = JSON.parse(Data['_'])
-        debug(`document retrieved:`, data)
-        resolve(data)
-      } catch (err) {
-        error(err)
-        resolve(null)
-      }
-    })
-  }
-
-  function save (table) {
-    return data => new Promise(async (resolve, reject) => {
-      debug('saving: ', data)
-      try {
-        await createTableIfNotExists(table)
-        let existingData = {}
+  function getStorage(table, modelName) {
+    return {
+      get: (hash, secondary) => new Promise(async(resolve, reject) => {
         try {
-          const { Data } = await retrieveEntity(table, 'partition', data.id)
-          existingData = Data && JSON.parse(Data['_']) ? JSON.parse(Data['_']) : {}
+          await createTableIfNotExists(table)
+          const model = models[modelName]
+          const hashKey = model.hash
+          const secondaryKey = model.secondary
+          debug(`fetching doc with ${hashKey} of ${hash} from  ${table}`)
+
+          if (hash && !secondary) {
+            const { Data } = await retrieveEntity(table, 'partition', String(hash))
+            resolve(JSON.parse(Data._))
+          } else {
+            var query = new azure.TableQuery().where('? == ?', secondaryKey, secondary)
+            if (hash) query = query.and('? == ?', hashKey, hash)
+            const { entries } = await queryEntities(table, query, null)
+            const data = Object.keys(entries).map(key => JSON.parse(entries[key].Data._))[0]
+            resolve(data)
+          }
+        } catch (err) {
+          resolve(null)
+        }
+      }),
+
+      save: data => new Promise(async(resolve, reject) => {
+        let existingData = {}
+        const hashKey = models[modelName].hash
+        if (hashKey === '_id' && !data._id) {
+          data._id = uuid()
+        }
+        try {
+          debug('saving doc with data: ', data)
+          await createTableIfNotExists(table)
+          try {
+            const { Data } = await retrieveEntity(table, 'partition', String(data[hashKey]))
+            existingData = Data && JSON.parse(Data._) ? JSON.parse(Data._) : {}
+          } catch (err) {}
+          await insertOrMergeEntity(table, {
+            PartitionKey: entGen.String('partition'),
+            RowKey: String(data[hashKey]),
+            Data: entGen.String(JSON.stringify(Object.assign({}, existingData, data)))
+          })
+          resolve()
         } catch (err) {
           error(new Error(err))
         }
-        await insertOrMergeEntity(table, {
-          PartitionKey: entGen.String('partition'),
-          RowKey: entGen.String(data.id),
-          Data: entGen.String(JSON.stringify(Object.assign({}, existingData, data)))
-        })
-        resolve()
-      } catch (err) {
-        error(new Error(err))
-        reject(err)
-      }
-    })
-  }
+      }),
 
-  function all (table) {
-    return () => new Promise(async (resolve, reject) => {
-      debug(`fetching all records in: ${table}`)
-      try {
-        await createTableIfNotExists(table)
-        const { entries } = await queryEntities(table, new azure.TableQuery(), null)
-        const data = Object.keys(entries).map(key => JSON.parse(entries[key].Data['_']))
-        resolve(data)
-      } catch (err) {
-        error(err)
-        reject(err)
-      }
-    })
+      all: (query) => new Promise(async(resolve, reject) => {
+        debug(`fetching all records in: ${table}`)
+        try {
+          var tableQuery = new azure.TableQuery()
+          if (query) {
+            tableQuery = tableQuery.where('? == ?', query.key, query, value)
+          }
+          await createTableIfNotExists(table)
+          const { entries } = await queryEntities(table, tableQuery, null)
+          const data = Object.keys(entries).map(key => JSON.parse(entries[key].Data._))
+          resolve(data)
+        } catch (err) {
+          error(err)
+          reject(err)
+        }
+      })
+    }
   }
-
-  return driver
+  return storage
 }
