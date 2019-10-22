@@ -1,0 +1,30 @@
+{
+  "name": "basebot-controller-botframework",
+  "version": "2.3.0",
+  "description": "Azure Bot Framework controller for Basebot",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "npx babel index.js  --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline",
+    "dev": "npx babel ./ --watch --out-dir dist --ignore=\"node_modules\",\"dist\" --source-maps inline"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ans-group/basebot.git"
+  },
+  "author": "ANS Group",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ans-group/basebot/issues"
+  },
+  "homepage": "https://github.com/ans-group/basebot#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3"
+  },
+  "dependencies": {
+    "botkit": "^0.7.4",
+    "botbuilder": "^3.16.0"
+  }
+}
