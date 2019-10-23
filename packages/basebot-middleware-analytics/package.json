@@ -1,6 +1,6 @@
 {
   "name": "basebot-middleware-analytics",
-  "version": "2.3.4",
+  "version": "2.4.0",
   "description": "Save chat telemetry",
   "main": "dist/index.js",
   "scripts": {

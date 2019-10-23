@@ -1,6 +1,6 @@
 {
   "name": "basebot-controller-botframework",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Azure Bot Framework controller for Basebot",
   "main": "dist/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "@babel/preset-env": "^7.4.3"
   },
   "dependencies": {
-    "botkit": "^0.7.4",
-    "botbuilder": "^3.16.0"
+    "botbuilder": "^3.16.0",
+    "botkit": "^0.7.4"
   }
 }
