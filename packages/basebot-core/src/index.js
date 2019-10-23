@@ -8,8 +8,8 @@ export const init = ({ skills, config }) => {
   const channels = getAllModules(config.channels)
   const rawMiddleware = getAllModules(config.middleware)
   const models = getAllModels(rawMiddleware)
-  const storage = getSingleModule(config.storage)({logger, models})
-  const middleware = rawMiddleware.map(mw => mw({storage, logger}))
+  const storage = getSingleModule(config.storage)({ logger, models })
+  const middleware = rawMiddleware.map(mw => mw({ storage, logger }))
   const info = logger('core', 'info')
   const { server, app } = Server({ logger })
   const controllers = startChannels({ channels, storage, logger, server, app })
@@ -19,5 +19,10 @@ export const init = ({ skills, config }) => {
     app.listen(process.env.PORT || 3000)
   }
 
-  applySkills({ controllers, middleware, logger, skills })
+  applySkills({ channels: controllers, middleware, logger, skills })
+  return {
+    controllers,
+    storage,
+    logger
+  }
 }
