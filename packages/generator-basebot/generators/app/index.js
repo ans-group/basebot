@@ -139,6 +139,7 @@ module.exports = class extends Generator {
     const vars = [
       { key: 'BOT_NAME', initialValue: this.answers.botName },
       { key: 'DOCKER_IMAGE_NAME', initialValue: 'YOUR_DOCKER_USERNAME/basebot-core' },
+      { key: 'RESOURCE_PREFIX', initialValue: '' },
       { key: 'USE_LT_SUBDOMAIN', initialValue: this.answers.projectName + '123' }
     ]
       .concat(...this.answers.channelModules.map(channelName => defaultVars[channelName]))
