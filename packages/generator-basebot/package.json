@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ans-group/basebot#readme",
   "dependencies": {
     "fs-jetpack": "^2.2.2",
+    "gulp-beautify": "^3.0.0",
     "yeoman-generator": "^3.2.0"
   },
   "gitHead": "99447c0bb873202cdc96a4dff2b68e90d917e566"

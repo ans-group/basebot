@@ -1,4 +1,5 @@
 const path = require('path')
+var beautify = require('gulp-beautify')
 const jetpack = require('fs-jetpack')
 const Generator = require('yeoman-generator')
 const coreDeps = require('./coredeps')
@@ -92,6 +93,7 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    this.registerTransformStream(beautify({ indent_size: 2 }))
     // Extend or create package.json file in destination path
     this.fs.extendJSON(this.destinationPath('package.json'), {
       'name': this.answers.projectName,

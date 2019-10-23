@@ -1,7 +1,7 @@
 <% channelImports.forEach(function (value) {-%>
 import <%- value.designation; %> from '<%- value.packageName; -%>'<% }); %>
 import storage from '<%- storagePackage -%>'
-import logger from '<%- loggerPackage -%>'>
+import logger from '<%- loggerPackage -%>'
 <% if(nlpPackage) { %>import nlp from '<%- nlpPackage -%>'<% }; %>
 <% otherPackages.forEach(function (value) {-%>
 import <%- value.designation; %> from '<%- value.packageName; -%>'<% }); %>
