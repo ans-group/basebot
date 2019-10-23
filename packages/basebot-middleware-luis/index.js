@@ -1,12 +1,12 @@
 import request from 'request'
 
-export default (logger) => {
+export default ({ logger }) => {
   const error = logger('middleware:luis', 'error')
   if (!process.env.LUIS_URI) {
     error('LUIS_URI must be set')
   }
 
-  return { receive, hearIntent }
+  return { receive, hear, triggers: ['intent'] }
 
   function receive() {
     var serviceUri = process.env.LUIS_URI.trim()
@@ -65,7 +65,7 @@ export default (logger) => {
     }
   }
 
-  function hearIntent(tests, { topIntent }) {
+  function hear(tests, { topIntent }) {
     const captureThreshold = process.env.LUIS_CAPTURE_THRESHOLD || 0.7
     if (topIntent && topIntent.score >= captureThreshold) {
       const intent = topIntent.intent.toLowerCase()

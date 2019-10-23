@@ -2,36 +2,44 @@ import ua from 'universal-analytics'
 import findIndex from 'lodash/findIndex'
 const gaID = process.env.GOOGLE_ANALYTICS_ACCOUNT_ID
 
-export const models = {
-  interactions_daily_aggregation: {
-    hash: 'date'
-  },
-  interactions_weekly_aggregation: {
-    hash: 'date'
-  },
-  interactions_monthly_aggregation: {
-    hash: 'date'
-  },
-  interactions_yearly_aggregation: {
-    hash: 'date'
-  }
-}
-
-export default ({ logger, storage }) => async(bot, message, next) => {
-  if (message.type !== 'message_received') return next()
+export default ({ logger, storage }) => {
   logger = logger || (() => console.log)
   const debug = logger('middleware:analytics', 'debug')
 
-  // rollup interaction data
-  aggregateInteractions(storage, message)
-
-  // send to GA
-  if (gaID) {
-    const visitor = ua(gaID, message.user)
-    debug('sending utterance event')
-    visitor.event('Utterance', message.text).send()
+  const models = {
+    interactions_daily_aggregation: {
+      hash: 'date'
+    },
+    interactions_weekly_aggregation: {
+      hash: 'date'
+    },
+    interactions_monthly_aggregation: {
+      hash: 'date'
+    },
+    interactions_yearly_aggregation: {
+      hash: 'date'
+    }
   }
-  next()
+
+  const receive = async(bot, message, next) => {
+    if (message.type !== 'message_received') return next()
+
+    // rollup interaction data
+    aggregateInteractions(storage, message)
+
+    // send to GA
+    if (gaID) {
+      const visitor = ua(gaID, message.user)
+      debug('sending utterance event')
+      visitor.event('Utterance', message.text).send()
+    }
+    next()
+  }
+
+  return {
+    models,
+    receive
+  }
 }
 
 async function aggregateInteractions(storage, message) {
