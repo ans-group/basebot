@@ -1,6 +1,6 @@
 {
   "name": "generator-basebot",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "Yeoman Generator for Basebot",
   "main": "index.js",
   "files": [
