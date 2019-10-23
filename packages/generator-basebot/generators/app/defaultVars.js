@@ -34,7 +34,7 @@ module.exports = {
     { key: 'DB_PASS', initialValue: '(YOUR MYSQL PASSWORD)' },
     { key: 'DB_NAME', initialValue: '(YOUR MYSQL DB NAME)' }
   ],
-  'Papertrail': [
+  'papertrail': [
     { key: 'PAPERTRAIL_HOST' },
     { key: 'PAPERTRAIL_PORT' }
   ],
@@ -61,6 +61,13 @@ module.exports = {
     { key: 'AWS_ACCESS_KEY_ID' },
     { key: 'AWS_SECRET_ACCESS_KEY' }
   ],
-  'Direct (Web, Apps etc)': [
+  'Direct (Web, Apps etc)': [],
+  'Analytics': [],
+  'User Feedback': [],
+  'QNA Maker Integration': [
+    { key: 'QNA_HOST' },
+    { key: 'QNA_KBID' },
+    { key: 'QNA_KEY' },
+    { key: 'QNA_Threshold', initialValue: 70 }
   ]
 }

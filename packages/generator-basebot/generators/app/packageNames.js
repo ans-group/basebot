@@ -5,11 +5,12 @@ module.exports = {
   'Firebase Firestore': 'basebot-storage-firestore',
   'AWS DynamoDB': 'basebot-storage-dynamodb',
   'MongoDB': 'basebot-storage-mongo',
-  'Redis': 'botkit-storage-redis',
-  'CouchDB': 'botkit-storage-couchdb',
-  'MySQL': 'botkit-storage-mysql',
-  'Amazon Alexa (voice)': 'basebot-controller-alexa',
   'Microsoft LUIS': 'basebot-middleware-luis',
   'Amazon LEX': 'basebot-middleware-lex',
-  'Direct (Web, Apps etc)': 'basebot-controller-web'
+  'Direct (Web, Apps etc)': 'basebot-controller-web',
+  'Analytics': 'basebot-middleware-analytics',
+  'User Feedback': 'basebot-middleware-ratings',
+  'Papertrail Logs Integration': 'basebot-logger-papertrail',
+  'Azure Bot Service': 'basebot-controller-botframework',
+  'QNA Maker Integration': 'basebot-util-qnamaker'
 }

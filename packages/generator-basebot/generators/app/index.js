@@ -34,11 +34,8 @@ module.exports = class extends Generator {
         name: 'channelModules',
         message: 'How do you want people to be able to access your bot?',
         choices: [
-          'Microsoft Bot Service',
+          'Azure Bot Service',
           'Amazon Alexa (voice)',
-          'Slack',
-          'Facebook Messenger',
-          'SMS (using Twilio)',
           'Direct (Web, Apps etc)'
         ],
         validate: answer => answer.length > 0 || 'Please select at least one channel'
@@ -50,38 +47,44 @@ module.exports = class extends Generator {
         choices: [
           'Azure Table Storage',
           'Firebase Firestore',
-          'AWS DynamoDB',
-          'MongoDB',
-          'Redis',
-          'CouchDB',
-          'MySQL'
+          'AWS DynamoDB'
         ]
       },
       {
         type: 'list',
         name: 'nlpModule',
-        message: 'Do you wish to use an NLP service?',
+        message: 'Do you wish to use an NLP (natural language understanding) service?',
         choices: [
           '<None>',
           'Microsoft LUIS',
           'Amazon LEX'
         ]
       },
-      {
-        type: 'checkbox',
-        name: 'authModules',
-        prefix: '(Optional) ',
-        message: 'Do you require any third party authorization support?',
-        choices: [
-          'Microsoft'
-        ]
-      },
+      /* { */
+      // type: 'checkbox',
+      // name: 'authModules',
+      // prefix: '(Optional) ',
+      // message: 'Do you require any third party authorization support?',
+      // choices: [
+      // 'Microsoft'
+      // ]
+      /* }, */
       {
         type: 'confirm',
         name: 'papertrailIntegration',
         message: 'Would you like to aggregate your production logs with Papertrail?'
+      },
+      {
+        type: 'checkbox',
+        name: 'utilities',
+        message: 'Enable any additional modules',
+        choices: [
+          'Analytics',
+          'User Feedback',
+          'QNA Maker Integration'
+        ]
       }
-    ]);
+    ])
   }
 
   configuring() {
@@ -91,31 +94,31 @@ module.exports = class extends Generator {
   writing() {
     // Extend or create package.json file in destination path
     this.fs.extendJSON(this.destinationPath('package.json'), {
-      "name": this.answers.projectName,
-      "private": true,
-      "version": "0.1.0",
-      "description": "Virtual Assistant built with Basebot",
-      "main": "build/main.js",
-      "scripts": {
-        "start": "node .",
-        "build": "rm -rf ./build && npm run build-server && npm run build-docker",
-        "build-docker": "node-env-run --exec 'docker build -t $DOCKER_IMAGE_NAME:latest ./build'",
-        "push-docker": "node-env-run --exec 'docker push $DOCKER_IMAGE_NAME:latest'",
-        "build-server": "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
-        "dev": `DEBUG=${this.answers.botName.split(' ')[0]}* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'`,
-        "test": "NODE_ENV=test node-env-run --exec 'npm run jest'",
-        "jest": "jest --detectOpenHandles --testRegex='(/__tests__/.*|(\\.|/)(spec))\\.[jt]sx?$' --env=node --forceExit --silent"
+      'name': this.answers.projectName,
+      'private': true,
+      'version': '0.1.0',
+      'description': 'Virtual Assistant built with Basebot',
+      'main': 'build/main.js',
+      'scripts': {
+        'start': 'node .',
+        'build': 'rm -rf ./build && npm run build-server && npm run build-docker',
+        'build-docker': "node-env-run --exec 'docker build -t $DOCKER_IMAGE_NAME:latest ./build'",
+        'push-docker': "node-env-run --exec 'docker push $DOCKER_IMAGE_NAME:latest'",
+        'build-server': "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
+        'dev': `DEBUG=${this.answers.botName.split(' ')[0]}* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'`,
+        'test': "NODE_ENV=test node-env-run --exec 'npm run jest'",
+        'jest': "jest --detectOpenHandles --testRegex='(/__tests__/.*|(\\.|/)(spec))\\.[jt]sx?$' --env=node --forceExit --silent"
       },
-      "keywords": [
-        "bots",
-        "chatbots",
-        "virtual assistant",
-        "basebot"
+      'keywords': [
+        'bots',
+        'chatbots',
+        'virtual assistant',
+        'basebot'
       ],
       ...coreDeps
     });
 
-    //templates
+    // templates
     [
       'index.js',
       '__tests__',
@@ -126,32 +129,21 @@ module.exports = class extends Generator {
       '.dockerignore',
       '.babelrc',
       'Procfile',
-      'webpack.config.js',
-      'skills',
-      'services/index.js',
-      'services/server',
-      'services/middleware/index.js',
-      'services/middleware/development.js',
-      'services/storage/index.js',
-      'services/storage/test.js',
-      'services/logger/index.js',
-      'services/logger/development.js',
-      'services/logger/index.js',
-      'services/channels/index.js',
-      'services/channels/test.js'
+      'skills'
     ].forEach(quickCopy.bind(this))
 
-    //create .gitignore 
+    // create .gitignore
     this.fs.copy(this.templatePath('.gi'), this.destinationPath('.gitignore'))
 
     // env vars
     const vars = [
       { key: 'BOT_NAME', initialValue: this.answers.botName },
+      { key: 'DOCKER_IMAGE_NAME', initialValue: 'YOUR_DOCKER_USERNAME/basebot-core' },
       { key: 'USE_LT_SUBDOMAIN', initialValue: this.answers.projectName + '123' }
     ]
       .concat(...this.answers.channelModules.map(channelName => defaultVars[channelName]))
-      .concat(...this.answers.authModules.map(authName => defaultVars[authName]))
       .concat(this.answers.nlpModule !== '<None>' ? defaultVars[this.answers.nlpModule] : [])
+      .concat(...this.answers.utilities.map(pckgName => defaultVars[pckgName]))
       .concat(this.answers.papertrailIntegration ? defaultVars.papertrail : [])
       .concat(defaultVars[this.answers.storageModule])
       .filter(Boolean)
@@ -162,45 +154,21 @@ module.exports = class extends Generator {
       { vars }
     )
 
-    // channels
+    // config file
     const additionalChannelImports = this.answers.channelModules.map(channel => channelImports[channel]).filter(Boolean)
+    const otherPackages = this.answers.utilities.map(utility => ({
+      designation: utility.split(' ')[0] + (utility.split(' ')[1] || ''),
+      packageName: packageNames[utility]
+    }))
     this.fs.copyTpl(
-      this.templatePath('./services/channels/production.js'),
-      this.destinationPath('./services/channels/production.js'),
-      { channels: this.answers.channelModules, imports: additionalChannelImports }
-    )
-
-    // auth
-    const additionalAuthImports = this.answers.authModules.map(handler => authImports[handler]).filter(Boolean)
-    this.fs.copyTpl(
-      this.templatePath('./services/auth.js'),
-      this.destinationPath('./services/auth.js'),
-      { handlers: additionalAuthImports.map(handler => handler.designation), imports: additionalAuthImports }
-    )
-
-    // storage
-    // TODO fix templating for non-basebot (i.e. botkit) modules
-    this.fs.copyTpl(
-      this.templatePath('./services/storage/development.js'),
-      this.destinationPath('./services/storage/development.js'),
-      { storagePackage: packageNames[this.answers.storageModule] }
-    )
-
-    // papertrail
-    this.fs.copyTpl(
-      this.templatePath('./services/logger/production.js'),
-      this.destinationPath('./services/logger/production.js'),
-      { usePapertrail: this.answers.papertrailIntegration }
-    )
-
-    // NLP Middleware
-    this.fs.copyTpl(
-      this.templatePath('./services/middleware/production.js'),
-      this.destinationPath('./services/middleware/production.js'),
+      this.templatePath('./basebot.config.js'),
+      this.destinationPath('./basebot.config.js'),
       {
-        luis: this.answers.nlpModule === 'Microsoft LUIS',
-        lex: this.answers.nlpModule === 'Amazon LEX',
-        alexa: this.answers.channelModules.includes('Amazon Alexa (voice)')
+        channelImports: additionalChannelImports,
+        storagePackage: packageNames[this.answers.storageModule],
+        loggerPackage: this.answers.papertrailIntegration ? 'basebot-logger-papertrail' : 'basebot-logger-debug',
+        nlpPackage: this.answers.nlpModule && packageNames[this.answers.nlpModule],
+        otherPackages
       }
     )
   }
@@ -213,8 +181,8 @@ module.exports = class extends Generator {
       'basebot-logger-debug',
       this.answers.papertrailIntegration && 'basebot-logger-papertrail',
       packageNames[this.answers.storageModule],
-      ...this.answers.authModules.map(module => packageNames[module] || ''),
       ...this.answers.channelModules.map(module => packageNames[module] || ''),
+      ...this.answers.utilities.map(module => packageNames[module] || ''),
       packageNames[this.answers.nlpModule]
     ].filter(Boolean)
     this.npmInstall(packages, { silent: true })

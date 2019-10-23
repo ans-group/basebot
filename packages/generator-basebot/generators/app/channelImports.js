@@ -6,5 +6,9 @@ module.exports = {
   'Direct (Web, Apps etc)': {
     designation: 'webBot',
     packageName: 'basebot-controller-web'
+  },
+  'Azure Bot Service': {
+    designation: 'msBot',
+    packageName: 'basebot-controller-botframework'
   }
 }
