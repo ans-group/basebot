@@ -1,4 +1,4 @@
-import { logger } from '../services'
+import logger from 'basebot-logger-debug'
 
 const error = logger('skills:debug', 'error')
 

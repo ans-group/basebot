@@ -177,7 +177,7 @@ module.exports = class extends Generator {
     this.log('installing dependencies')
     this.npmInstall(null, { silent: true })
     const packages = [
-      'basebot-util-signup',
+      'basebot-core',
       'basebot-logger-debug',
       this.answers.papertrailIntegration && 'basebot-logger-papertrail',
       packageNames[this.answers.storageModule],
