@@ -171,4 +171,23 @@ function BotFrameworkBot(configuration) {
   return bf_botkit
 }
 
-module.exports = BotFrameworkBot
+export default ({ storage, logger }) => {
+  const controller = BotFrameworkBot({ storage })
+  const info = logger('channels:botservice', 'info')
+  const error = logger('channels:botservice', 'error')
+  return {
+    controller,
+    name: 'botservice',
+    start({ app }) {
+      if (!process.env.AZURE_APP_ID || !process.env.AZURE_APP_SECRET) {
+        error('AZURE_APP_SECRET and AZURE_APP_ID are required env vars')
+      }
+      const bot = controller.spawn({
+        appId: process.env.AZURE_APP_ID,
+        appPassword: process.env.AZURE_APP_SECRET
+      })
+      controller.createWebhookEndpoints(app, bot)
+      info('Azure bot listening')
+    }
+  }
+}

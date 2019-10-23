@@ -363,5 +363,16 @@ function WebBot(configuration) {
   return controller
 }
 
-export default WebBot
-
+export default ({ storage, logger }) => {
+  const controller = WebBot({ storage })
+  const info = logger('channels:web', 'info')
+  return {
+    controller,
+    name: 'web',
+    start({ server }) {
+      controller.openSocketServer(server, { path: '/socket' })
+      controller.startTicking()
+      info('Web bot online')
+    }
+  }
+}

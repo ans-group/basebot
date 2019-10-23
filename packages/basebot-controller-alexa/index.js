@@ -97,7 +97,7 @@ const AlexaBot = (configuration) => {
     }
 
     bot.reply = (src, resp, cb) => {
-      const message = typeof (resp) == 'string'
+      const message = typeof (resp) === 'string'
         ? { text: resp }
         : resp
 
@@ -152,4 +152,17 @@ const AlexaBot = (configuration) => {
   return alexaBot
 }
 
-export default AlexaBot
+export default ({ storage, logger }) => {
+  const controller = AlexaBot({ storage })
+  const info = logger('channels:alexa', 'info')
+  return {
+    controller,
+    name: 'alexa',
+    start({ app }) {
+      const bot = controller.spawn({})
+      controller.createWebhookEndpoints(app, bot)
+      controller.startTicking()
+      info('Azure bot listening')
+    }
+  }
+}
