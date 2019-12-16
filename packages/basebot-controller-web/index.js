@@ -370,7 +370,7 @@ export default ({ storage, logger }) => {
     controller,
     name: 'web',
     start({ server }) {
-      controller.openSocketServer(server, { path: '/socket' })
+      controller.openSocketServer(server, { path: '/socket', port: process.env.PORT || 3001 })
       controller.startTicking()
       info('Web bot online')
     }
