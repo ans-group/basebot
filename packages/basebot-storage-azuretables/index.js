@@ -1,4 +1,5 @@
 import azure from 'azure-storage'
+import uuid from 'uuid/v1'
 import { promisify } from 'util'
 
 const defaultModels = {
