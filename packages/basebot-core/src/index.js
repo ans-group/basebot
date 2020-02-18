@@ -13,10 +13,16 @@ export const init = ({ skills, config }) => {
   const info = logger('core', 'info')
   const { server, app } = Server({ logger })
   const controllers = startChannels({ channels, storage, logger, server, app })
+
+  // Enable users to view the chat client
+  app.use(express.static(path.join(__dirname, 'public')))
+
   // start server
   if (process.env.NODE_ENV !== 'test') {
-    info('setting up server on port: ' + (process.env.PORT || 3000))
-    app.listen(process.env.PORT || 3000)
+    setTimeout(() => {
+      info('setting up server on port: ' + (process.env.PORT || 3000))
+      app.listen(process.env.PORT || 3000)
+    })
   }
 
   applySkills({ channels: controllers, middleware, logger, skills })
