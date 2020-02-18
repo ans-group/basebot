@@ -1,6 +1,6 @@
 {
   "name": "basebot-core",
-  "version": "2.4.8",
+  "version": "2.4.9",
   "description": "Core basebot libraries",
   "main": "dist/index.js",
   "scripts": {
