@@ -1,4 +1,6 @@
 import { getAllModules, getSingleModule, getAllModels } from './configParser'
+import express from 'express'
+import path from 'path'
 import Server from './server'
 import applySkills from './applySkills'
 import startChannels from './startChannels'
@@ -15,7 +17,7 @@ export const init = ({ skills, config }) => {
   const controllers = startChannels({ channels, storage, logger, server, app })
 
   // Enable users to view the chat client
-  app.use(express.static(path.join(__dirname, 'public')))
+  app.use(express.static(path.join(path.dirname(require.main.filename), 'public')))
 
   // start server
   if (process.env.NODE_ENV !== 'test') {
