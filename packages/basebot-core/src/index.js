@@ -8,7 +8,7 @@ export const init = ({ skills, config }) => {
   const channels = getAllModules(config.channels)
   const rawMiddleware = getAllModules(config.middleware)
   const models = getAllModels(rawMiddleware)
-  const storage = getSingleModule(config.storage)({ logger, models: models && Object.assign(...models) })
+  const storage = getSingleModule(config.storage)({ logger, models: models && Array.isArray(models) ? Object.assign(...models) : models })
   const middleware = rawMiddleware.map(mw => mw({ storage, logger }))
   const info = logger('core', 'info')
   const { server, app } = Server({ logger })
