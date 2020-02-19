@@ -108,7 +108,7 @@ module.exports = class extends Generator {
         'build': 'rm -rf ./build && npm run build-server',
         'build-docker': "node-env-run --exec 'docker build -t $DOCKER_IMAGE_NAME:latest ./build'",
         'push-docker': "node-env-run --exec 'docker push $DOCKER_IMAGE_NAME:latest'",
-        'build-server': "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
+        'build-server': "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp web.config build/ && cp iisnode.yml build/ && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
         'dev': `DEBUG=${this.answers.botName.split(' ')[0]}* node-env-run --exec 'nodemon --exec babel-node -- ./index.js'`,
         'test': "NODE_ENV=test node-env-run --exec 'npm run jest'",
         'jest': "jest --detectOpenHandles --testRegex='(/__tests__/.*|(\\.|/)(spec))\\.[jt]sx?$' --env=node --forceExit --silent"
@@ -130,6 +130,8 @@ module.exports = class extends Generator {
       'public',
       'Dockerfile',
       'docker-compose.yml',
+      'web.config',
+      'iisnode.yml',
       '.dockerignore',
       '.babelrc',
       'Procfile',

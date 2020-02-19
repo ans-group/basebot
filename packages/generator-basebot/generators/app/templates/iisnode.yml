@@ -1,0 +1,33 @@
+# For documentation see https://github.com/tjanczuk/iisnode/blob/master/src/samples/configuration/iisnode.yml
+
+# maxNamedPipeConnectionRetry - number of times IIS will retry to establish a named pipe connection with a
+# node process in order to send a new HTTP request
+# 250ms per attempt means 4 attempts per second
+# with 800 attempts in total, that means app has 200s to start (800/4)
+maxNamedPipeConnectionRetry: 800
+# namedPipeConnectionRetryDelay - delay in milliseconds between connection retries
+namedPipeConnectionRetryDelay: 250
+debuggingEnabled: true
+
+# loggingEnabled: false
+# devErrorsEnabled: false
+# node_env: production
+# nodeProcessCountPerApplication: 1
+# maxConcurrentRequestsPerProcess: 1024
+# maxNamedPipeConnectionPoolSize: 512
+# maxNamedPipePooledConnectionAge: 30000
+# asyncCompletionThreadCount: 0
+# initialRequestBufferSize: 4096
+# maxRequestBufferSize: 65536
+# watchedFiles: *.js;iisnode.yml;node_modules\*
+# uncFileChangesPollingInterval: 5000
+# gracefulShutdownTimeout: 60000
+# logDirectoryNameSuffix: logs
+# debuggerPortRange: 5058-6058
+# debuggerPathSegment: debug
+# maxLogFileSizeInKB: 128
+# appendToExistingLog: false
+# logFileFlushInterval: 5000
+# flushResponse: false
+# enableXFF: false
+# promoteServerVars:  
