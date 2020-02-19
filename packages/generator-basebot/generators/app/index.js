@@ -105,7 +105,7 @@ module.exports = class extends Generator {
       'main': 'build/main.js',
       'scripts': {
         'start': 'node .',
-        'build': 'rm -rf ./build && npm run build-server && npm run build-docker',
+        'build': 'rm -rf ./build && npm run build-server',
         'build-docker': "node-env-run --exec 'docker build -t $DOCKER_IMAGE_NAME:latest ./build'",
         'push-docker': "node-env-run --exec 'docker push $DOCKER_IMAGE_NAME:latest'",
         'build-server': "node-env-run --exec 'npx babel ./ --out-dir build --ignore \"node_modules\",\"build\",\"__tests__\",\".git\",\".vscode\" --copy-files --source-maps' && cp docker-compose.yml build/ && cp Dockerfile build/ && cp .dockerignore build && cp package*.json build/",
