@@ -23,6 +23,7 @@ export default ({ logger, defaultResponse }) => {
         json: { question: message.text }
       })
       if (res.answers && res.answers.length && res.answers[0].score > threshold) {
+        message.answered = true
         return bot.reply(message, res.answers[0].answer)
       } else {
         return bot.reply(message, defaultResponse)

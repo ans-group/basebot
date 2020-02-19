@@ -2,7 +2,6 @@ import forEach from 'lodash/forEach'
 import groupBy from 'lodash/groupBy'
 
 export default ({ channels, middleware, logger, skills }) => {
-
   const info = logger('main', 'info')
   // activate middleware
   const groupedMiddleware = {
@@ -11,7 +10,7 @@ export default ({ channels, middleware, logger, skills }) => {
       triggers: mw.triggers || [],
       channels: mw.channels
     }))
-  } 
+  }
   const types = ['receive', 'send', 'heard', 'capture']
   types.forEach(applyMiddleware)
 
@@ -43,7 +42,9 @@ export default ({ channels, middleware, logger, skills }) => {
   })
 
   function defaultResponse(bot, message) {
-    bot.reply(message, "Sorry, didn't catch that")
+    if (!message.answered) {
+      bot.reply(message, "Sorry, didn't catch that")
+    }
   }
 
   function applySkill(skill) {
