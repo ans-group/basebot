@@ -18,7 +18,7 @@ export default ({ logger }) => {
   app
     .use(express.json())
     .use(express.urlencoded({ extended: false }))
-    .use(express.static(path.join(__dirname, '../../public')))
+    .use(express.static(path.join(path.dirname(require.main.filename), 'public')))
 
   /* health check endpoint */
   app.get('/status', (req, res) => {
@@ -45,16 +45,16 @@ export default ({ logger }) => {
 
     // handle specific listen errors with friendly messages
     switch (err.code) {
-      case 'EACCES':
-        error(`${bind} requires elevated privileges`)
-        process.exit(1)
-        break
-      case 'EADDRINUSE':
-        error(`${bind} is already in use`)
-        process.exit(1)
-        break
-      default:
-        throw err
+    case 'EACCES':
+      error(`${bind} requires elevated privileges`)
+      process.exit(1)
+      break
+    case 'EADDRINUSE':
+      error(`${bind} is already in use`)
+      process.exit(1)
+      break
+    default:
+      throw err
     }
   }
 
@@ -69,5 +69,3 @@ export default ({ logger }) => {
     info(`Listening on ${bind}`)
   }
 }
-
-
