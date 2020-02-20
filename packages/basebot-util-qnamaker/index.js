@@ -10,7 +10,7 @@ export default ({ logger, defaultResponse }) => {
     const threshold = process.env.QNA_THRESHOLD || 70
     if (!process.env.QNA_HOST || !process.env.QNA_KBID || !process.env.QNA_KEY) {
       info('not using QNA Maker as no key provided')
-      return bot.reply(message, `Didn't catch that, sorry`)
+      return
     }
     const url = `${process.env.QNA_HOST}/knowledgebases/${process.env.QNA_KBID}/generateAnswer`
     try {
@@ -26,10 +26,11 @@ export default ({ logger, defaultResponse }) => {
         message.answered = true
         return bot.reply(message, res.answers[0].answer)
       } else {
-        return bot.reply(message, defaultResponse)
+        return
       }
     } catch (err) {
-      bot.reply(message, `Didn't catch that, sorry`)
+      message.answered = true
+      return bot.reply(message, `Didn't catch that, sorry`)
       error('Could not check QNA Maker', err)
     }
   }
