@@ -1,6 +1,6 @@
 {
   "name": "basebot-util-qnamaker",
-  "version": "2.4.14",
+  "version": "2.4.16",
   "description": "Microsoft QNA Maker integration for Basebot",
   "main": "dist/index.js",
   "scripts": {
