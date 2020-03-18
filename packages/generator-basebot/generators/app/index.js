@@ -181,8 +181,9 @@ module.exports = class extends Generator {
   }
 
   install() {
-    this.log('installing dependencies')
-    this.npmInstall(null, { silent: true })
+    process.env.npm_config_loglevel = 'silent'
+    this.log('installing npm dependencies')
+    this.npmInstall(null, { silent: true, loglevel: 'silent', quiet: true, 'no-audit': true })
     const packages = [
       'basebot-core',
       'basebot-logger-debug',
@@ -192,7 +193,7 @@ module.exports = class extends Generator {
       ...this.answers.utilities.map(module => packageNames[module] || ''),
       packageNames[this.answers.nlpModule]
     ].filter(Boolean)
-    this.npmInstall(packages, { silent: true })
+    this.npmInstall(packages, { silent: true, loglevel: 'silent', quiet: true, 'no-audit': true })
   }
 
   end() {

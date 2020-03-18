@@ -7,7 +7,7 @@
     "server-only": "cd packages/basebot-core && npm run dev"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.3",
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.4.3",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
@@ -16,6 +16,6 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "lerna": "^3.13.3"
+    "lerna": "^3.20.2"
   }
 }
