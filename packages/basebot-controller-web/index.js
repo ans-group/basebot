@@ -255,8 +255,10 @@ function WebBot(configuration) {
           text: resp
         }
       }
-      console.log('RESPONSE IS')
-      console.log(resp)
+      if(('NODE_ENV' in process.env) && process.env.NODE_ENV === 'development'){
+        console.log('RESPONSE IS')
+        console.log(resp)
+      }
 
       resp.user = src.user
       resp.channel = src.channel
