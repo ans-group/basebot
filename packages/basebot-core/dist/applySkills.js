@@ -43,7 +43,7 @@ function _default(_ref) {var channels = _ref.channels,middleware = _ref.middlewa
 
   function defaultResponse(bot, message) {
     if (!message.answered) {
-      bot.reply(message, "Sorry, didn't catch that");
+      bot.reply(message, process.env.defaultResponse || "Sorry, didn't catch that")
     }
   }
 
