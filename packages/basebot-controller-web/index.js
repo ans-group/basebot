@@ -255,7 +255,7 @@ function WebBot(configuration) {
           text: resp
         }
       }
-      if(('NODE_ENV' in process.env) && process.env.NODE_ENV === 'development'){
+      if(process.env.VERBOSE_RESPONSE_LOGS){
         console.log('RESPONSE IS')
         console.log(resp)
       }
