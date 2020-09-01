@@ -255,8 +255,10 @@ function WebBot(configuration) {
           text: resp
         }
       }
-      console.log('RESPONSE IS')
-      console.log(resp)
+      if(process.env.VERBOSE_RESPONSE_LOGS){
+        console.log('RESPONSE IS')
+        console.log(resp)
+      }
 
       resp.user = src.user
       resp.channel = src.channel
