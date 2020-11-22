@@ -1,4 +1,4 @@
-# Basebot [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) ![Dependencies](https://david-dm.org/ans-group/basebot.svg) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/calvin-evans/express-starter/blob/master/LICENSE) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+# Basebot [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com) ![Dependencies](./docs/images/basebot.svg) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/calvin-evans/express-starter/blob/master/LICENSE) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 
 ### A suite of open source tools for creating and managing virtual assistants and chat bots. Built by [ANS](https://ans.co.uk). 
 
