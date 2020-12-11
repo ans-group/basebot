@@ -1,6 +1,6 @@
 {
   "name": "basebot-logger-papertrail",
-  "version": "2.4.7",
+  "version": "2.4.18",
   "description": "Papertrail integration for Basebot",
   "main": "dist/index.js",
   "scripts": {

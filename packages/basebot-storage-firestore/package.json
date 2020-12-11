@@ -1,6 +1,6 @@
 {
   "name": "basebot-storage-firestore",
-  "version": "2.1.32",
+  "version": "2.4.18",
   "description": "Firestore integration for Basebot",
   "main": "dist/index.js",
   "scripts": {
